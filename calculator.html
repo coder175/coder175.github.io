@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="fonts.googleapis.com/css?family=Roboto:700">
+    <title>Calculator</title>
+    <style>
+        * {
+            font-family: 'Roboto', sans-serif;
+            outline: 0px solid transparent;
+        }
+
+
+        .calculator-keypad .btn {
+            background-color: #d3d3d3;
+            width: calc(24%);
+            height: 20%;
+            display: inline-block;
+            color: white;
+            border: none;
+            border-color: 1px solid;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            line-height: 1.6em;
+            margin-bottom: 5px;
+        }
+
+
+        .calculator-keypad .btn:hover {
+            background-color: #a8a8a8 !important;
+        }
+
+
+        .calculator-keypad .btn:focus {
+            background-color: #979797;
+            border: 2px solid grey;
+            outline: 0px;
+        }
+
+
+        .calculator-keypad {
+            text-align: center;
+            display: inline-block;
+            width: 500px;
+            height: 400px;
+        }
+
+
+        .btn1 {
+            background-color: #73c0ff;
+            display: inline-block;
+            width: calc(24%);
+            height: 20%;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            line-height: 1.6em;
+            margin-bottom: 5px;
+        }
+
+
+        .btn1:hover {
+            background-color: #46acff !important;
+        }
+
+
+        .btn1:focus {
+            background-color: #008cff;
+            border: 2px solid #0061b1;
+            outline: 0px;
+        }
+
+
+        .btn12 {
+            background-color: #6fff9a;
+            display: inline-block;
+            color: white;
+            width: calc(24%);
+            height: 20%;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            line-height: 1.6em;
+            margin-bottom: 5px;
+        }
+
+
+        .btn12:hover {
+            background-color: #3eff78 !important;
+        }
+
+
+        .btn12:focus {
+            background-color: #00ff4c;
+            border: 2px solid #00a130;
+            outline: 0px;
+        }
+
+
+        .nice1:focus {
+            background-color: #979797 !important;
+            border: 2px solid grey !important;
+            outline: 0px !important;
+        }
+
+
+        .calculator-answer {
+            display: inline-block;
+            position: relative;
+            text-align: right;
+            z-index: 9;
+            color: grey;
+            padding: 0px 10px;
+            padding-top: 40px;
+            border: 2px solid grey;
+            outline: 0px;
+            border-radius: 5px;
+            font-size: 30px;
+            cursor: context-menu;
+            margin: 0px !important;
+            margin-top: 10px !important;
+            margin-bottom: 10px !important;
+            background-color: white;
+            height: 200px;
+            width: 400px;
+            max-height: 400px;
+        }
+
+
+        .calculator-answer:focus {
+            border: 2px solid #008cff;
+        }
+
+
+        ::placeholder {
+            color: grey;
+            opacity: 1;
+            /* Firefox */
+        }
+
+
+        :-ms-input-placeholder {
+            /* Internet Explorer 10-11 */
+            color: grey;
+        }
+
+
+        ::-ms-input-placeholder {
+            /* Microsoft Edge */
+            color: grey;
+        }
+
+
+        .alert {
+            padding: 20px;
+            background-color: #f44336;
+            color: white;
+            opacity: 1;
+            transition: opacity 0.6s;
+            margin-bottom: 15px;
+            z-index: 200;
+            display: none;
+        }
+
+
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+
+        .closebtn:hover {
+            color: black;
+        }
+
+
+        #answerthis {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            margin-right: 20px;
+        }
+
+
+        .calculator {
+            width: 500px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="calculator">
+        <span class="calculator-answer">
+            <div id="answerthis">0</div>
+        </span>
+        <span class="calculator-keypad">
+            <input type="button" value="⌫" class="btn1" id="back" onclick="clearJustLast()">
+            <input type="button" value="CE" class="btn1" id="clear" onclick="clearAnswer()">
+            <input type="button" value="&nbsp;(&nbsp;" class="btn1" id="clear" onclick="openParentheses()">
+            <input type="button" value="&nbsp;)&nbsp;" class="btn1" id="clear" onclick="closeParentheses()">
+            <br>
+            <input type="button" class="btn" value="7" id="btn" onclick="trigger7()">
+            <input type="button" class="btn" value="8" id="btn1" onclick="trigger8()">
+            <input type="button" class="btn" value="9" id="btn2" onclick="trigger9()">
+            <input type="button" class="btn1" value="+" id="add" onclick="triggerAdd()">
+            <br>
+            <input type="button" class="btn" value="4" id="btn3" onclick="trigger4()">
+            <input type="button" class="btn" value="5" id="btn4" onclick="trigger5()">
+            <input type="button" class="btn" value="6" id="btn5" onclick="trigger6()">
+            <input type="button" class="btn1 nice" value="-" id="minus" onclick="triggerSub()">
+            <br>
+            <input type="button" class="btn" value="1" id="btn6" onclick="trigger1()">
+            <input type="button" class="btn" value="2" id="btn7" onclick="trigger2()">
+            <input type="button" class="btn" value="3" id="btn8" onclick="trigger3()">
+            <input type="button" class="btn1" value="×" id="times" onclick="triggerTimes()">
+            <br>
+            <input type="button" class="btn" value="0" id="btn0" onclick="trigger0()">
+            <input type="button" class="btn" value="." id="btndot" onclick="triggerDot()">
+            <input type="button" class="btn12" value="=" id="equals" onclick="giveAnswer()">
+            <input type="button" class="btn1" value="÷" id="divide" onclick="triggerDivide()">
+            <br>
+        </span>
+
+
+        <span class="alert" id="EquationWrongInfo">
+            <span class="closebtn">&times;</span>
+            <strong>ERROR</strong>
+            Invalid Equation
+        </span>
+    </div>
+    <script>
+        window.addEventListener("keydown", function (evt) {
+            if (evt.keyCode == "8") {
+                document.getElementById('back').click();
+            }
+        });
+        window.addEventListener("keydown", function (evt) {
+            if (evt.keyCode == "67") {
+                document.getElementById('clear').click();
+            }
+        });
+        window.addEventListener("keydown", function (evt) {
+            if (evt.keyCode == "55") {
+                document.getElementById('btn').click();
+            }
+        });
+        window.addEventListener("keydown", function (evt) {
+            if (evt.keyCode == "56") {
+                document.getElementById('btn1').click();
+            }
+        });
+        window.addEventListener("keydown", function (evt) {
+            if (evt.keyCode == "57") {
+                document.getElementById('btn2').click();
+            }
+        });
+        window.addEventListener("keydown", function (evt) {
+            if (evt.keyCode == "52") {
+                document.getElementById('btn3').click();
+            }
+        });
+        window.addEventListener("keydown", function (evt) {
+            if (evt.keyCode == "53") {
+                document.getElementById('btn4').click();
+            }
+        });
+        window.addEventListener("keydown", function (evt) {
+            if (evt.keyCode == "54") {
+                document.getElementById('btn5').click();
+            }
+        });
+        window.addEventListener("keydown", function (evt) {
+            if (evt.keyCode == "49") {
+                document.getElementById('btn6').click();
+            }
+        });
+        window.addEventListener("keydown", function (evt) {
+            if (evt.keyCode == "50") {
+                document.getElementById('btn7').click();
+            }
+        });
+        window.addEventListener("keydown", function (evt) {
+            if (evt.keyCode == "51") {
+                document.getElementById('btn8').click();
+            }
+        });
+        window.addEventListener("keydown", function (evt) {
+            if (evt.keyCode == "190") {
+                document.getElementById('btndot').click();
+            }
+        });
+        window.addEventListener("keydown", function (evt) {
+            if (evt.keyCode == "88") {
+                document.getElementById('times').click();
+            }
+        });
+        window.addEventListener("keydown", function (evt) {
+            if (evt.keyCode == "13") {
+                document.getElementById('equals').click();
+            }
+        });
+        window.addEventListener("keydown", function (evt) {
+            if (evt.keyCode == "187") {
+                document.getElementById('add').click();
+            }
+        });
+        window.addEventListener("keydown", function (evt) {
+            if (evt.keyCode == "189") {
+                document.getElementById('minus').click();
+            }
+        });
+        window.addEventListener("keydown", function (evt) {
+            if (evt.keyCode == "191") {
+                document.getElementById('divide').click();
+            }
+        });
+        window.addEventListener("keydown", function (evt) {
+            if (evt.keyCode == "48") {
+                document.getElementById('btn0').click();
+            }
+        });
+
+
+        function clearJustLast() {
+            let answerthis = document.getElementById('answerthis').innerText;
+            let splitthis = answerthis.split('');
+            let popthis = splitthis.pop();
+            document.getElementById('answerthis').innerText = splitthis.join('');
+            if (document.getElementById('answerthis').innerText == "") {
+                document.getElementById('answerthis').innerText = "0";
+            }
+        }
+
+
+        document.getElementById('equals').focus();
+
+
+        function openParentheses() {
+            let answer = document.getElementById('answerthis');
+            if (answer.innerText == answer.innerText.split('').pop(')') || answer.innerText == answer.innerText.split('').pop('(') || answer.innerText == answer.innerText.split('').pop('+') || answer.innerText == answer.innerText.split('').pop('-') || answer.innerText == answer.innerText.split('').pop('×') || answer.innerText == answer.innerText.split('').pop('÷')) {
+                answer.innerText = '';
+            } else {
+                answer.innerText += '(';
+            }
+            if (answer.innerText == "0") {
+                answer.innerText = '(';
+            }
+        }
+
+
+        function closeParentheses() {
+            let answer = document.getElementById('answerthis');
+            if (answer.innerText == "0") {
+                answer.innerText = ')';
+            } else {
+                answer.innerText += ')';
+            }
+        }
+
+
+        function trigger1() {
+            let answer = document.getElementById('answerthis');
+            if (answer.innerText == "0") {
+                answer.innerText = '1';
+            } else {
+                answer.innerText += '1';
+            }
+        }
+
+
+        function trigger2() {
+            let answer = document.getElementById('answerthis');
+            if (answer.innerText == "0") {
+                answer.innerText = '2';
+            } else {
+                answer.innerText += '2';
+            }
+        }
+
+
+        function trigger3() {
+            let answer = document.getElementById('answerthis');
+            if (answer.innerText == "0") {
+                answer.innerText = '3';
+            } else {
+                answer.innerText += '3';
+            }
+        }
+
+
+        function trigger4() {
+            let answer = document.getElementById('answerthis');
+            if (answer.innerText == "0") {
+                answer.innerText = '4';
+            } else {
+                answer.innerText += '4';
+            }
+        }
+
+
+        function trigger5() {
+            let answer = document.getElementById('answerthis');
+            if (answer.innerText == "0") {
+                answer.innerText = '5';
+            } else {
+                answer.innerText += '5';
+            }
+        }
+
+
+        function trigger6() {
+            let answer = document.getElementById('answerthis');
+            if (answer.innerText == "0") {
+                answer.innerText = '6';
+            } else {
+                answer.innerText += '6';
+            }
+        }
+
+
+        function trigger7() {
+            let answer = document.getElementById('answerthis');
+            if (answer.innerText == "0") {
+                answer.innerText = '7';
+            } else {
+                answer.innerText += '7';
+            }
+        }
+
+
+        function trigger8() {
+            let answer = document.getElementById('answerthis');
+            if (answer.innerText == "0") {
+                answer.innerText = '8';
+            } else {
+                answer.innerText += '8';
+            }
+        }
+
+
+        function trigger9() {
+            let answer = document.getElementById('answerthis');
+            if (answer.innerText == "0") {
+                answer.innerText = '9';
+            } else {
+                answer.innerText += '9';
+            }
+        }
+
+
+        function trigger0() {
+            let answer = document.getElementById('answerthis');
+            if (answer.innerText == "0") {
+                answer.innerText = '0';
+            } else {
+                answer.innerText += '0';
+            }
+        }
+        function clearAnswer() {
+            let answer = document.getElementById('answerthis');
+            answer.innerText = '0';
+        }
+
+
+        function triggerDot() {
+            let answer1 = document.getElementById('answerthis');
+            let splited = answer1.innerHTML.split('<br>');
+            let poped = answer1.innerHTML.split('').pop();
+            splited.map(function (e) {
+                if (e.includes('.')) {
+                    return false;
+                } else {
+                    if (poped == '.') {
+                        return false;
+                    } else {
+                        if (answer1.innerText == "0") {
+                            answer1.innerText = '.';
+                        } else {
+                            answer1.innerText += '.';
+                        }
+                    }
+                }
+            });
+        }
+
+
+        function triggerAdd() {
+            let answer = document.getElementById('answerthis');
+            let answerSplit = answer.innerText.split('');
+            let answerpop = answerSplit.pop();
+            if (answerpop == "+" || answerpop == "-" || answerpop == "×" || answerpop == "÷") {
+                // do nothing
+            } else {
+                answer.innerHTML += '+';
+            }
+        }
+
+
+        function triggerSub() {
+            let answer = document.getElementById('answerthis');
+            let answerSplit = answer.innerText.split('');
+            let answerpop = answerSplit.pop();
+            if (answerpop == "+" || answerpop == "-" || answerpop == "×" || answerpop == "÷") {
+                // do nothing
+            } else {
+                answer.innerHTML += '-';
+            }
+        }
+
+
+        function triggerTimes() {
+            let answer = document.getElementById('answerthis');
+            let answerSplit = answer.innerText.split('');
+            let answerpop = answerSplit.pop();
+            if (answerpop == "+" || answerpop == "-" || answerpop == "×" || answerpop == "÷") {
+            } else {
+                answer.innerHTML += '×';
+            }
+        }
+
+
+        function triggerDivide() {
+            let answer = document.getElementById('answerthis');
+            let answerSplit = answer.innerText.split('');
+            let answerpop = answerSplit.pop();
+            if (answerpop == "+" || answerpop == "-" || answerpop == "×" || answerpop == "÷") {
+                // do nothing
+            } else {
+                answer.innerHTML += '÷';
+            }
+        }
+
+
+        function giveAnswer() {
+            document.getElementById('answerthis').style.display = "block";
+            let answer = document.getElementById('answerthis').innerText;
+            if (answer.includes('=')) {
+                answer = answer.split("=").pop();
+            }
+            let answerSplit = answer.split('');
+            let answerpop = answerSplit.pop();
+            if (answerpop == "+" || answerpop == "-" || answerpop == "×" || answerpop == "÷" || answerpop == ".") {
+                document.getElementById('EquationWrongInfo').style.display = "block";
+            } else {
+                let replacing;
+                replacing = answer.replace(/\÷/g, '/');
+                replacing = replacing.replace(/\-/g, '-');
+                replacing = replacing.replace(/\+/g, '+');
+                replacing = replacing.replace(/\×/g, '*');
+                document.getElementById('answerthis').innerHTML += '<br> = ' + eval(replacing);
+            }
+        }
+
+
+        let close = document.getElementsByClassName("closebtn");
+        let i;
+
+
+        for (i = 0; i < close.length; i++) {
+            close[i].onclick = function () {
+                let div = this.parentElement;
+                div.style.opacity = "0";
+                setTimeout(function () {
+                    div.style.display = "none";
+                }, 600);
+            }
+        }
+    </script>
+</body>
+
+
+</html>
