@@ -1,14 +1,12 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-        <title>Tank Game</title>
-        <style>
-            /*------------------------------------------------------------------
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Tank Game</title>
+		<style>
+			/*------------------------------------------------------------------
             [Table of contents]
 
             1. Root, *, body, tag formating & imports
@@ -21,1209 +19,1309 @@
             7. Tank / .tank
             ------------------------------------------------------------------*/
 
-            /*------------------------------------------------------------------
+			/*------------------------------------------------------------------
 			Root, *, body, tag formating & imports
 			\/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
 			------------------------------------------------------------------*/
 
-            @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+			@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
-            .material-symbols-outlined {
-                vertical-align: middle !important;
-                font-variation-settings:
-                    'FILL' 1,
-                    'wght' 300,
-                    'GRAD' 200,
-                    'opsz' 48;
-                font-size: calc((3vw + 3vh) / 2);
-            }
+			.material-symbols-outlined {
+				vertical-align: middle !important;
+				font-variation-settings:
+					'FILL' 1,
+					'wght' 300,
+					'GRAD' 200,
+					'opsz' 48;
+				font-size: calc((3vw + 3vh) / 2);
+			}
 
-            :root {
-	            --darkest-green: #044100;
-	            --darker-green: #055600;
-                --dark-green: #066c00;
-                --light-green: #4caf50;
-	            --lighter-green: #26cd79;
-                --grey: #747579;
-                --yellow: #cddc39;
-                --u: calc((0.25vw + 0.25vh));
-            }
+			:root {
+				--darkest-green: #044100;
+				--darker-green: #055600;
+				--dark-green: #066c00;
+				--light-green: #4caf50;
+				--lighter-green: #26cd79;
+				--grey: #747579;
+				--yellow: #cddc39;
+				--u: calc((0.25vw + 0.25vh));
+			}
 
-            * {
-                transition:
-                    visibility 0s,
-                    opacity 0.4s linear;
-                color: black;
-                font-family: 'Bebas Neue', sans-serif;
-                font-weight: 1000;
-                font-style: normal;
+			* {
+				transition:
+					visibility 0s,
+					opacity 0.4s linear;
+				color: black;
+				font-family: 'Bebas Neue', sans-serif;
+				font-weight: 1000;
+				font-style: normal;
 
-                /*-------
+				/*-------
 	            No Select
 	            \/ \/ \/‎‎
 	            -------*/
-                -webkit-touch-callout: none !important; /* iOS Safari */
-                -webkit-user-select: none !important; /* Safari */
-                -moz-user-select: none !important; /* Old versions of Firefox */
-                -ms-user-select: none !important; /* Internet Explorer/Edge */
-                user-select: none !important; /* Non-prefixed version, currently
+				-webkit-touch-callout: none !important; /* iOS Safari */
+				-webkit-user-select: none !important; /* Safari */
+				-moz-user-select: none !important; /* Old versions of Firefox */
+				-ms-user-select: none !important; /* Internet Explorer/Edge */
+				user-select: none !important; /* Non-prefixed version, currently
 						              supported by Chrome, Edge, Opera and Firefox */
-            }
+			}
 
-            .pauseAnimation {
-                -webkit-animation-play-state: paused !important;
-                -moz-animation-play-state: paused !important;
-                -o-animation-play-state: paused !important;
-                animation-play-state: paused !important;
-            }
+			.pauseAnimation {
+				-webkit-animation-play-state: paused !important;
+				-moz-animation-play-state: paused !important;
+				-o-animation-play-state: paused !important;
+				animation-play-state: paused !important;
+			}
 
-            button {
-                background-color: var(--dark-green);
-                color: white;
-                border: none;
-                cursor: pointer;
-                border-radius: 0.5vw;
-            }
+			button {
+				background-color: var(--dark-green);
+				color: white;
+				border: none;
+				cursor: pointer;
+				border-radius: 0.5vw;
+			}
 
-            button * {
-                color: white;
-                background-color: transparent;
-            }
+			button * {
+				color: white;
+				background-color: transparent;
+			}
 
-            button:hover {
-                background-color: var(--darker-green);
-            }
+			button:hover {
+				background-color: var(--darker-green);
+			}
 
-            button:active {
-                background-color: var(--darkest-green);
-            }
+			button:active {
+				background-color: var(--darkest-green);
+			}
 
-            progress {
-                border-radius: 0.1vw;
-                box-shadow: 0.2vw 0.2vw 0.8vw rgba(0, 0, 0, 0.2);
-                width: 18vw;
-            }
+			progress {
+				border-radius: 0.1vw;
+				box-shadow: 0.2vw 0.2vw 0.8vw rgba(0, 0, 0, 0.2);
+				width: 18vw;
+			}
 
-            progress::-webkit-progress-bar {
-                background-color: #a6a6a6;
-            }
+			progress::-webkit-progress-bar {
+				background-color: #a6a6a6;
+			}
 
-            progress::-webkit-progress-value {
-                background-color: var(--grey);
-            }
+			progress::-webkit-progress-value {
+				background-color: var(--grey);
+			}
 
-            body {
-                position: fixed;
-                top: 0;
-                height: 100vh;
-                width: 100vw;
-                margin: 0;
-                overflow-x: hidden;
-                overflow-y: auto;
-            }
+			body {
+				position: fixed;
+				top: 0;
+				height: 100vh;
+				width: 100vw;
+				margin: 0;
+				overflow-x: hidden;
+				overflow-y: auto;
+			}
 
-            /*------------------------------------------------------------------
+			/*------------------------------------------------------------------
             Alerts / .alerts
              \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
             ------------------------------------------------------------------*/
 
-            #NotCompatable {
-                visibility: hidden;
-                opacity: 0;
-                font-size: 4.5vw;
-                width: 100vw;
-                height: 100vh;
-                top: 0;
-                left: 0;
-                text-align: center;
-                padding-top: 20vh;
-                position: absolute;
-                z-index: calc(infinity);
-                background-color: #26cd79;
-            }
+			#NotCompatable {
+				visibility: hidden;
+				opacity: 0;
+				font-size: 4.5vw;
+				width: 100vw;
+				height: 100vh;
+				top: 0;
+				left: 0;
+				text-align: center;
+				padding-top: 20vh;
+				position: absolute;
+				z-index: calc(infinity);
+				background-color: #26cd79;
+			}
 
-            #rotateScreen {
-                visibility: hidden;
-                opacity: 0;
-                position: absolute;
-                width: 100vw;
-                height: 100vh;
-                top: 0;
-                left: 0;
-                text-align: center;
-                padding-top: 20vh;
-	            z-index: 999;
-                background-color: #26cd79;
-            }
+			#rotateScreen {
+				visibility: hidden;
+				opacity: 0;
+				position: absolute;
+				width: 100vw;
+				height: 100vh;
+				top: 0;
+				left: 0;
+				text-align: center;
+				padding-top: 20vh;
+				z-index: 999;
+				background-color: #26cd79;
+			}
 
-            #rotateScreen .label {
-                font-size: 5vw;
-            }
+			#rotateScreen .label {
+				font-size: 5vw;
+			}
 
-            #rotateScreen svg {
-	            rotate: 45deg;
-	            margin-top: 8vh;
-	            height: calc((35vw + 35vh) / 2);
-                text-align: center;
-            }
+			#rotateScreen svg {
+				rotate: 45deg;
+				margin-top: 8vh;
+				height: calc((35vw + 35vh) / 2);
+				text-align: center;
+			}
 
-            #rotateScreen button {
-                position: fixed;
-                width: 25vw;
-                height: 10vh;
-                bottom: 10vh;
-                font-size: calc((3vw + 3vh) / 2);
-            }
+			#rotateScreen button {
+				position: fixed;
+				width: 25vw;
+				height: 10vh;
+				bottom: 10vh;
+				font-size: calc((3vw + 3vh) / 2);
+			}
 
-            #rotateScreen .noThanks {
-                left: 18vw;
-            }
+			#rotateScreen .noThanks {
+				left: 18vw;
+			}
 
-            #rotateScreen .neverShow {
-                right: 18vw;
-            }
+			#rotateScreen .neverShow {
+				right: 18vw;
+			}
 
-            /*------------------------------------------------------------------
+			/*------------------------------------------------------------------
             @media Styles, Keyframes
 			\/ \/ \/ \/ \/ \/ \/
 			------------------------------------------------------------------*/
 
-            @keyframes shake {
-                0% {
-                    transform: translate(0.2vw, 0.2vw) rotate(0deg);
-                }
-                10% {
-                    transform: translate(-0.2vw, -0.4vw) rotate(-1deg);
-                }
-                20% {
-                    transform: translate(-0.6vw, 0px) rotate(1deg);
-                }
-                30% {
-                    transform: translate(0.6vw, 0.4vw) rotate(0deg);
-                }
-                40% {
-                    transform: translate(0.2vw, -0.2vw) rotate(1deg);
-                }
-                50% {
-                    transform: translate(-0.2vw, 0.4vw) rotate(-1deg);
-                }
-                60% {
-                    transform: translate(-0.6vw, 0.2vw) rotate(0deg);
-                }
-                70% {
-                    transform: translate(0.6vw, 0.2vw) rotate(-1deg);
-                }
-                80% {
-                    transform: translate(-0.2vw, -0.2vw) rotate(1deg);
-                }
-                90% {
-                    transform: translate(0.2vw, 0.4vw) rotate(0deg);
-                }
-                100% {
-                    transform: translate(0.2vw, -0.4vw) rotate(-1deg);
-                }
-            }
+			@keyframes shake {
+				0% {
+					transform: translate(0.2vw, 0.2vw) rotate(0deg);
+				}
+				10% {
+					transform: translate(-0.2vw, -0.4vw) rotate(-1deg);
+				}
+				20% {
+					transform: translate(-0.6vw, 0px) rotate(1deg);
+				}
+				30% {
+					transform: translate(0.6vw, 0.4vw) rotate(0deg);
+				}
+				40% {
+					transform: translate(0.2vw, -0.2vw) rotate(1deg);
+				}
+				50% {
+					transform: translate(-0.2vw, 0.4vw) rotate(-1deg);
+				}
+				60% {
+					transform: translate(-0.6vw, 0.2vw) rotate(0deg);
+				}
+				70% {
+					transform: translate(0.6vw, 0.2vw) rotate(-1deg);
+				}
+				80% {
+					transform: translate(-0.2vw, -0.2vw) rotate(1deg);
+				}
+				90% {
+					transform: translate(0.2vw, 0.4vw) rotate(0deg);
+				}
+				100% {
+					transform: translate(0.2vw, -0.4vw) rotate(-1deg);
+				}
+			}
 
-            @keyframes moveTreads {
-                0% {
-                    transform: translateY(calc((var(--u) * -2.26)));
-                }
+			@keyframes moveTreads {
+				0% {
+					transform: translateY(calc((var(--u) * -2.26)));
+				}
 
-                100% {
-                    transform: translateY(calc((var(--u) * 2.26)));
-                }
-            }
+				100% {
+					transform: translateY(calc((var(--u) * 2.26)));
+				}
+			}
 
-            @media screen and (min-aspect-ratio: 4.3/1), (max-aspect-ratio: 0.4/1) {
-                #NotCompatable {
-                    visibility: visible;
-                    opacity: 1;
-                }
-            }
+			@media screen and (min-aspect-ratio: 4.3/1), (max-aspect-ratio: 0.4/1) {
+				#NotCompatable {
+					visibility: visible;
+					opacity: 1;
+				}
+			}
 
-            /*------------------------------------------------------------------
+			/*------------------------------------------------------------------
             Intro / #intro
             \/ \/ \/ \/ \/
             ------------------------------------------------------------------*/
 
-            #intro {
-                position: relative;
-                transition: opacity 0.5s;
-                z-index: 2;
-            }
+			#intro {
+				position: relative;
+				transition: opacity 0.5s;
+				z-index: 2;
+			}
 
-            #intro .title {
-                margin-top: 10vh;
-                font-size: calc((7vw + 7vh) / 2);
-                text-align: center;
-            }
+			#intro .title {
+				margin-top: 10vh;
+				font-size: calc((7vw + 7vh) / 2);
+				text-align: center;
+			}
 
-            #intro .title span {
-                display: inline-block;
-                font-size: calc((10vw + 10vh) / 2);
-            }
+			#intro .title span {
+				display: inline-block;
+				font-size: calc((10vw + 10vh) / 2);
+			}
 
-            #intro .start {
-                position: relative;
-                width: 30vw;
-                top: calc((3vw + 3vh) / 2);
-                left: 35vw;
-                height: 10vh;
-                font-size: calc((3vw + 3vh) / 2);
-            }
+			#intro .start {
+				position: relative;
+				width: 30vw;
+				top: calc((3vw + 3vh) / 2);
+				left: 35vw;
+				height: 10vh;
+				font-size: calc((3vw + 3vh) / 2);
+			}
 
-            #intro .introAnimation {
-                transform: scale(0);
-                transition: scale 0.5s;
-            }
+			#intro .introAnimation {
+				transform: scale(0);
+				transition: scale 0.5s;
+			}
 
-            #intro .expanded {
-                transform: scale(1);
-            }
+			#intro .expanded {
+				transform: scale(1);
+			}
 
-            .shake {
-                animation: shake 0.5s ease-in-out;
-            }
+			.shake {
+				animation: shake 0.5s ease-in-out;
+			}
 
-            /*------------------------------------------------------------------
+			/*------------------------------------------------------------------
 			Lobby / #lobby
 			\/ \/ \/ \/ \/
 			------------------------------------------------------------------*/
 
-            #lobby {
-                visibility: hidden;
-                opacity: 0;
-            }
+			#lobby {
+				visibility: hidden;
+				opacity: 0;
+			}
 
-            #lobby #lobbyArea {
-                transition: transform 0.5s;
-            }
+			#lobby #lobbyArea {
+				transition: transform 0.5s;
+			}
 
-            #lobby #lobbyArea button {
-                font-size: calc((3.5vw + 3.5vh) / 2);
-                position: fixed;
-            }
+			#lobby #lobbyArea button {
+				font-size: calc((3.5vw + 3.5vh) / 2);
+				position: fixed;
+			}
 
-            #lobby #lobbyArea #startTankGame {
-                width: 30vw;
-                height: 10vh;
-                right: calc((5vw + 5vh) / 2);
-                top: calc(90vh - ((5vw + 5vh) / 2));
-            }
+			#lobby #lobbyArea #startTankGame {
+				width: 30vw;
+				height: 10vh;
+				right: calc((5vw + 5vh) / 2);
+				top: calc(90vh - ((5vw + 5vh) / 2));
+			}
 
-            #lobby #lobbyArea #goToShop {
-                width: 20vw;
-                right: calc((5vw + 5vh) / 2);
-                top: calc((5vw + 5vh) / 2);
-            }
+			#lobby #lobbyArea #goToShop {
+				width: 20vw;
+				right: calc((5vw + 5vh) / 2);
+				top: calc((5vw + 5vh) / 2);
+			}
 
-            /*------------------------------------------------------------------
+			/*------------------------------------------------------------------
             Shop / #shop
             \/ \/ \/ \/ \/
             ------------------------------------------------------------------*/
 
-            #shop {
-                position: fixed;
-                left: 0;
-                top: 0;
-                width: 100vw;
-                height: 100vh;
-                transition: transform 0.5s;
-            }
+			#shop {
+				position: fixed;
+				left: 0;
+				top: 0;
+				width: 100vw;
+				height: 100vh;
+				transition: transform 0.5s;
+			}
 
-            .pageRight {
-                transform: translateX(100%);
-            }
+			.pageRight {
+				transform: translateX(100%);
+			}
 
-            .pageLeft {
-                transform: translateX(-100%);
-            }
+			.pageLeft {
+				transform: translateX(-100%);
+			}
 
-            #shop #startGameAfterShop {
-                position: absolute;
-                font-size: calc((3.5vw + 3.5vh) / 2);
-                color: white;
-                background-color: var(--dark-green);
-                left: calc((5vw + 5vh) / 2);
-                top: calc((5vw + 5vh) / 2);
-            }
+			#shop #startGameAfterShop {
+				position: absolute;
+				font-size: calc((3.5vw + 3.5vh) / 2);
+				color: white;
+				background-color: var(--dark-green);
+				left: calc((5vw + 5vh) / 2);
+				top: calc((5vw + 5vh) / 2);
+			}
 
-            #shop .upgradeTitle {
-                position: absolute;
-                padding-top: calc((5vw + 5vh) / 4);
-                font-size: calc((10vw + 10vh) / 2);
-                text-align: center;
-                width: 100vw;
-                right: 0;
-            }
+			#shop .upgradeTitle {
+				position: absolute;
+				padding-top: calc((5vw + 5vh) / 4);
+				font-size: calc((10vw + 10vh) / 2);
+				text-align: center;
+				width: 100vw;
+				right: 0;
+			}
 
-            #shop #upgradeOptions {
-                position: absolute;
-                bottom: 0;
-                width: 100%;
-            }
+			#shop #upgradeOptions {
+				position: absolute;
+				bottom: 0;
+				width: 100%;
+			}
 
-            #shop button {
-                width: 20vw;
-                background-color: rgba(0, 0, 0, 0.3);
-                cursor: pointer;
-                color: black;
-                position: relative;
-                z-index: 1;
-                font-size: calc((3vw + 3vh) / 2);
-            }
+			#shop button {
+				width: 20vw;
+				background-color: rgba(0, 0, 0, 0.3);
+				cursor: pointer;
+				color: black;
+				position: relative;
+				z-index: 1;
+				font-size: calc((3vw + 3vh) / 2);
+			}
 
-            #shop .upgradeOptions .selectWeapon {
-                height: 100%;
-                position: relative;
-            }
+			#shop .upgradeOptions .selectWeapon {
+				height: 100%;
+				position: relative;
+			}
 
-            #shop .upgradeOptions .selectWeapon .content {
-	            width: 100vw;
-	            position: absolute;
-	            right: 0;
-                bottom: 0;
-                justify-content: space-evenly;
-                text-align: center;
-                padding: 0 0.5vw calc(5vh + (2vw + 2vh) + calc((11vw + 11vh) / 2)) 0.5vw;
-                margin-top: 0.5vw;
-                box-sizing: border-box;
-                height: calc(100% - 3vh);
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(30vw, 1fr));
-                gap: 0.5vw;
-                grid-gap: 0;
-                overflow-y: auto;
-            }
+			#shop .upgradeOptions .selectWeapon .content {
+				width: 100vw;
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				justify-content: space-evenly;
+				text-align: center;
+				padding: 0 0.5vw calc(5vh + (2vw + 2vh) + calc((11vw + 11vh) / 2)) 0.5vw;
+				margin-top: 0.5vw;
+				box-sizing: border-box;
+				height: calc(100% - 3vh);
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(30vw, 1fr));
+				gap: 0.5vw;
+				grid-gap: 0;
+				overflow-y: auto;
+			}
 
-            #shop .upgradeOptions .selectWeapon .content .upgradeTankSection {
-                background-image: linear-gradient(var(--dark-green), var(--dark-green));
-                background-size: calc(1 * (50%)) 100%;
-                background-repeat: no-repeat;
+			#shop .upgradeOptions .selectWeapon .content .upgradeTankSection {
+				background-image: linear-gradient(var(--dark-green), var(--dark-green));
+				background-size: calc(1 * (50%)) 100%;
+				background-repeat: no-repeat;
 
+				margin: calc((2vw + 2vh) / 2);
+				padding: calc((2vw + 2vh) / 2);
+				box-sizing: border-box;
+				background-color: var(--lighter-green);
+				border: 0.01vw dashed var(--dark-green);
+				text-align: center;
+				font-size: calc((4vw + 4vh) / 2);
+			}
 
-                margin: calc((2vw + 2vh) / 2);
-                padding: calc((2vw + 2vh) / 2);
-                box-sizing: border-box;
-                background-color: var(--lighter-green);
-                border: 0.01vw dashed var(--dark-green);
-                text-align: center;
-                font-size: calc((4vw + 4vh) / 2);
-            }
+			#shop .upgradeOptions .selectWeapon .content .upgradeTankSection > * {
+				display: block;
+			}
 
-            #shop .upgradeOptions .selectWeapon .content .upgradeTankSection > * {
-                display: block;
-            }
+			#shop .upgradeOptions .selectWeapon .content .upgradeTankSection * {
+				color: white;
+			}
 
-            #shop .upgradeOptions .selectWeapon .content .upgradeTankSection * {
-                color: white;
-            }
+			#shop .upgradeOptions .selectWeapon .upgradeButtons button {
+				border: 0.15vw dashed var(--darkest-green);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: calc((11vw + 11vh) / 2);
+				height: calc((11vw + 11vh) / 2);
+				border-radius: 25%;
+				scroll-snap-align: center;
+				user-select: none;
+				cursor: pointer;
+				flex-grow: 0;
+				flex-shrink: 0;
+				background-color: var(--lighter-green);
+			}
 
-            #shop .upgradeOptions .selectWeapon .upgradeButtons button {
-                border: 0.15vw dashed var(--darkest-green);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: calc((11vw + 11vh) / 2);
-                height: calc((11vw + 11vh) / 2);
-                border-radius: 25%;
-                scroll-snap-align: center;
-                user-select: none;
-                cursor: pointer;
-                flex-grow: 0;
-                flex-shrink: 0;
-                background-color: var(--lighter-green);
-            }
+			#shop .upgradeOptions .selectWeapon .upgradeButtons button.selected {
+				background-color: var(--dark-green);
+				color: white;
+			}
 
-            #shop .upgradeOptions .selectWeapon .upgradeButtons button.selected {
-	            background-color: var(--dark-green);
-                color: white;
-            }
+			#shop .upgradeOptions .selectWeapon .upgradeButtons {
+				width: 80vw;
+				display: flex;
+				position: fixed;
+				left: calc((100vw - (80vw + (2vw + 2vh))) / 2);
+				bottom: 4vh;
+				border-radius: 5vw;
+				cursor: grab;
+				gap: 2%;
+				border: 0.05vw dashed black;
+				box-shadow:
+					inset 2vw 0 2vw -2vw var(--grey),
+					inset -2vw 0 2vw -2vw var(--grey);
+				padding: calc((2vw + 2vh) / 2);
+				overflow: hidden;
+				background-color: rgb(245, 245, 245);
+			}
 
-            #shop .upgradeOptions .selectWeapon .upgradeButtons {
-                width: 80vw;
-                display: flex;
-                position: fixed;
-                left: calc((100vw - (80vw + (2vw + 2vh))) / 2);
-	            bottom: 4vh;
-	            border-radius: 5vw;
-                cursor: grab;
-                gap: 2%;
-                border: 0.05vw dashed black;
-                box-shadow: inset 2vw 0 2vw -2vw var(--grey), inset -2vw 0 2vw -2vw var(--grey);
-                padding: calc((2vw + 2vh) / 2);
-	            overflow: hidden;
-	            background-color: rgb(245, 245, 245);
-            }
+			#shop .upgradeOptions .selectWeapon #arrowRight {
+				display: none;
+			}
 
-            #shop .upgradeOptions .selectWeapon #arrowRight {
-	            display: none;
-            }
+			#shop .upgradeOptions .selectWeapon #arrowUp {
+				position: fixed;
+				bottom: 0;
+				display: flex;
+				justify-content: center;
+				width: 100vw;
+				height: 4vh;
+				text-align: left;
+				align-items: center;
+			}
 
-            #shop .upgradeOptions .selectWeapon #arrowUp {
-                    position: fixed;
-                    bottom: 0;
-                    display: flex;
-                    justify-content: center;
-                    width: 100vw;
-                    height: 4vh;
-		            text-align: left;
-                    align-items: center;
-            }
+			#shop .upgradeOptions .selectWeapon #arrowUp * {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 20vw;
+				font-size: 7vw;
+				font-variation-settings:
+					'FILL' 1,
+					'wght' 700,
+					'GRAD' 200,
+					'opsz' 40;
+			}
 
-            #shop .upgradeOptions .selectWeapon #arrowUp * {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 20vw;
-                font-size: 7vw;
-                font-variation-settings:
-                    'FILL' 1,
-                    'wght' 700,
-                    'GRAD' 200,
-                    'opsz' 40;
-            }
+			@media (orientation: landscape) {
+				#shop .upgradeOptions .selectWeapon .content {
+					width: calc(100vw - ((11vw + 11vh) / 2) - ((2vw + 2vh) / 2) - 8vw);
+					padding: 0.5vw;
+				}
 
-            @media (orientation: landscape) {
-	            #shop .upgradeOptions .selectWeapon .content {
-		            width: calc(100vw - ((11vw + 11vh) / 2) - ((2vw + 2vh) / 2) - 8vw);
-                    padding: 0.5vw;
-	            }
+				#shop .upgradeOptions .selectWeapon .upgradeButtons {
+					height: calc(90vh - (2vw + 2vh)) !important;
+					border-radius: 5vh;
+					width: calc((11vw + 11vh) / 2);
+					left: 5vh;
+					bottom: 5vh;
+					box-shadow:
+						inset 0 2vw 2vw -2vw var(--grey),
+						inset 0 -2vw 2vw -2vw var(--grey);
+				}
 
-                #shop .upgradeOptions .selectWeapon .upgradeButtons {
-                    height: calc(90vh - (2vw + 2vh)) !important;
-                    border-radius: 5vh;
-                    width: calc((11vw + 11vh) / 2);
-		            left: 5vh;
-                    bottom: 5vh;
-                    box-shadow: inset 0 2vw 2vw -2vw var(--grey), inset 0 -2vw 2vw -2vw var(--grey);
-                }
+				#shop .upgradeOptions .selectWeapon #arrowRight {
+					position: fixed;
+					display: flex;
+					justify-content: center;
+					align-self: center;
+					height: 100vh;
+					top: 0;
+					width: 3vw;
+					text-align: left;
+					align-items: center;
+				}
 
-                #shop .upgradeOptions .selectWeapon #arrowRight {
-                    position: fixed;
-                    display: flex;
-                    justify-content: center;
-                    align-self: center;
-                    height: 100vh;
-                    top: 0;
-                    width: 3vw;
-		            text-align: left;
-                    align-items: center;
-                }
+				#shop .upgradeOptions .selectWeapon #arrowRight * {
+					display: flex;
+					height: 20vh;
+					font-size: 7vh;
+					align-items: center;
+					justify-content: center;
+					font-variation-settings:
+						'FILL' 1,
+						'wght' 700,
+						'GRAD' 200,
+						'opsz' 40;
+				}
 
-                #shop .upgradeOptions .selectWeapon #arrowRight * {
-                    display: flex;
-                    height: 20vh;
-                    font-size: 7vh;
-                    align-items: center;
-                    justify-content: center;
-                    font-variation-settings:
-                        'FILL' 1,
-                        'wght' 700,
-                        'GRAD' 200,
-                        'opsz' 40;
-                }
+				#shop .upgradeOptions .selectWeapon #arrowUp {
+					display: none;
+				}
 
-                #shop .upgradeOptions .selectWeapon #arrowUp {
-	               display: none;
-                }
+				#shop #startGameAfterShop {
+					left: calc((((11vw + 11vh) / 2) + ((2vw + 2vh) / 2) + 4vw) + (5vw + 5vh) / 2);
+				}
 
-                #shop #startGameAfterShop {
-                    left: calc((((11vw + 11vh) / 2) + ((2vw + 2vh) / 2) + 4vw) + (5vw + 5vh) / 2);
-                }
+				#shop .upgradeTitle {
+					width: calc(100vw - ((11vw + 11vh) / 2) - ((2vw + 2vh) / 2) - 4vw);
+				}
+			}
 
-                #shop .upgradeTitle {
-                    width: calc(100vw - ((11vw + 11vh) / 2) - ((2vw + 2vh) / 2) - 4vw);
-                }
-            }
-
-            /*------------------------------------------------------------------
+			/*------------------------------------------------------------------
             Game / #game
             \/ \/ \/ \/ \/
             ------------------------------------------------------------------*/
 
-            #game {
-                position: absolute;
-                width: 100vw;
-                height: 100vw;
-                top: 0;
-                left: 0;
-                transform-origin: center center;
-                visibility: hidden;
-                opacity: 0;
-            }
+			#game {
+				position: absolute;
+				width: 100vw;
+				height: 100vw;
+				top: 0;
+				left: 0;
+				transform-origin: center center;
+				visibility: hidden;
+				opacity: 0;
+			}
 
-            /*------------------------------------------------------------------
+			/*------------------------------------------------------------------
             Tank / .Tank
             \/ \/ \/ \/ \/
             ------------------------------------------------------------------*/
 
-            #tank,
-            #tank * {
-                position: absolute;
-                border-radius: calc((var(--u) * 0.8));
-            }
-
-            #tankBody *:not(#treadBumps),
-            #tankTurret *:not(#treadBumps) {
-                box-shadow: inset 0 0 0.5vw 0.5vw rgba(0, 0, 0, 0.2);
-            }
-
-            #tank #tankBody {
-                position: fixed;
-                left: 50vw;
-                top: 50vh;
-                transition: transform 0.2s linear;
-            }
-
-            #tank #tankBody div #tankBase {
-                width: calc((var(--u) * 10));
-                height: calc((var(--u) * 10));
-                background-color: var(--dark-green);
-                left: calc((var(--u) * -5));
-                top: calc((var(--u) * -5));
-            }
-
-            #tank #tankBody div #treadsLeft {
-                z-index: -1;
-                width: calc((var(--u) * 3));
-                top: calc((var(--u) * -6.25));
-                left: calc((var(--u) * -6.25));
-                height: calc((var(--u) * 12.5));
-                background-color: var(--grey);
-                border-radius: calc((var(--u) * 0.5)) 0 0 calc((var(--u) * 0.5));
-            }
-
-            #tank #tankBody div #treadsRight {
-                z-index: -1;
-                width: calc((var(--u) * 3));
-                top: calc((var(--u) * -6.25));
-                left: calc((var(--u) * 3.25));
-                height: calc((var(--u) * 12.5));
-                background-color: var(--grey);
-                border-radius: 0 calc((var(--u) * 0.5)) calc((var(--u) * 0.5)) 0;
-            }
-
-            #tank #tankBody div #treadBumps {
-                height: calc((var(--u) * 12.5));
-                width: calc((var(--u) * 12.5));
-                left: calc((var(--u) * -6.25));
-                top: calc((var(--u) * -6.25));
-                overflow: hidden;
-            }
-
-            #tank #tankBody div #treadBumps * {
-                height: calc((var(--u) * 0.3));
-                background: rgb(116, 117, 121);
-                background: linear-gradient(0deg, rgba(116, 117, 121, 1) 0%, rgba(76, 77, 79, 1) 50%, rgba(116, 117, 121, 1) 100%);
-                border-radius: 0;
-                width: calc((var(--u) * 3));
-                z-index: -1;
-            }
-
-            .right0,
-            .right1,
-            .right2,
-            .right3,
-            .right4,
-            .right5,
-            .right6 {
-                left: calc((var(--u) * 9.5));
-            }
-
-            .left0 {
-                top: 0;
-            }
-            .left1 {
-                top: calc((var(--u) * 2.26));
-            }
-            .left2 {
-                top: calc((var(--u) * 4.52));
-            }
-            .left3 {
-                top: calc((var(--u) * 6.78));
-            }
-            .left4 {
-                top: calc((var(--u) * 9.04));
-            }
-            .left5 {
-                top: calc((var(--u) * 11.3));
-            }
-            .left6 {
-                top: calc((var(--u) * 13.56));
-            }
-
-            .right0 {
-                top: 0;
-            }
-            .right1 {
-                top: calc((var(--u) * 2.26));
-            }
-            .right2 {
-                top: calc((var(--u) * 4.52));
-            }
-            .right3 {
-                top: calc((var(--u) * 6.78));
-            }
-            .right4 {
-                top: calc((var(--u) * 9.04));
-            }
-            .right5 {
-                top: calc((var(--u) * 11.3));
-            }
-            .right6 {
-                top: calc((var(--u) * 13.56));
-            }
-
-            #tankTurret {
-                position: fixed;
-                left: 50vw;
-                top: 50vh;
-            }
-
-            .nozzle {
-                width: calc((var(--u) * 1.25));
-                height: calc((var(--u) * 12));
-                background-color: var(--yellow);
-                left: calc((var(--u) * -2.325));
-                top: calc((var(--u) * -12));
-            }
-            .nozzle2 {
-                width: calc((var(--u) * 1.25));
-                height: calc((var(--u) * 12));
-                background-color: var(--yellow);
-                left: calc((var(--u) * 1.075));
-                top: calc((var(--u) * -12));
-            }
-
-            .TankHEAD {
-                width: calc((var(--u) * 8));
-                height: calc((var(--u) * 8));
-                left: calc((var(--u) * -4));
-                top: calc((var(--u) * -4));
-                background-color: var(--light-green);
-            }
-
-            #tank #joystickContainer #onlineJoystick {
-                position: absolute;
-                bottom: 0;
-                width: calc((30vw + 30vh) / 2);
-                height: calc((30vw + 30vh) / 2);
-                display: none;
-                z-index: 10;
-            }
-
-            #tank #joystickContainer #shootingOnlineJoystick {
-                position: absolute;
-                width: 100vw;
-                height: 100vh;
-                z-index: 5;
-            }
-
-            #tank #joystickContainer {
-                width: 100vw;
-                height: 100vh;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="alerts">
-            <div id="NotCompatable">
-                SORRY, YOUR SCREEN SIZE IS NOT COMPATABLE WITH THIS GAME. <br />
-                TIP: TRY ROTATING YOUR SCREEN FOR A BETTER VIEW.
-            </div>
-            <div id="rotateScreen">
-                <div class="label">FOR A BETTER EXPERIENCE, ROTATE YOUR SCREEN</div>
-                <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" viewBox="302.05 440.29 479.95 837.51">
-                    <g transform="translate(0.000000,1920.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
-                        <path d="M4176 14766 c-24 -20 -37 -39 -33 -47 3 -8 78 -99 166 -203 88 -105 159 -191 158 -193 -2 -1 -48 7 -102 18 -140 29 -368 23 -500 -14 -171 -48 -296 -112 -437 -226 -337 -271 -487 -746 -366 -1159 l13 -43 47 43 47 43 -14 70 c-21 102 -19 272 5 381 42 203 129 364 274 510 209 210 469 313 756 299 85 -4 228 -29 242 -43 4 -4 -78 -78 -183 -166 -104 -87 -189 -161 -189 -165 0 -3 15 -24 34 -46 31 -36 35 -38 52 -25 77 62 530 444 531 449 3 6 -445 544 -456 548 -3 1 -24 -13 -45 -31z"></path>
-                        <path d="M4030 13378 c-30 -6 -62 -15 -70 -22 -8 -6 -28 -18 -44 -26 -45 -23 -141 -120 -160 -162 -9 -21 -20 -38 -24 -38 -4 0 -16 -35 -25 -77 -16 -73 -17 -238 -17 -2480 0 -1741 3 -2417 11 -2455 35 -163 178 -309 339 -345 69 -15 2617 -18 2722 -3 87 13 166 59 246 145 34 36 62 71 62 77 0 6 6 19 13 27 8 9 21 48 31 86 15 64 16 273 16 2472 0 1753 -3 2416 -11 2455 -35 162 -179 309 -341 347 -61 14 -2667 13 -2748 -1z m2723 -289 c33 -20 66 -56 78 -87 5 -13 9 -75 9 -138 l0 -114 -1432 2 -1433 3 -3 95 c-3 94 10 170 28 170 6 0 10 7 10 15 0 8 12 22 28 32 15 10 29 20 32 24 3 4 14 9 25 12 11 3 607 4 1325 3 1181 -1 1308 -3 1333 -17z m87 -2514 l0 -1895 -1432 2 -1433 3 -3 1880 c-1 1034 0 1886 3 1893 3 9 300 12 1435 12 l1430 0 0 -1895z m0 -2299 l0 -125 -49 -50 c-39 -40 -57 -51 -92 -56 -24 -3 -620 -5 -1324 -3 -1389 3 -1297 -1 -1353 56 -39 41 -52 87 -52 192 0 53 3 100 7 103 3 4 649 7 1435 7 l1428 0 0 -124z"></path>
-                        <path d="M7713 8272 l-43 -37 15 -74 c22 -101 20 -274 -4 -386 -73 -351 -321 -633 -660 -751 -177 -62 -412 -71 -580 -22 l-44 13 179 150 c98 83 186 157 196 165 16 14 15 18 -21 58 l-38 43 -259 -216 c-142 -119 -267 -225 -277 -234 -17 -17 -8 -29 208 -287 124 -148 230 -270 234 -272 5 -1 27 13 49 31 l41 35 -170 202 c-93 112 -168 204 -167 206 2 1 27 -4 57 -12 318 -82 694 -1 957 207 279 221 434 540 434 897 0 122 -36 323 -58 322 -4 -1 -26 -18 -49 -38z"></path>
-                    </g>
-                </svg>
-                <button onclick="this.parentElement.style.scale = '0'" class="noThanks">NO THANKS</button>
-                <button onclick="this.parentElement.style.scale = '0'" id="noShowRotate" class="neverShow">NEVER SHOW</button>
-            </div>
-        </div>
-
-        <div id="intro">
-            <div class="title">
-                <div class="introAnimation">THE</div>
-                <span class="introAnimation">TANK</span>
-                <span class="introAnimation">GAME</span>
-            </div>
-            <button class="start introAnimation" id="start">
-                <span class="material-symbols-outlined">keyboard_double_arrow_left</span>
-                PLAY
-                <span class="material-symbols-outlined">keyboard_double_arrow_right</span>
-            </button>
-        </div>
-
-        <div id="lobby">
-            <div id="lobbyArea">
-                <button id="goToShop">
-                    SHOP
-                    <span class="material-symbols-outlined">keyboard_double_arrow_right</span>
-                </button>
-
-                <button id="startTankGame">
-                    START
-                    <span class="material-symbols-outlined">keyboard_double_arrow_right</span>
-                </button>
-            </div>
-            <div id="shop" class="pageRight">
-                <div class="upgradeTitle">SHOP</div>
-                <button id="startGameAfterShop">
-                    <span class="material-symbols-outlined">keyboard_double_arrow_left</span>
-                    LOBBY
-                </button>
-                <div class="upgradeOptions" id="upgradeOptions">
-                    <!--Upgrade Types: Movement Speed, Turret Speed, Armor, Maxiumum Ammunition, Visibility, Projectile Speed, etc, etc-->
-                    <!--<span id="rockShooterProgressLabel">4/5</span>-->
-                    <!--<progress id="rockShooterTankProgressBar" value="0.8"></progress>-->
-                    <div class="selectWeapon">
-                        <div class="content">
-                            <div class="upgradeTankSection">
-                                <span class="label">AMMO</span>
-                                <span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-                            </div>
-                            <div class="upgradeTankSection">
-                                <span class="label">ATTACK STRENGTH</span>
-                                <span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-                            </div>
-                            <div class="upgradeTankSection">
-                                <span class="label">BLAST RADIUS</span>
-                                <span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-                            </div>
-                            <div class="upgradeTankSection" id="upgradeArmor">
-                                <span class="label">ARMOR</span>
-                                <span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-                            </div>
-                            <div class="upgradeTankSection" id="upgradeSpeed">
-                                <span class="label">SPEED</span>
-                                <span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-                            </div>
-                            <div class="upgradeTankSection" id="upgradeTurretSpeed">
-                                <span class="label">TURRET SPEED</span>
-                                <span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-                            </div>
-                            <div class="upgradeTankSection" id="upgradeVisibility">
-                                <span class="label">VISIBILITY</span>
-                                <span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-                            </div>
-                            <div class="upgradeTankSection" id="upgradeProjectileSpeed">
-                                <span class="label">PROJECTILE SPEED</span>
-                                <span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-                            </div>
-                            <!-- More Projectile Upgrade = More Projectile Distance -->
-                            <div class="upgradeTankSection" id="upgradeFortune">
-                                <span class="label">Fortune</span>
-                                <span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-                            </div>
-                            <div class="upgradeTankSection" id="upgradeReloadSpeed">
-                                <span class="label">Reload Speed</span>
-                                <span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-                            </div>
-                            <div class="upgradeTankSection" id="upgradeMaxAmmo">
-                                <span class="label">Max Ammo</span>
-                                <span class="upgradeCost">15<span class="material-symbols-outlined">diamond</span></span>
-                            </div>
-                        </div>
-                        <div id="arrowRight"><span class="material-symbols-outlined">chevron_right</span></div>
-                        <div id="arrowUp"><span class="material-symbols-outlined">keyboard_arrow_up</span></div>
-                        <span class="upgradeButtons swiper-container">
-                            <span class="swiper-wrapper">
-                                <button class="label swiper-slide">1</button>
-                                <!-- ROCK CANNON -->
-                                <button class="label swiper-slide">2</button>
-                                <!-- TASER -->
-                                <button class="label swiper-slide">3</button>
-                                <!-- FLAMETHROWER OR RICOCHET -->
-                                <button class="label swiper-slide">4</button>
-                                <!-- ROCKET -->
-                                <button class="label swiper-slide">5</button>
-                                <!-- BOMB -->
-                                <button class="label swiper-slide">6</button>
-                                <!-- SHOCK -->
-                                <button class="label swiper-slide">7</button>
-                                <!-- MACHINE GUN -->
-                                <button class="label swiper-slide">8</button>
-                                <!-- MINES -->
-                            </span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="game">
-            <div id="tank">
-                <div id="joystickContainer">
-                    <div id="onlineJoystick"></div>
-                    <div id="shootingOnlineJoystick"></div>
-                </div>
-                <div id="tankBody">
-                    <div>
-                        <div id="tankBase"></div>
-                        <div id="treadsLeft"></div>
-                        <div id="treadsRight"></div>
-                        <div id="treadBumps">
-                            <div class="left0 movingTread pauseAnimation"></div>
-                            <div class="left1 movingTread pauseAnimation"></div>
-                            <div class="left2 movingTread pauseAnimation"></div>
-                            <div class="left3 movingTread pauseAnimation"></div>
-                            <div class="left4 movingTread pauseAnimation"></div>
-                            <div class="left5 movingTread pauseAnimation"></div>
-                            <div class="left6 movingTread pauseAnimation"></div>
-                            <div class="right0 movingTread pauseAnimation"></div>
-                            <div class="right1 movingTread pauseAnimation"></div>
-                            <div class="right2 movingTread pauseAnimation"></div>
-                            <div class="right3 movingTread pauseAnimation"></div>
-                            <div class="right4 movingTread pauseAnimation"></div>
-                            <div class="right5 movingTread pauseAnimation"></div>
-                            <div class="right6 movingTread pauseAnimation"></div>
-                        </div>
-                    </div>
-                </div>
-                <div id="tankTurret">
-                    <div class="nozzle"></div>
-                    <div class="nozzle2"></div>
-                    <div class="TankHEAD"></div>
-                </div>
-            </div>
-        </div>
-
-        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-        <script src="https://yoannmoinet.github.io/nipplejs/javascripts/nipplejs.js"></script>
-        <script>
-            /* Variables */
-
-            let noShow, introLoaded, mobile, isRotating;
-            noShow = introLoaded = mobile = isRotating = false;
-
-            let angle, currentRotation, targetRotation;
-            angle = currentRotation = targetRotation = 0;
-
-            let turretSpeed = 2.5;
-            let driveSpeed = 0.5;
-
-            /* Elements */
-
-            /*ALERTS*/
-
-            const rotateScreen = document.getElementById('rotateScreen');
-            const noShowRotate = document.getElementById('noShowRotate');
-
-            /*INTRO*/
-            const elements = document.querySelectorAll('.introAnimation');
-            const introElement = document.getElementById('intro');
-            const startButton = document.getElementById('start');
-
-            /*GAME*/
-
-            const game = document.getElementById('game');
-
-            /*LOBBY*/
-            const goToShop = document.getElementById('goToShop');
-            const lobby = document.getElementById('lobby');
-            const lobbyArea = document.getElementById('lobbyArea');
-            const startTankGame = document.getElementById('startTankGame');
-
-            /*SHOP*/
-            const shop = document.getElementById('shop');
-            const beginGame = document.getElementById('startGameAfterShop');
-            const upgradeOptions = document.getElementById('upgradeOptions');
-            const upgradeTitle = document.querySelector('.upgradeTitle');
-            const upgradeButtons = document.querySelector('.upgradeButtons');
-
-            /*TANK*/
-            const onlineJoystick = document.getElementById('onlineJoystick');
-            const shootingOnlineJoystick = document.getElementById('shootingOnlineJoystick');
-            const tankBody = document.getElementById('tankBody');
-            const tankTurret = document.getElementById('tankTurret');
-
-            /* INTRO */
-            /* Start Game from Intro Screen */
-            document.addEventListener('DOMContentLoaded', () => {
-                let delay = 550;
-                elements.forEach((element) => {
-                    setTimeout(() => {
-                        element.classList.add('expanded');
-                        introElement.classList.add('shake');
-                        if (delay === 4550) introLoaded = true;
-                        setTimeout(() => {
-                            introElement.classList.remove('shake');
-                        }, 500);
-                    }, delay);
-                    delay += 1000;
-                });
-            });
-
-            noShowRotate.addEventListener('click', () => {
-                noShow = true;
-            });
-
-            startButton.addEventListener('click', () => {
-                if (introLoaded) {
-                    introElement.style.setProperty('visibility', 'hidden');
-                    introElement.style.setProperty('opacity', '0');
-                    introElement.style.setProperty('display', 'none');
-                    lobby.style.setProperty('visibility', 'visible');
-                    lobby.style.setProperty('opacity', '1');
-                }
-
-	            let elementHeight = `${(document.body.offsetHeight - upgradeTitle.offsetHeight)}px`
-                upgradeOptions.style.setProperty('height', elementHeight);
-                let upgradeTitleOffsetHeight = `${upgradeTitle.offsetHeight * 0.5}px`
-                beginGame.style.setProperty('height', upgradeTitleOffsetHeight);
-                goToShop.style.setProperty('height', upgradeTitleOffsetHeight);
-            });
-
-            noShowRotate.addEventListener('click', () => {
-                noShow = true;
-            });
-
-            /* SHOP */
-            /* Go back and forth through lobby and shop */
-            goToShop.addEventListener('click', () => {
-                lobbyArea.classList.remove('pageLeft');
-                lobbyArea.classList.remove('pageRight');
-                shop.classList.remove('pageLeft');
-                shop.classList.remove('pageRight');
-
-                lobbyArea.classList.add('pageLeft');
-            });
-
-            beginGame.addEventListener('click', () => {
-                lobbyArea.classList.remove('pageLeft');
-                lobbyArea.classList.remove('pageRight');
-                shop.classList.remove('pageLeft');
-                shop.classList.remove('pageRight');
-
-                shop.classList.add('pageRight');
-            });
-
-            /* Addeventlistener for click in upgrade section */
-            startTankGame.addEventListener('click', () => {
-                lobby.style.setProperty('visibility', 'hidden');
-                lobby.style.setProperty('opacity', '0');
-                lobby.style.setProperty('display', 'none');
-                game.style.setProperty('visibility', 'visible');
-                game.style.setProperty('opacity', '1');
-                startTouchScreenMovement();
-            });
-
-            /* Setting tankBody Dimentions when Screen Resizes */
-            /* OnResize Function */
-            window.onresize = () => {
-	            let elementHeight = `${(document.body.offsetHeight - upgradeTitle.offsetHeight)}px`
-                upgradeOptions.style.setProperty('height', elementHeight);
-                let upgradeTitleOffsetHeight = `${upgradeTitle.offsetHeight * 0.5}px`
-                beginGame.style.setProperty('height', upgradeTitleOffsetHeight);
-                goToShop.style.setProperty('height', upgradeTitleOffsetHeight);
-                if (!noShow) {
-                    if (window.matchMedia('(orientation: portrait)').matches) {
-                        rotateScreen.style.visibility = 'visible';
-                        rotateScreen.style.opacity = '1';
-                    }
-
-                    // Check if the screen is landscape
-                    if (window.matchMedia('(orientation: landscape)').matches) {
-                        rotateScreen.style.visibility = 'hidden';
-                        rotateScreen.style.opacity = '0';
-                    }
-                }
-            };
-
-            /* Put Message: "Rotate Screen For Better Experience" */
-            if (window.matchMedia('(orientation: portrait)').matches) {
-                rotateScreen.style.visibility = 'visible';
-                rotateScreen.style.opacity = '1';
-            }
-
-            if (window.matchMedia('(orientation: landscape)').matches) {
-                rotateScreen.style.visibility = 'hidden';
-                rotateScreen.style.opacity = '0';
-            }
-
-            function initSwiper(direction) {
-        		if (window.swiper) {
-        			window.swiper.destroy(true, true);
-        		}
-
-        		window.swiper = new Swiper('.swiper-container', {
-        			direction: direction,
-        			slidesPerView: 'auto',
-        			spaceBetween: 10,
-        			centeredSlides: true,
-        			freeMode: false, // Disable freeMode to enable snapping
-
-        			on: {
-        				slideChange: function () {
-        					updateSelectedItem(window.swiper.activeIndex);
-        				},
-        			},
-        		});
-        	}
-
-            function updateSelectedItem(index) {
-                const slides = document.querySelectorAll('.swiper-slide');
-                slides.forEach((slide, i) => {
-                    if (i === index) {
-                        slide.classList.add('selected');
-                    } else {
-                        slide.classList.remove('selected');
-                    }
-                });
-            }
-
-            document.querySelectorAll('.swiper-slide').forEach((slide, index) => {
-                slide.addEventListener('click', () => {
-                    window.swiper.slideTo(index);
-                    updateSelectedItem(index);
-                });
-            });
-
-            function handleOrientationChange() {
-                if (window.matchMedia("(orientation: portrait)").matches) {
-                    initSwiper('horizontal');
-                } else {
-                    initSwiper('vertical');
-                }
-                updateSelectedItem(0)
-            }
-
-            window.addEventListener('resize', handleOrientationChange);
-            window.addEventListener('orientationchange', handleOrientationChange);
-
-            document.addEventListener('contextmenu', function(e) {
-                e.preventDefault();
-            });
-
-            handleOrientationChange();
-
-            /* TANK */
-            /* Set animation based on tank movement speed */
-            const MovingTreads = document.querySelectorAll('.movingTread');
-            MovingTreads.forEach((div) => {
-                div.style.animation = `moveTreads ${0.4 / driveSpeed}s linear infinite`;
-            });
-
-            /* Find shortest path for tank body */
-            function getShortestRotationAngle(current, target) {
-                let delta = target - current;
-                delta = ((((delta + 180) % 360) + 540) % 360) - 180;
-                return current + delta;
-            }
-
-            /* Change tank body direction based on keys pressed using code above */
-            function updateTankDirection(exactAngle) {
-                if (typeof exactAngle !== 'undefined') {
-                    angle = getShortestRotationAngle(angle, 90 - exactAngle);
-                    MovingTreads.forEach((div) => {
-                        div.classList.remove('pauseAnimation');
-                    });
-                }
-
-                if (angle !== null) {
-                    tankBody.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
-                }
-            }
-
-            function startTouchScreenMovement() {
-                mobile = true;
-
-                tankBody.style.setProperty('transition', '0.1s');
-                onlineJoystick.style.setProperty('display', 'block');
-                const joystick = nipplejs.create({
-                    zone: onlineJoystick,
-                    shape: 'square',
-                    mode: 'static',
-                    size: (window.innerWidth * 0.20 + window.innerHeight * 0.20) / 2,
-                    position: { left: '50%', bottom: '50%' },
-                    color: '#066c00',
-                    fadeTime: 500,
-                });
-
-                joystick.on('move', function (evt, data) {
-                    if (!(data.force < 0.5)) {
-                        updateTankDirection(data.angle.degree); // Get the angle in degrees
-                    }
-                });
-
-                joystick.on('end', function () {
-                    MovingTreads.forEach((div) => {
-                        div.classList.add('pauseAnimation');
-                    });
-                });
-
-                const shootingjoystick = nipplejs.create({
-                    mode: 'dynamic',
-                    zone: shootingOnlineJoystick,
-                    size: (window.innerWidth * 0.12 + window.innerHeight * 0.12) / 2,
-                    catchDistance: window.innerHeight * 0.2,
-                    color: '#066c00',
-                    fadeTime: 500,
-                });
-
-                shootingjoystick.on('start', function (evt, nipple) {
-                    let onlineJoystick = document.getElementById('onlineJoystick').getBoundingClientRect();
-                    if (nipple.position.x < onlineJoystick.right && nipple.position.y > onlineJoystick.top) {
-                        nipple.destroy();
-                    }
-                });
-
-                shootingjoystick.on('move', function (evt, data) {
-                    if (!(data.force < 0.5)) {
-                        updateRotation(90 - data.angle.degree);
-                    }
-                });
-
-                function normalizeAngle(angle) {
-                    return ((angle % 360) + 360) % 360;
-                }
-
-                let lastTime = performance.now();
-                function shootingJoystickAim(currentTime) {
-                    let deltaTime = (currentTime - lastTime) / 20; // Convert to seconds
-                    lastTime = currentTime;
-                    if (normalizeAngle(currentRotation) !== normalizeAngle(targetRotation)) {
-                        isRotating = true;
-
-                        let normalizedCurrent = normalizeAngle(currentRotation);
-                        let normalizedTarget = normalizeAngle(targetRotation);
-
-                        let diff = normalizeAngle(normalizedTarget - normalizedCurrent);
-                        if (diff > 180) diff -= 360;
-
-                        let maxRotation = turretSpeed * deltaTime;
-
-                        if (Math.abs(diff) > maxRotation) {
-                            currentRotation += Math.sign(diff) * maxRotation;
-                        } else {
-                            currentRotation = targetRotation;
-                            isRotating = false;
-                        }
-
-                        tankTurret.style.transform = `rotate(${currentRotation}deg)`;
-                    } else if (isRotating) {
-                        isRotating = false;
-                    }
-                    requestAnimationFrame(shootingJoystickAim);
-                }
-
-                requestAnimationFrame(shootingJoystickAim);
-
-                shootingjoystick.on('end', function () {
-                    // Shoot When rotation is finished
-                });
-
-                function updateRotation(newAngle) {
-                    targetRotation = newAngle;
-                }
-
-                return updateRotation;
-            }
-        </script>
-    </body>
+			#tank,
+			#tank * {
+				position: absolute;
+				border-radius: calc((var(--u) * 0.8));
+			}
+
+			#tankBody *:not(#treadBumps),
+			#tankTurret *:not(#treadBumps) {
+				box-shadow: inset 0 0 0.5vw 0.5vw rgba(0, 0, 0, 0.2);
+			}
+
+			#tank #tankBody {
+				position: fixed;
+				left: 50vw;
+				top: 50vh;
+				transition: transform 0.2s linear;
+			}
+
+			#tank #tankBody div #tankBase {
+				width: calc((var(--u) * 10));
+				height: calc((var(--u) * 10));
+				background-color: var(--dark-green);
+				left: calc((var(--u) * -5));
+				top: calc((var(--u) * -5));
+			}
+
+			#tank #tankBody div #treadsLeft {
+				z-index: -1;
+				width: calc((var(--u) * 3));
+				top: calc((var(--u) * -6.25));
+				left: calc((var(--u) * -6.25));
+				height: calc((var(--u) * 12.5));
+				background-color: var(--grey);
+				border-radius: calc((var(--u) * 0.5)) 0 0 calc((var(--u) * 0.5));
+			}
+
+			#tank #tankBody div #treadsRight {
+				z-index: -1;
+				width: calc((var(--u) * 3));
+				top: calc((var(--u) * -6.25));
+				left: calc((var(--u) * 3.25));
+				height: calc((var(--u) * 12.5));
+				background-color: var(--grey);
+				border-radius: 0 calc((var(--u) * 0.5)) calc((var(--u) * 0.5)) 0;
+			}
+
+			#tank #tankBody div #treadBumps {
+				height: calc((var(--u) * 12.5));
+				width: calc((var(--u) * 12.5));
+				left: calc((var(--u) * -6.25));
+				top: calc((var(--u) * -6.25));
+				overflow: hidden;
+			}
+
+			#tank #tankBody div #treadBumps * {
+				height: calc((var(--u) * 0.3));
+				background: rgb(116, 117, 121);
+				background: linear-gradient(0deg, rgba(116, 117, 121, 1) 0%, rgba(76, 77, 79, 1) 50%, rgba(116, 117, 121, 1) 100%);
+				border-radius: 0;
+				width: calc((var(--u) * 3));
+				z-index: -1;
+			}
+
+			.right0,
+			.right1,
+			.right2,
+			.right3,
+			.right4,
+			.right5,
+			.right6 {
+				left: calc((var(--u) * 9.5));
+			}
+
+			.left0 {
+				top: 0;
+			}
+			.left1 {
+				top: calc((var(--u) * 2.26));
+			}
+			.left2 {
+				top: calc((var(--u) * 4.52));
+			}
+			.left3 {
+				top: calc((var(--u) * 6.78));
+			}
+			.left4 {
+				top: calc((var(--u) * 9.04));
+			}
+			.left5 {
+				top: calc((var(--u) * 11.3));
+			}
+			.left6 {
+				top: calc((var(--u) * 13.56));
+			}
+
+			.right0 {
+				top: 0;
+			}
+			.right1 {
+				top: calc((var(--u) * 2.26));
+			}
+			.right2 {
+				top: calc((var(--u) * 4.52));
+			}
+			.right3 {
+				top: calc((var(--u) * 6.78));
+			}
+			.right4 {
+				top: calc((var(--u) * 9.04));
+			}
+			.right5 {
+				top: calc((var(--u) * 11.3));
+			}
+			.right6 {
+				top: calc((var(--u) * 13.56));
+			}
+
+			#tankTurret {
+				position: fixed;
+				left: 50vw;
+				top: 50vh;
+			}
+
+			.nozzle {
+				width: calc((var(--u) * 1.25));
+				height: calc((var(--u) * 12));
+				background-color: var(--yellow);
+				left: calc((var(--u) * -2.325));
+				top: calc((var(--u) * -12));
+			}
+			.nozzle2 {
+				width: calc((var(--u) * 1.25));
+				height: calc((var(--u) * 12));
+				background-color: var(--yellow);
+				left: calc((var(--u) * 1.075));
+				top: calc((var(--u) * -12));
+			}
+
+			.TankHEAD {
+				width: calc((var(--u) * 8));
+				height: calc((var(--u) * 8));
+				left: calc((var(--u) * -4));
+				top: calc((var(--u) * -4));
+				background-color: var(--light-green);
+			}
+
+			#tank #joystickContainer #onlineJoystick {
+				position: absolute;
+				bottom: 0;
+				width: calc((30vw + 30vh) / 2);
+				height: calc((30vw + 30vh) / 2);
+				display: none;
+				z-index: 10;
+			}
+
+			#tank #joystickContainer #shootingOnlineJoystick {
+				position: absolute;
+				width: 100vw;
+				height: 100vh;
+				z-index: 5;
+			}
+
+			#tank #joystickContainer {
+				width: 100vw;
+				height: 100vh;
+			}
+
+			/* LOADING ANIMATION */
+
+			#loadingAnimation {
+				position: fixed;
+				width: 100vw;
+				height: 100vh;
+				background: #ffffff;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-direction: column;
+				z-index: calc(infinity);
+			}
+			#loadingAnimation #container {
+				width: 80%;
+				background-color: #f3f3f3;
+				border-radius: 10px;
+				overflow: hidden;
+			}
+			#loadingAnimation #container #loadingProgressBarStartup {
+				transition: 0.5s;
+				width: 0;
+				height: 20px;
+				background-color: #4caf50;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="loadingAnimation">
+			<div id="container">
+				<div id="loadingProgressBarStartup"></div>
+			</div>
+		</div>
+		<div id="restOfContent">
+			<div class="alerts">
+				<div id="NotCompatable">
+					SORRY, YOUR SCREEN SIZE IS NOT COMPATABLE WITH THIS GAME. <br />
+					TIP: TRY ROTATING YOUR SCREEN FOR A BETTER VIEW.
+				</div>
+				<div id="rotateScreen">
+					<div class="label">FOR A BETTER EXPERIENCE, ROTATE YOUR SCREEN</div>
+					<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" viewBox="302.05 440.29 479.95 837.51">
+						<g transform="translate(0.000000,1920.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+							<path
+								d="M4176 14766 c-24 -20 -37 -39 -33 -47 3 -8 78 -99 166 -203 88 -105 159 -191 158 -193 -2 -1 -48 7 -102 18 -140 29 -368 23 -500 -14 -171 -48 -296 -112 -437 -226 -337 -271 -487 -746 -366 -1159 l13 -43 47 43 47 43 -14 70 c-21 102 -19 272 5 381 42 203 129 364 274 510 209 210 469 313 756 299 85 -4 228 -29 242 -43 4 -4 -78 -78 -183 -166 -104 -87 -189 -161 -189 -165 0 -3 15 -24 34 -46 31 -36 35 -38 52 -25 77 62 530 444 531 449 3 6 -445 544 -456 548 -3 1 -24 -13 -45 -31z"
+							></path>
+							<path
+								d="M4030 13378 c-30 -6 -62 -15 -70 -22 -8 -6 -28 -18 -44 -26 -45 -23 -141 -120 -160 -162 -9 -21 -20 -38 -24 -38 -4 0 -16 -35 -25 -77 -16 -73 -17 -238 -17 -2480 0 -1741 3 -2417 11 -2455 35 -163 178 -309 339 -345 69 -15 2617 -18 2722 -3 87 13 166 59 246 145 34 36 62 71 62 77 0 6 6 19 13 27 8 9 21 48 31 86 15 64 16 273 16 2472 0 1753 -3 2416 -11 2455 -35 162 -179 309 -341 347 -61 14 -2667 13 -2748 -1z m2723 -289 c33 -20 66 -56 78 -87 5 -13 9 -75 9 -138 l0 -114 -1432 2 -1433 3 -3 95 c-3 94 10 170 28 170 6 0 10 7 10 15 0 8 12 22 28 32 15 10 29 20 32 24 3 4 14 9 25 12 11 3 607 4 1325 3 1181 -1 1308 -3 1333 -17z m87 -2514 l0 -1895 -1432 2 -1433 3 -3 1880 c-1 1034 0 1886 3 1893 3 9 300 12 1435 12 l1430 0 0 -1895z m0 -2299 l0 -125 -49 -50 c-39 -40 -57 -51 -92 -56 -24 -3 -620 -5 -1324 -3 -1389 3 -1297 -1 -1353 56 -39 41 -52 87 -52 192 0 53 3 100 7 103 3 4 649 7 1435 7 l1428 0 0 -124z"
+							></path>
+							<path d="M7713 8272 l-43 -37 15 -74 c22 -101 20 -274 -4 -386 -73 -351 -321 -633 -660 -751 -177 -62 -412 -71 -580 -22 l-44 13 179 150 c98 83 186 157 196 165 16 14 15 18 -21 58 l-38 43 -259 -216 c-142 -119 -267 -225 -277 -234 -17 -17 -8 -29 208 -287 124 -148 230 -270 234 -272 5 -1 27 13 49 31 l41 35 -170 202 c-93 112 -168 204 -167 206 2 1 27 -4 57 -12 318 -82 694 -1 957 207 279 221 434 540 434 897 0 122 -36 323 -58 322 -4 -1 -26 -18 -49 -38z"></path>
+						</g>
+					</svg>
+					<button onclick="this.parentElement.style.scale = '0'" class="noThanks">NO THANKS</button>
+					<button onclick="this.parentElement.style.scale = '0'" id="noShowRotate" class="neverShow">NEVER SHOW</button>
+				</div>
+			</div>
+
+			<div id="intro">
+				<div class="title">
+					<div class="introAnimation">THE</div>
+					<span class="introAnimation">TANK</span>
+					<span class="introAnimation">GAME</span>
+				</div>
+				<button class="start introAnimation" id="start">
+					<span class="material-symbols-outlined">keyboard_double_arrow_left</span>
+					PLAY
+					<span class="material-symbols-outlined">keyboard_double_arrow_right</span>
+				</button>
+			</div>
+
+			<div id="lobby">
+				<div id="lobbyArea">
+					<button id="goToShop">
+						SHOP
+						<span class="material-symbols-outlined">keyboard_double_arrow_right</span>
+					</button>
+
+					<button id="startTankGame">
+						START
+						<span class="material-symbols-outlined">keyboard_double_arrow_right</span>
+					</button>
+				</div>
+				<div id="shop" class="pageRight">
+					<div class="upgradeTitle">SHOP</div>
+					<button id="startGameAfterShop">
+						<span class="material-symbols-outlined">keyboard_double_arrow_left</span>
+						LOBBY
+					</button>
+					<div class="upgradeOptions" id="upgradeOptions">
+						<!--Upgrade Types: Movement Speed, Turret Speed, Armor, Maxiumum Ammunition, Visibility, Projectile Speed, etc, etc-->
+						<!--<span id="rockShooterProgressLabel">4/5</span>-->
+						<!--<progress id="rockShooterTankProgressBar" value="0.8"></progress>-->
+						<div class="selectWeapon">
+							<div class="content">
+								<div class="upgradeTankSection">
+									<span class="label">AMMO</span>
+									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+								</div>
+								<div class="upgradeTankSection">
+									<span class="label">ATTACK STRENGTH</span>
+									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+								</div>
+								<div class="upgradeTankSection">
+									<span class="label">BLAST RADIUS</span>
+									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+								</div>
+								<div class="upgradeTankSection" id="upgradeArmor">
+									<span class="label">ARMOR</span>
+									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+								</div>
+								<div class="upgradeTankSection" id="upgradeSpeed">
+									<span class="label">SPEED</span>
+									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+								</div>
+								<div class="upgradeTankSection" id="upgradeTurretSpeed">
+									<span class="label">TURRET SPEED</span>
+									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+								</div>
+								<div class="upgradeTankSection" id="upgradeVisibility">
+									<span class="label">VISIBILITY</span>
+									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+								</div>
+								<div class="upgradeTankSection" id="upgradeProjectileSpeed">
+									<span class="label">PROJECTILE SPEED</span>
+									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+								</div>
+								<!-- More Projectile Upgrade = More Projectile Distance -->
+								<div class="upgradeTankSection" id="upgradeFortune">
+									<span class="label">Fortune</span>
+									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+								</div>
+								<div class="upgradeTankSection" id="upgradeReloadSpeed">
+									<span class="label">Reload Speed</span>
+									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+								</div>
+								<div class="upgradeTankSection" id="upgradeMaxAmmo">
+									<span class="label">Max Ammo</span>
+									<span class="upgradeCost">15<span class="material-symbols-outlined">diamond</span></span>
+								</div>
+							</div>
+							<div id="arrowRight"><span class="material-symbols-outlined">chevron_right</span></div>
+							<div id="arrowUp"><span class="material-symbols-outlined">keyboard_arrow_up</span></div>
+							<span class="upgradeButtons swiper-container">
+								<span class="swiper-wrapper">
+									<button class="label swiper-slide">1</button>
+									<!-- ROCK CANNON -->
+									<button class="label swiper-slide">2</button>
+									<!-- TASER -->
+									<button class="label swiper-slide">3</button>
+									<!-- FLAMETHROWER OR RICOCHET -->
+									<button class="label swiper-slide">4</button>
+									<!-- ROCKET -->
+									<button class="label swiper-slide">5</button>
+									<!-- BOMB -->
+									<button class="label swiper-slide">6</button>
+									<!-- SHOCK -->
+									<button class="label swiper-slide">7</button>
+									<!-- MACHINE GUN -->
+									<button class="label swiper-slide">8</button>
+									<!-- MINES -->
+								</span>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="game">
+				<div id="tank">
+					<div id="joystickContainer">
+						<div id="onlineJoystick"></div>
+						<div id="shootingOnlineJoystick"></div>
+					</div>
+					<div id="tankBody">
+						<div>
+							<div id="tankBase"></div>
+							<div id="treadsLeft"></div>
+							<div id="treadsRight"></div>
+							<div id="treadBumps">
+								<div class="left0 movingTread pauseAnimation"></div>
+								<div class="left1 movingTread pauseAnimation"></div>
+								<div class="left2 movingTread pauseAnimation"></div>
+								<div class="left3 movingTread pauseAnimation"></div>
+								<div class="left4 movingTread pauseAnimation"></div>
+								<div class="left5 movingTread pauseAnimation"></div>
+								<div class="left6 movingTread pauseAnimation"></div>
+								<div class="right0 movingTread pauseAnimation"></div>
+								<div class="right1 movingTread pauseAnimation"></div>
+								<div class="right2 movingTread pauseAnimation"></div>
+								<div class="right3 movingTread pauseAnimation"></div>
+								<div class="right4 movingTread pauseAnimation"></div>
+								<div class="right5 movingTread pauseAnimation"></div>
+								<div class="right6 movingTread pauseAnimation"></div>
+							</div>
+						</div>
+					</div>
+					<div id="tankTurret">
+						<div class="nozzle"></div>
+						<div class="nozzle2"></div>
+						<div class="TankHEAD"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			/* Variables */
+
+			let noShow, introLoaded, mobile, isRotating;
+			noShow = introLoaded = mobile = isRotating = false;
+
+			let angle, currentRotation, targetRotation;
+			angle = currentRotation = targetRotation = 0;
+
+			let turretSpeed = 2.5;
+			let driveSpeed = 0.5;
+
+			/* Elements */
+
+			/*ALERTS*/
+
+			const rotateScreen = document.getElementById('rotateScreen');
+			const noShowRotate = document.getElementById('noShowRotate');
+
+			/*INTRO*/
+			const elements = document.querySelectorAll('.introAnimation');
+			const introElement = document.getElementById('intro');
+			const startButton = document.getElementById('start');
+
+			/*GAME*/
+
+			const game = document.getElementById('game');
+
+			/*LOBBY*/
+			const goToShop = document.getElementById('goToShop');
+			const lobby = document.getElementById('lobby');
+			const lobbyArea = document.getElementById('lobbyArea');
+			const startTankGame = document.getElementById('startTankGame');
+
+			/*SHOP*/
+			const shop = document.getElementById('shop');
+			const beginGame = document.getElementById('startGameAfterShop');
+			const upgradeOptions = document.getElementById('upgradeOptions');
+			const upgradeTitle = document.querySelector('.upgradeTitle');
+			const upgradeButtons = document.querySelector('.upgradeButtons');
+
+			/*TANK*/
+			const onlineJoystick = document.getElementById('onlineJoystick');
+			const shootingOnlineJoystick = document.getElementById('shootingOnlineJoystick');
+			const tankBody = document.getElementById('tankBody');
+			const tankTurret = document.getElementById('tankTurret');
+
+			/* LOADING ANIMATION AT BEGINNING */
+
+			document.addEventListener('DOMContentLoaded', function () {
+				const resources = [
+					{ type: 'script', src: 'https://yoannmoinet.github.io/nipplejs/javascripts/nipplejs.js', size: 55.2 },
+					{ type: 'link', href: 'https://unpkg.com/swiper/swiper-bundle.min.css', size: 0.175 },
+					{ type: 'link', href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200', size: 0.687 },
+					{ type: 'script', src: 'https://unpkg.com/swiper/swiper-bundle.min.js', size: 6 },
+				];
+
+				const loadingScreen = document.getElementById('loadingAnimation');
+				const content = document.getElementById('restOfContent');
+				const progressBar = document.getElementById('loadingProgressBarStartup');
+				let totalSize = resources.reduce((acc, resource) => acc + (resource.size || 0), 0);
+				let loadedSize = 0;
+
+				function updateProgressBar(sizeLoaded) {
+					loadedSize += sizeLoaded;
+					const progress = (loadedSize / totalSize) * 100;
+					progressBar.style.width = progress + '%';
+					if (progress >= 100) {
+						setTimeout(() => {
+							loadingScreen.style.display = 'none';
+							content.style.display = 'block';
+							startGame();
+						}, 500); // Small delay to ensure the progress bar completes its animation
+					}
+				}
+
+				function loadResource(resource) {
+					return new Promise((resolve, reject) => {
+						let element;
+						if (resource.type === 'link') {
+							element = document.createElement('link');
+							element.rel = 'stylesheet';
+							element.href = resource.href;
+						} else if (resource.type === 'script') {
+							element = document.createElement('script');
+							element.src = resource.src;
+						}
+
+						element.onload = () => {
+							updateProgressBar(resource.size || 0);
+							resolve();
+						};
+						element.onerror = reject;
+						document.head.appendChild(element);
+					});
+				}
+
+				async function loadResources() {
+					for (const resource of resources) {
+						try {
+							await loadResource(resource);
+						} catch (error) {
+							console.error(`Failed to load resource: ${resource.href || resource.src}`, error);
+						}
+					}
+				}
+
+				loadResources();
+			});
+
+			function startGame() {
+				/* INTRO */
+				/* Start Game from Intro Screen */
+				let delay = 550;
+				elements.forEach((element) => {
+					setTimeout(() => {
+						element.classList.add('expanded');
+						introElement.classList.add('shake');
+						if (delay === 4550) introLoaded = true;
+						setTimeout(() => {
+							introElement.classList.remove('shake');
+						}, 500);
+					}, delay);
+					delay += 1000;
+				});
+
+				noShowRotate.addEventListener('click', () => {
+					noShow = true;
+				});
+
+				startButton.addEventListener('click', () => {
+					if (introLoaded) {
+						introElement.style.setProperty('visibility', 'hidden');
+						introElement.style.setProperty('opacity', '0');
+						introElement.style.setProperty('display', 'none');
+						lobby.style.setProperty('visibility', 'visible');
+						lobby.style.setProperty('opacity', '1');
+					}
+
+					let elementHeight = `${document.body.offsetHeight - upgradeTitle.offsetHeight}px`;
+					upgradeOptions.style.setProperty('height', elementHeight);
+					let upgradeTitleOffsetHeight = `${upgradeTitle.offsetHeight * 0.5}px`;
+					beginGame.style.setProperty('height', upgradeTitleOffsetHeight);
+					goToShop.style.setProperty('height', upgradeTitleOffsetHeight);
+				});
+
+				noShowRotate.addEventListener('click', () => {
+					noShow = true;
+				});
+
+				/* SHOP */
+				/* Go back and forth through lobby and shop */
+				goToShop.addEventListener('click', () => {
+					lobbyArea.classList.remove('pageLeft');
+					lobbyArea.classList.remove('pageRight');
+					shop.classList.remove('pageLeft');
+					shop.classList.remove('pageRight');
+
+					lobbyArea.classList.add('pageLeft');
+				});
+
+				beginGame.addEventListener('click', () => {
+					lobbyArea.classList.remove('pageLeft');
+					lobbyArea.classList.remove('pageRight');
+					shop.classList.remove('pageLeft');
+					shop.classList.remove('pageRight');
+
+					shop.classList.add('pageRight');
+				});
+
+				/* Addeventlistener for click in upgrade section */
+				startTankGame.addEventListener('click', () => {
+					lobby.style.setProperty('visibility', 'hidden');
+					lobby.style.setProperty('opacity', '0');
+					lobby.style.setProperty('display', 'none');
+					game.style.setProperty('visibility', 'visible');
+					game.style.setProperty('opacity', '1');
+					startTouchScreenMovement();
+				});
+
+				/* Setting tankBody Dimentions when Screen Resizes */
+				/* OnResize Function */
+				window.onresize = () => {
+					let elementHeight = `${document.body.offsetHeight - upgradeTitle.offsetHeight}px`;
+					upgradeOptions.style.setProperty('height', elementHeight);
+					let upgradeTitleOffsetHeight = `${upgradeTitle.offsetHeight * 0.5}px`;
+					beginGame.style.setProperty('height', upgradeTitleOffsetHeight);
+					goToShop.style.setProperty('height', upgradeTitleOffsetHeight);
+					if (!noShow) {
+						if (window.matchMedia('(orientation: portrait)').matches) {
+							rotateScreen.style.visibility = 'visible';
+							rotateScreen.style.opacity = '1';
+						}
+
+						// Check if the screen is landscape
+						if (window.matchMedia('(orientation: landscape)').matches) {
+							rotateScreen.style.visibility = 'hidden';
+							rotateScreen.style.opacity = '0';
+						}
+					}
+				};
+
+				/* Put Message: "Rotate Screen For Better Experience" */
+				if (window.matchMedia('(orientation: portrait)').matches) {
+					rotateScreen.style.visibility = 'visible';
+					rotateScreen.style.opacity = '1';
+				}
+
+				if (window.matchMedia('(orientation: landscape)').matches) {
+					rotateScreen.style.visibility = 'hidden';
+					rotateScreen.style.opacity = '0';
+				}
+
+				function initSwiper(direction) {
+					if (window.swiper) {
+						window.swiper.destroy(true, true);
+					}
+
+					window.swiper = new Swiper('.swiper-container', {
+						direction: direction,
+						slidesPerView: 'auto',
+						spaceBetween: 10,
+						centeredSlides: true,
+						freeMode: false, // Disable freeMode to enable snapping
+
+						on: {
+							slideChange: function () {
+								updateSelectedItem(window.swiper.activeIndex);
+							},
+						},
+					});
+				}
+
+				function updateSelectedItem(index) {
+					const slides = document.querySelectorAll('.swiper-slide');
+					slides.forEach((slide, i) => {
+						if (i === index) {
+							slide.classList.add('selected');
+						} else {
+							slide.classList.remove('selected');
+						}
+					});
+				}
+
+				document.querySelectorAll('.swiper-slide').forEach((slide, index) => {
+					slide.addEventListener('click', () => {
+						window.swiper.slideTo(index);
+						updateSelectedItem(index);
+					});
+				});
+
+				function handleOrientationChange() {
+					if (window.matchMedia('(orientation: portrait)').matches) {
+						initSwiper('horizontal');
+					} else {
+						initSwiper('vertical');
+					}
+					updateSelectedItem(0);
+				}
+
+				window.addEventListener('resize', handleOrientationChange);
+				window.addEventListener('orientationchange', handleOrientationChange);
+
+				document.addEventListener('contextmenu', function (e) {
+					e.preventDefault();
+				});
+
+				handleOrientationChange();
+
+				/* TANK */
+				/* Set animation based on tank movement speed */
+				const MovingTreads = document.querySelectorAll('.movingTread');
+				MovingTreads.forEach((div) => {
+					div.style.animation = `moveTreads ${0.4 / driveSpeed}s linear infinite`;
+				});
+
+				/* Find shortest path for tank body */
+				function getShortestRotationAngle(current, target) {
+					let delta = target - current;
+					delta = ((((delta + 180) % 360) + 540) % 360) - 180;
+					return current + delta;
+				}
+
+				/* Change tank body direction based on keys pressed using code above */
+				function updateTankDirection(exactAngle) {
+					if (typeof exactAngle !== 'undefined') {
+						angle = getShortestRotationAngle(angle, 90 - exactAngle);
+						MovingTreads.forEach((div) => {
+							div.classList.remove('pauseAnimation');
+						});
+					}
+
+					if (angle !== null) {
+						tankBody.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+					}
+				}
+
+				function startTouchScreenMovement() {
+					mobile = true;
+
+					tankBody.style.setProperty('transition', '0.1s');
+					onlineJoystick.style.setProperty('display', 'block');
+					const joystick = nipplejs.create({
+						zone: onlineJoystick,
+						shape: 'square',
+						mode: 'static',
+						size: (window.innerWidth * 0.2 + window.innerHeight * 0.2) / 2,
+						position: { left: '50%', bottom: '50%' },
+						color: '#066c00',
+						fadeTime: 500,
+					});
+
+					joystick.on('move', function (evt, data) {
+						if (!(data.force < 0.5)) {
+							updateTankDirection(data.angle.degree); // Get the angle in degrees
+						}
+					});
+
+					joystick.on('end', function () {
+						MovingTreads.forEach((div) => {
+							div.classList.add('pauseAnimation');
+						});
+					});
+
+					const shootingjoystick = nipplejs.create({
+						mode: 'dynamic',
+						zone: shootingOnlineJoystick,
+						size: (window.innerWidth * 0.12 + window.innerHeight * 0.12) / 2,
+						catchDistance: window.innerHeight * 0.2,
+						color: '#066c00',
+						fadeTime: 500,
+					});
+
+					shootingjoystick.on('start', function (evt, nipple) {
+						let onlineJoystick = document.getElementById('onlineJoystick').getBoundingClientRect();
+						if (nipple.position.x < onlineJoystick.right && nipple.position.y > onlineJoystick.top) {
+							nipple.destroy();
+						}
+					});
+
+					shootingjoystick.on('move', function (evt, data) {
+						if (!(data.force < 0.5)) {
+							updateRotation(90 - data.angle.degree);
+						}
+					});
+
+					function normalizeAngle(angle) {
+						return ((angle % 360) + 360) % 360;
+					}
+
+					let lastTime = performance.now();
+					function shootingJoystickAim(currentTime) {
+						let deltaTime = (currentTime - lastTime) / 20; // Convert to seconds
+						lastTime = currentTime;
+						if (normalizeAngle(currentRotation) !== normalizeAngle(targetRotation)) {
+							isRotating = true;
+
+							let normalizedCurrent = normalizeAngle(currentRotation);
+							let normalizedTarget = normalizeAngle(targetRotation);
+
+							let diff = normalizeAngle(normalizedTarget - normalizedCurrent);
+							if (diff > 180) diff -= 360;
+
+							let maxRotation = turretSpeed * deltaTime;
+
+							if (Math.abs(diff) > maxRotation) {
+								currentRotation += Math.sign(diff) * maxRotation;
+							} else {
+								currentRotation = targetRotation;
+								isRotating = false;
+							}
+
+							tankTurret.style.transform = `rotate(${currentRotation}deg)`;
+						} else if (isRotating) {
+							isRotating = false;
+						}
+						requestAnimationFrame(shootingJoystickAim);
+					}
+
+					requestAnimationFrame(shootingJoystickAim);
+
+					shootingjoystick.on('end', function () {
+						// Shoot When rotation is finished
+					});
+
+					function updateRotation(newAngle) {
+						targetRotation = newAngle;
+					}
+
+					return updateRotation;
+				}
+			}
+		</script>
+	</body>
 </html>
