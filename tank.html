@@ -707,8 +707,8 @@
             #tank #joystickContainer #onlineJoystick {
                 position: absolute;
                 bottom: 0;
-                width: calc((25vw + 25vh) / 2);
-                height: calc((25vw + 25vh) / 2);
+                width: calc((30vw + 30vh) / 2);
+                height: calc((30vw + 30vh) / 2);
                 display: none;
                 z-index: 10;
             }
@@ -1139,7 +1139,7 @@
                     zone: onlineJoystick,
                     shape: 'square',
                     mode: 'static',
-                    size: (window.innerWidth * 0.12 + window.innerHeight * 0.12) / 2,
+                    size: (window.innerWidth * 0.20 + window.innerHeight * 0.20) / 2,
                     position: { left: '50%', bottom: '50%' },
                     color: '#066c00',
                     fadeTime: 500,
@@ -1182,7 +1182,11 @@
                 function normalizeAngle(angle) {
                     return ((angle % 360) + 360) % 360;
                 }
-                function shootingJoystickAim() {
+
+                let lastTime = performance.now();
+                function shootingJoystickAim(currentTime) {
+                    let deltaTime = (currentTime - lastTime) / 20; // Convert to seconds
+                    lastTime = currentTime;
                     if (normalizeAngle(currentRotation) !== normalizeAngle(targetRotation)) {
                         isRotating = true;
 
@@ -1192,8 +1196,10 @@
                         let diff = normalizeAngle(normalizedTarget - normalizedCurrent);
                         if (diff > 180) diff -= 360;
 
-                        if (Math.abs(diff) > turretSpeed / 2) {
-                            currentRotation += Math.sign(diff) * (turretSpeed / 2);
+                        let maxRotation = turretSpeed * deltaTime;
+
+                        if (Math.abs(diff) > maxRotation) {
+                            currentRotation += Math.sign(diff) * maxRotation;
                         } else {
                             currentRotation = targetRotation;
                             isRotating = false;
@@ -1207,8 +1213,6 @@
                 }
 
                 requestAnimationFrame(shootingJoystickAim);
-
-                shootingJoystickAim();
 
                 shootingjoystick.on('end', function () {
                     // Shoot When rotation is finished
