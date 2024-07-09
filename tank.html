@@ -930,398 +930,349 @@
 				</div>
 			</div>
 		</div>
+		<script src="./Loader.js"></script>
 		<script>
-			/* Variables */
-
-			let noShow, introLoaded, mobile, isRotating;
-			noShow = introLoaded = mobile = isRotating = false;
-
-			let angle, currentRotation, targetRotation;
-			angle = currentRotation = targetRotation = 0;
-
-			let turretSpeed = 2.5;
-			let driveSpeed = 0.5;
-
-			/* Elements */
-
-			/*ALERTS*/
-
-			const rotateScreen = document.getElementById('rotateScreen');
-			const noShowRotate = document.getElementById('noShowRotate');
-
-			/*INTRO*/
-			const elements = document.querySelectorAll('.introAnimation');
-			const introElement = document.getElementById('intro');
-			const startButton = document.getElementById('start');
-
-			/*GAME*/
-
-			const game = document.getElementById('game');
-
-			/*LOBBY*/
-			const goToShop = document.getElementById('goToShop');
-			const lobby = document.getElementById('lobby');
-			const lobbyArea = document.getElementById('lobbyArea');
-			const startTankGame = document.getElementById('startTankGame');
-
-			/*SHOP*/
-			const shop = document.getElementById('shop');
-			const beginGame = document.getElementById('startGameAfterShop');
-			const upgradeOptions = document.getElementById('upgradeOptions');
-			const upgradeTitle = document.querySelector('.upgradeTitle');
-			const upgradeButtons = document.querySelector('.upgradeButtons');
-
-			/*TANK*/
-			const onlineJoystick = document.getElementById('onlineJoystick');
-			const shootingOnlineJoystick = document.getElementById('shootingOnlineJoystick');
-			const tankBody = document.getElementById('tankBody');
-			const tankTurret = document.getElementById('tankTurret');
-
-			/* LOADING ANIMATION AT BEGINNING */
-
-			document.addEventListener('DOMContentLoaded', function () {
-				const resources = [
-					{ type: 'script', src: 'https://yoannmoinet.github.io/nipplejs/javascripts/nipplejs.js', size: 55.2 },
-					{ type: 'link', href: 'https://unpkg.com/swiper/swiper-bundle.min.css', size: 0.175 },
-					{ type: 'link', href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200', size: 0.687 },
-					{ type: 'script', src: 'https://unpkg.com/swiper/swiper-bundle.min.js', size: 6 },
-				];
-
-				const loadingScreen = document.getElementById('loadingAnimation');
-				const content = document.getElementById('restOfContent');
-				const progressBar = document.getElementById('loadingProgressBarStartup');
-				let totalSize = resources.reduce((acc, resource) => acc + (resource.size || 0), 0);
-				let loadedSize = 0;
-
-				function updateProgressBar(sizeLoaded) {
-					loadedSize += sizeLoaded;
-					const progress = (loadedSize / totalSize) * 100;
-					progressBar.style.width = progress + '%';
-					if (progress >= 100) {
-						setTimeout(() => {
-							loadingScreen.style.display = 'none';
-							content.style.display = 'block';
-							startGame();
-						}, 500); // Small delay to ensure the progress bar completes its animation
-					}
-				}
-
-				function loadResource(resource) {
-					return new Promise((resolve, reject) => {
-						let element;
-						if (resource.type === 'link') {
-							element = document.createElement('link');
-							element.rel = 'stylesheet';
-							element.href = resource.href;
-						} else if (resource.type === 'script') {
-							element = document.createElement('script');
-							element.src = resource.src;
-						}
-
-						element.onload = () => {
-							updateProgressBar(resource.size || 0);
-							resolve();
-						};
-						element.onerror = reject;
-						document.head.appendChild(element);
-					});
-				}
-
-				async function loadResources() {
-					for (const resource of resources) {
-						try {
-							await loadResource(resource);
-						} catch (error) {
-							console.error(`Failed to load resource: ${resource.href || resource.src}`, error);
-						}
-					}
-				}
-
-				loadResources();
-			});
-
-			function startGame() {
-				/* INTRO */
-				/* Start Game from Intro Screen */
-				let delay = 550;
-				elements.forEach((element) => {
-					setTimeout(() => {
-						element.classList.add('expanded');
-						introElement.classList.add('shake');
-						if (delay === 4550) introLoaded = true;
-						setTimeout(() => {
-							introElement.classList.remove('shake');
-						}, 500);
-					}, delay);
-					delay += 1000;
-				});
-
-				noShowRotate.addEventListener('click', () => {
-					noShow = true;
-				});
-
-				startButton.addEventListener('click', () => {
-					if (introLoaded) {
-						introElement.style.setProperty('visibility', 'hidden');
-						introElement.style.setProperty('opacity', '0');
-						introElement.style.setProperty('display', 'none');
-						lobby.style.setProperty('visibility', 'visible');
-						lobby.style.setProperty('opacity', '1');
-					}
-
-					let elementHeight = `${document.body.offsetHeight - upgradeTitle.offsetHeight}px`;
-					upgradeOptions.style.setProperty('height', elementHeight);
-					let upgradeTitleOffsetHeight = `${upgradeTitle.offsetHeight * 0.5}px`;
-					beginGame.style.setProperty('height', upgradeTitleOffsetHeight);
-					goToShop.style.setProperty('height', upgradeTitleOffsetHeight);
-				});
-
-				noShowRotate.addEventListener('click', () => {
-					noShow = true;
-				});
-
-				/* SHOP */
-				/* Go back and forth through lobby and shop */
-				goToShop.addEventListener('click', () => {
-					lobbyArea.classList.remove('pageLeft');
-					lobbyArea.classList.remove('pageRight');
-					shop.classList.remove('pageLeft');
-					shop.classList.remove('pageRight');
-
-					lobbyArea.classList.add('pageLeft');
-				});
-
-				beginGame.addEventListener('click', () => {
-					lobbyArea.classList.remove('pageLeft');
-					lobbyArea.classList.remove('pageRight');
-					shop.classList.remove('pageLeft');
-					shop.classList.remove('pageRight');
-
-					shop.classList.add('pageRight');
-				});
-
-				/* Addeventlistener for click in upgrade section */
-				startTankGame.addEventListener('click', () => {
-					lobby.style.setProperty('visibility', 'hidden');
-					lobby.style.setProperty('opacity', '0');
-					lobby.style.setProperty('display', 'none');
-					game.style.setProperty('visibility', 'visible');
-					game.style.setProperty('opacity', '1');
-					startTouchScreenMovement();
-				});
-
-				/* Setting tankBody Dimentions when Screen Resizes */
-				/* OnResize Function */
-				window.onresize = () => {
-					let elementHeight = `${document.body.offsetHeight - upgradeTitle.offsetHeight}px`;
-					upgradeOptions.style.setProperty('height', elementHeight);
-					let upgradeTitleOffsetHeight = `${upgradeTitle.offsetHeight * 0.5}px`;
-					beginGame.style.setProperty('height', upgradeTitleOffsetHeight);
-					goToShop.style.setProperty('height', upgradeTitleOffsetHeight);
-					if (!noShow) {
-						if (window.matchMedia('(orientation: portrait)').matches) {
-							rotateScreen.style.visibility = 'visible';
-							rotateScreen.style.opacity = '1';
-						}
-
-						// Check if the screen is landscape
-						if (window.matchMedia('(orientation: landscape)').matches) {
-							rotateScreen.style.visibility = 'hidden';
-							rotateScreen.style.opacity = '0';
-						}
-					}
-				};
-
-				/* Put Message: "Rotate Screen For Better Experience" */
-				if (window.matchMedia('(orientation: portrait)').matches) {
-					rotateScreen.style.visibility = 'visible';
-					rotateScreen.style.opacity = '1';
-				}
-
-				if (window.matchMedia('(orientation: landscape)').matches) {
-					rotateScreen.style.visibility = 'hidden';
-					rotateScreen.style.opacity = '0';
-				}
-
-				function initSwiper(direction) {
-					if (window.swiper) {
-						window.swiper.destroy(true, true);
-					}
-
-					window.swiper = new Swiper('.swiper-container', {
-						direction: direction,
-						slidesPerView: 'auto',
-						spaceBetween: 10,
-						centeredSlides: true,
-						freeMode: false, // Disable freeMode to enable snapping
-
-						on: {
-							slideChange: function () {
-								updateSelectedItem(window.swiper.activeIndex);
-							},
-						},
-					});
-				}
-
-				function updateSelectedItem(index) {
-					const slides = document.querySelectorAll('.swiper-slide');
-					slides.forEach((slide, i) => {
-						if (i === index) {
-							slide.classList.add('selected');
-						} else {
-							slide.classList.remove('selected');
-						}
-					});
-				}
-
-				document.querySelectorAll('.swiper-slide').forEach((slide, index) => {
-					slide.addEventListener('click', () => {
-						window.swiper.slideTo(index);
-						updateSelectedItem(index);
-					});
-				});
-
-				function handleOrientationChange() {
-					if (window.matchMedia('(orientation: portrait)').matches) {
-						initSwiper('horizontal');
-					} else {
-						initSwiper('vertical');
-					}
-					updateSelectedItem(0);
-				}
-
-				window.addEventListener('resize', handleOrientationChange);
-				window.addEventListener('orientationchange', handleOrientationChange);
-
-				document.addEventListener('contextmenu', function (e) {
-					e.preventDefault();
-				});
-
-				handleOrientationChange();
-
-				/* TANK */
-				/* Set animation based on tank movement speed */
-				const MovingTreads = document.querySelectorAll('.movingTread');
-				MovingTreads.forEach((div) => {
-					div.style.animation = `moveTreads ${0.4 / driveSpeed}s linear infinite`;
-				});
-
-				/* Find shortest path for tank body */
-				function getShortestRotationAngle(current, target) {
-					let delta = target - current;
-					delta = ((((delta + 180) % 360) + 540) % 360) - 180;
-					return current + delta;
-				}
-
-				/* Change tank body direction based on keys pressed using code above */
-				function updateTankDirection(exactAngle) {
-					if (typeof exactAngle !== 'undefined') {
-						angle = getShortestRotationAngle(angle, 90 - exactAngle);
-						MovingTreads.forEach((div) => {
-							div.classList.remove('pauseAnimation');
-						});
-					}
-
-					if (angle !== null) {
-						tankBody.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
-					}
-				}
-
-				function startTouchScreenMovement() {
-					mobile = true;
-
-					tankBody.style.setProperty('transition', '0.1s');
-					onlineJoystick.style.setProperty('display', 'block');
-					const joystick = nipplejs.create({
-						zone: onlineJoystick,
-						shape: 'square',
-						mode: 'static',
-						size: (window.innerWidth * 0.2 + window.innerHeight * 0.2) / 2,
-						position: { left: '50%', bottom: '50%' },
-						color: '#066c00',
-						fadeTime: 500,
-					});
-
-					joystick.on('move', function (evt, data) {
-						if (!(data.force < 0.5)) {
-							updateTankDirection(data.angle.degree); // Get the angle in degrees
-						}
-					});
-
-					joystick.on('end', function () {
-						MovingTreads.forEach((div) => {
-							div.classList.add('pauseAnimation');
-						});
-					});
-
-					const shootingjoystick = nipplejs.create({
-						mode: 'dynamic',
-						zone: shootingOnlineJoystick,
-						size: (window.innerWidth * 0.12 + window.innerHeight * 0.12) / 2,
-						catchDistance: window.innerHeight * 0.2,
-						color: '#066c00',
-						fadeTime: 500,
-					});
-
-					shootingjoystick.on('start', function (evt, nipple) {
-						let onlineJoystick = document.getElementById('onlineJoystick').getBoundingClientRect();
-						if (nipple.position.x < onlineJoystick.right && nipple.position.y > onlineJoystick.top) {
-							nipple.destroy();
-						}
-					});
-
-					shootingjoystick.on('move', function (evt, data) {
-						if (!(data.force < 0.5)) {
-							updateRotation(90 - data.angle.degree);
-						}
-					});
-
-					function normalizeAngle(angle) {
-						return ((angle % 360) + 360) % 360;
-					}
-
-					let lastTime = performance.now();
-					function shootingJoystickAim(currentTime) {
-						let deltaTime = (currentTime - lastTime) / 20; // Convert to seconds
-						lastTime = currentTime;
-						if (normalizeAngle(currentRotation) !== normalizeAngle(targetRotation)) {
-							isRotating = true;
-
-							let normalizedCurrent = normalizeAngle(currentRotation);
-							let normalizedTarget = normalizeAngle(targetRotation);
-
-							let diff = normalizeAngle(normalizedTarget - normalizedCurrent);
-							if (diff > 180) diff -= 360;
-
-							let maxRotation = turretSpeed * deltaTime;
-
-							if (Math.abs(diff) > maxRotation) {
-								currentRotation += Math.sign(diff) * maxRotation;
-							} else {
-								currentRotation = targetRotation;
-								isRotating = false;
-							}
-
-							tankTurret.style.transform = `rotate(${currentRotation}deg)`;
-						} else if (isRotating) {
-							isRotating = false;
-						}
-						requestAnimationFrame(shootingJoystickAim);
-					}
-
-					requestAnimationFrame(shootingJoystickAim);
-
-					shootingjoystick.on('end', function () {
-						// Shoot When rotation is finished
-					});
-
-					function updateRotation(newAngle) {
-						targetRotation = newAngle;
-					}
-
-					return updateRotation;
-				}
-			}
+		    function s() {
+		        /* Variables */
+		        let noShow, introLoaded, mobile, isRotating;
+		        noShow = introLoaded = mobile = isRotating = false;
+
+		        let angle, currentRotation, targetRotation;
+		        angle = currentRotation = targetRotation = 0;
+
+		        let turretSpeed = 2.5;
+		        let driveSpeed = 0.5;
+
+		        /* Elements */
+
+		        /*ALERTS*/
+
+		        const rotateScreen = document.getElementById("rotateScreen");
+		        const noShowRotate = document.getElementById("noShowRotate");
+
+		        /*INTRO*/
+		        const elements = document.querySelectorAll(".introAnimation");
+		        const introElement = document.getElementById("intro");
+		        const startButton = document.getElementById("start");
+
+		        /*GAME*/
+
+		        const game = document.getElementById("game");
+
+		        /*LOBBY*/
+		        const goToShop = document.getElementById("goToShop");
+		        const lobby = document.getElementById("lobby");
+		        const lobbyArea = document.getElementById("lobbyArea");
+		        const startTankGame = document.getElementById("startTankGame");
+
+		        /*SHOP*/
+		        const shop = document.getElementById("shop");
+		        const beginGame = document.getElementById("startGameAfterShop");
+		        const upgradeOptions = document.getElementById("upgradeOptions");
+		        const upgradeTitle = document.querySelector(".upgradeTitle");
+		        const upgradeButtons = document.querySelector(".upgradeButtons");
+
+		        /*TANK*/
+		        const onlineJoystick = document.getElementById("onlineJoystick");
+		        const shootingOnlineJoystick = document.getElementById(
+		            "shootingOnlineJoystick",
+		        );
+		        const tankBody = document.getElementById("tankBody");
+		        const tankTurret = document.getElementById("tankTurret");
+
+		        /* INTRO */
+		        /* Start Game from Intro Screen */
+		        let delay = 550;
+		        elements.forEach((element) => {
+		            setTimeout(() => {
+		                element.classList.add("expanded");
+		                introElement.classList.add("shake");
+		                if (delay === 4550) introLoaded = true;
+		                setTimeout(() => {
+		                    introElement.classList.remove("shake");
+		                }, 500);
+		            }, delay);
+		            delay += 1000;
+		        });
+
+		        noShowRotate.addEventListener("click", () => {
+		            noShow = true;
+		        });
+
+		        startButton.addEventListener("click", () => {
+		            if (introLoaded) {
+		                introElement.style.setProperty("visibility", "hidden");
+		                introElement.style.setProperty("opacity", "0");
+		                introElement.style.setProperty("display", "none");
+		                lobby.style.setProperty("visibility", "visible");
+		                lobby.style.setProperty("opacity", "1");
+		            }
+
+		            let elementHeight = `${document.body.offsetHeight - upgradeTitle.offsetHeight}px`;
+		            upgradeOptions.style.setProperty("height", elementHeight);
+		            let upgradeTitleOffsetHeight = `${upgradeTitle.offsetHeight * 0.5}px`;
+		            beginGame.style.setProperty("height", upgradeTitleOffsetHeight);
+		            goToShop.style.setProperty("height", upgradeTitleOffsetHeight);
+		        });
+
+		        noShowRotate.addEventListener("click", () => {
+		            noShow = true;
+		        });
+
+		        /* SHOP */
+		        /* Go back and forth through lobby and shop */
+		        goToShop.addEventListener("click", () => {
+		            lobbyArea.classList.remove("pageLeft");
+		            lobbyArea.classList.remove("pageRight");
+		            shop.classList.remove("pageLeft");
+		            shop.classList.remove("pageRight");
+
+		            lobbyArea.classList.add("pageLeft");
+		        });
+
+		        beginGame.addEventListener("click", () => {
+		            lobbyArea.classList.remove("pageLeft");
+		            lobbyArea.classList.remove("pageRight");
+		            shop.classList.remove("pageLeft");
+		            shop.classList.remove("pageRight");
+
+		            shop.classList.add("pageRight");
+		        });
+
+		        /* Addeventlistener for click in upgrade section */
+		        startTankGame.addEventListener("click", () => {
+		            lobby.style.setProperty("visibility", "hidden");
+		            lobby.style.setProperty("opacity", "0");
+		            lobby.style.setProperty("display", "none");
+		            game.style.setProperty("visibility", "visible");
+		            game.style.setProperty("opacity", "1");
+		            startTouchScreenMovement();
+		        });
+
+		        /* Setting tankBody Dimentions when Screen Resizes */
+		        /* OnResize Function */
+		        window.onresize = () => {
+		            let elementHeight = `${document.body.offsetHeight - upgradeTitle.offsetHeight}px`;
+		            upgradeOptions.style.setProperty("height", elementHeight);
+		            let upgradeTitleOffsetHeight = `${upgradeTitle.offsetHeight * 0.5}px`;
+		            beginGame.style.setProperty("height", upgradeTitleOffsetHeight);
+		            goToShop.style.setProperty("height", upgradeTitleOffsetHeight);
+		            if (!noShow) {
+		                if (window.matchMedia("(orientation: portrait)").matches) {
+		                    rotateScreen.style.visibility = "visible";
+		                    rotateScreen.style.opacity = "1";
+		                }
+
+		                // Check if the screen is landscape
+		                if (window.matchMedia("(orientation: landscape)").matches) {
+		                    rotateScreen.style.visibility = "hidden";
+		                    rotateScreen.style.opacity = "0";
+		                }
+		            }
+		        };
+
+		        /* Put Message: "Rotate Screen For Better Experience" */
+		        if (window.matchMedia("(orientation: portrait)").matches) {
+		            rotateScreen.style.visibility = "visible";
+		            rotateScreen.style.opacity = "1";
+		        }
+
+		        if (window.matchMedia("(orientation: landscape)").matches) {
+		            rotateScreen.style.visibility = "hidden";
+		            rotateScreen.style.opacity = "0";
+		        }
+
+		        function initSwiper(direction) {
+		            if (window.swiper) {
+		                window.swiper.destroy(true, true);
+		            }
+
+		            window.swiper = new Swiper(".swiper-container", {
+		                direction: direction,
+		                slidesPerView: "auto",
+		                spaceBetween: 10,
+		                centeredSlides: true,
+		                freeMode: false, // Disable freeMode to enable snapping
+
+		                on: {
+		                    slideChange: function () {
+		                        updateSelectedItem(window.swiper.activeIndex);
+		                    },
+		                },
+		            });
+		        }
+
+		        function updateSelectedItem(index) {
+		            const slides = document.querySelectorAll(".swiper-slide");
+		            slides.forEach((slide, i) => {
+		                if (i === index) {
+		                    slide.classList.add("selected");
+		                } else {
+		                    slide.classList.remove("selected");
+		                }
+		            });
+		        }
+
+		        document.querySelectorAll(".swiper-slide").forEach((slide, index) => {
+		            slide.addEventListener("click", () => {
+		                window.swiper.slideTo(index);
+		                updateSelectedItem(index);
+		            });
+		        });
+
+		        function handleOrientationChange() {
+		            if (window.matchMedia("(orientation: portrait)").matches) {
+		                initSwiper("horizontal");
+		            } else {
+		                initSwiper("vertical");
+		            }
+		            updateSelectedItem(0);
+		        }
+
+		        window.addEventListener("resize", handleOrientationChange);
+		        window.addEventListener("orientationchange", handleOrientationChange);
+
+		        document.addEventListener("contextmenu", function (e) {
+		            e.preventDefault();
+		        });
+
+		        handleOrientationChange();
+
+		        /* TANK */
+		        /* Set animation based on tank movement speed */
+		        const MovingTreads = document.querySelectorAll(".movingTread");
+		        MovingTreads.forEach((div) => {
+		            div.style.animation = `moveTreads ${0.4 / driveSpeed}s linear infinite`;
+		        });
+
+		        /* Find shortest path for tank body */
+		        function getShortestRotationAngle(current, target) {
+		            let delta = target - current;
+		            delta = ((((delta + 180) % 360) + 540) % 360) - 180;
+		            return current + delta;
+		        }
+
+		        /* Change tank body direction based on keys pressed using code above */
+		        function updateTankDirection(exactAngle) {
+		            if (typeof exactAngle !== "undefined") {
+		                angle = getShortestRotationAngle(angle, 90 - exactAngle);
+		                MovingTreads.forEach((div) => {
+		                    div.classList.remove("pauseAnimation");
+		                });
+		            }
+
+		            if (angle !== null) {
+		                tankBody.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+		            }
+		        }
+
+		        function startTouchScreenMovement() {
+		            mobile = true;
+
+		            tankBody.style.setProperty("transition", "0.1s");
+		            onlineJoystick.style.setProperty("display", "block");
+		            const joystick = nipplejs.create({
+		                zone: onlineJoystick,
+		                shape: "square",
+		                mode: "static",
+		                size: (window.innerWidth * 0.2 + window.innerHeight * 0.2) / 2,
+		                position: { left: "50%", bottom: "50%" },
+		                color: "#066c00",
+		                fadeTime: 500,
+		            });
+
+		            joystick.on("move", function (evt, data) {
+		                if (!(data.force < 0.5)) {
+		                    updateTankDirection(data.angle.degree); // Get the angle in degrees
+		                }
+		            });
+
+		            joystick.on("end", function () {
+		                MovingTreads.forEach((div) => {
+		                    div.classList.add("pauseAnimation");
+		                });
+		            });
+
+		            const shootingjoystick = nipplejs.create({
+		                mode: "dynamic",
+		                zone: shootingOnlineJoystick,
+		                size:
+		                    (window.innerWidth * 0.12 + window.innerHeight * 0.12) / 2,
+		                catchDistance: window.innerHeight * 0.2,
+		                color: "#066c00",
+		                fadeTime: 500,
+		            });
+
+		            shootingjoystick.on("start", function (evt, nipple) {
+		                let onlineJoystick = document
+		                    .getElementById("onlineJoystick")
+		                    .getBoundingClientRect();
+		                if (
+		                    nipple.position.x < onlineJoystick.right &&
+		                    nipple.position.y > onlineJoystick.top
+		                ) {
+		                    nipple.destroy();
+		                }
+		            });
+
+		            shootingjoystick.on("move", function (evt, data) {
+		                if (!(data.force < 0.5)) {
+		                    updateRotation(90 - data.angle.degree);
+		                }
+		            });
+
+		            function normalizeAngle(angle) {
+		                return ((angle % 360) + 360) % 360;
+		            }
+
+		            let lastTime = performance.now();
+
+		            function shootingJoystickAim(currentTime) {
+		                let deltaTime = (currentTime - lastTime) / 20; // Convert to seconds
+		                lastTime = currentTime;
+		                if (
+		                    normalizeAngle(currentRotation) !==
+		                    normalizeAngle(targetRotation)
+		                ) {
+		                    isRotating = true;
+
+		                    let normalizedCurrent = normalizeAngle(currentRotation);
+		                    let normalizedTarget = normalizeAngle(targetRotation);
+
+		                    let diff = normalizeAngle(
+		                        normalizedTarget - normalizedCurrent,
+		                    );
+		                    if (diff > 180) diff -= 360;
+
+		                    let maxRotation = turretSpeed * deltaTime;
+
+		                    if (Math.abs(diff) > maxRotation) {
+		                        currentRotation += Math.sign(diff) * maxRotation;
+		                    } else {
+		                        currentRotation = targetRotation;
+		                        isRotating = false;
+		                    }
+
+		                    tankTurret.style.transform = `rotate(${currentRotation}deg)`;
+		                } else if (isRotating) {
+		                    isRotating = false;
+		                }
+		                requestAnimationFrame(shootingJoystickAim);
+		            }
+
+		            requestAnimationFrame(shootingJoystickAim);
+
+		            shootingjoystick.on("end", function () {
+		                // Shoot When rotation is finished
+		            });
+
+		            function updateRotation(newAngle) {
+		                targetRotation = newAngle;
+		            }
+
+		            return updateRotation;
+		        }
+		    }
 		</script>
 	</body>
 </html>
