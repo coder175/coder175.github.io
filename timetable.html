@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>School Schedule Countdown</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Anton+SC&display=swap');
+
+.anton-sc-regular {
+                font-family: "Anton SC", sans-serif;
+                font-weight: 400;
+                font-style: normal;
+              }
+
+
+            html, body {
+                font-family: Arial, sans-serif;
+                text-align: center;
+                font-size: calc(2vw + 2vh);
+                height: 100%;
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .timer {
+                font-size: calc(2vw + 2vh);
+                margin-top: 20px;
+            }
+
+            #noClass {
+                display: none;
+                font-size: calc(5vw + 5vh)
+            }
+
+            #currentClassContainer {
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+              }
+        </style>
+    </head>
+    <body class="anton-sc-regular">
+
+
+        <h1 id="currentClassContainer">Current Class: <span id="currentClass"></span>
+        <span id="timeLeftContainer" class="timer">
+            <span id="timeLeft"></span>
+        </span>
+        </h1>
+        <h1 id="noClass">
+            No School Right Now!
+        </h1>
+        <script>
+            // Define your schedule here
+            const schedule = [
+                { name: '1st Period', start: '08:00', end: '08:45' },
+                { name: '2nd Period', start: '08:50', end: '09:30' },
+                { name: '3rd Period', start: '09:35', end: '10:15' },
+                { name: '4th Period', start: '10:20', end: '11:00' },
+                { name: '5th Period', start: '11:05', end: '11:45' },
+                { name: '6th Period', start: '17:00', end: '18:00' }, // 6th Period starts at 17:00 and ends at 18:00
+                { name: '7th Period', start: '18:05', end: '18:45' }
+            ];
+
+            function getCurrentTime() {
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                return `${hours}:${minutes}`;
+            }
+
+            function getTimeDifference(endTime) {
+                const now = new Date();
+                const end = new Date(now.toDateString() + ' ' + endTime);
+                const difference = end - now; // milliseconds difference
+
+                const minutesLeft = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const secondsLeft = Math.floor((difference % (1000 * 60)) / 1000);
+
+                return `${minutesLeft} minutes ${secondsLeft} seconds`;
+            }
+
+            function updateSchedule() {
+                const currentTime = getCurrentTime();
+
+                let classFound = false;
+
+                for (const period of schedule) {
+                    if (currentTime >= period.start && currentTime < period.end) {
+                        document.getElementById('currentClassContainer').style.display = 'block';
+                        document.getElementById('timeLeftContainer').style.display = 'block';
+                        document.getElementById('currentClass').innerText = period.name;
+                        document.getElementById('timeLeft').innerText = getTimeDifference(period.end);
+                        classFound = true;
+                        break;
+                    }
+                }
+
+                if (!classFound) {
+                    document.getElementById('currentClassContainer').style.display = 'none';
+                    document.getElementById('timeLeftContainer').style.display = 'none';
+                    document.getElementById('noClass').style.display = 'block';
+                }
+            }
+
+            setInterval(updateSchedule, 1); // Update every second
+
+        </script>
+
+    </body>
+</html>
