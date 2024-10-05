@@ -50,12 +50,13 @@
 			:root {
 				--darkest-green: #044100;
 				--darker-green: #055600;
-				--dark-green: #066c00;
+				--dark-green: #066c00; /* #B80F0A; */
 				--light-green: #4caf50;
 				--lighter-green: #26cd79;
 				--grey: #747579;
 				--yellow: #cddc39;
-				--u: calc((0.8vw + 0.8vh)); <!-- NEEDS TO BE .25vw + .25vh -->
+				--orange: #d2592c;
+				--u: calc((0.3vw + 0.3vh)); /* NEEDS TO BE .3vw + .3vh */
 			}
 
 			@font-face {
@@ -590,7 +591,7 @@
 			}
 
 			#shop .upgradeOptions .selectWeapon .upgradeButtons button {
-				border: 0.15vw dashed var(--darkest-green);
+				border: calc((0.2vw + 0.2vh) / 2) dashed var(--darkest-green);
 				display: flex;
 				align-items: center;
 				justify-content: center;
@@ -607,6 +608,7 @@
 
 			#shop .upgradeOptions .selectWeapon .upgradeButtons button.selected {
 				background-color: var(--dark-green);
+				border: calc((0.2vw + 0.2vh) / 2) solid black;
 				color: white;
 			}
 
@@ -619,7 +621,7 @@
 				border-radius: 5vw;
 				cursor: grab;
 				gap: 2%;
-				border: 0.05vw dashed black;
+				border: calc((0.2vw + 0.2vh) / 2) dashed black;
 				box-shadow:
 					inset 2vw 0 2vw -2vw var(--grey),
 					inset -2vw 0 2vw -2vw var(--grey);
@@ -745,14 +747,22 @@
             ------------------------------------------------------------------*/
 
 			#tank,
-			#tank * {
+			#tank *,
+			.tank-f,
+			.tank-f * {
 				position: absolute;
 				border-radius: calc((var(--u) * 0.8));
 			}
 
+			.tank-wrapper-f {
+				position: relative;
+			}
+
 			#tankBody *:not(#treadBumps),
-			#tankTurret *:not(#treadBumps) {
-				box-shadow: inset 0 0 0.5vw 0.5vw rgba(0, 0, 0, 0.2);
+			#tankTurret *:not(#treadBumps),
+			.tankBody-f *:not(.treadBumps-f),
+			.tankTurret-f *:not(.treadBumps-f) {
+				box-shadow: inset 0 0 calc((var(--u) * 0.5)) calc((var(--u) * 0.5)) rgba(0, 0, 0, 0.3);
 			}
 
 			#tank #tankBody {
@@ -762,15 +772,22 @@
 				transition: transform 0.2s linear;
 			}
 
-			#tank #tankBody div #tankBase {
+			.tank-f .tankBody-f {
+				position: absolute;
+				transition: transform 0.2s linear;
+			}
+
+			#tank #tankBody div #tankBase,
+			.tank-f .tankBody-f div .tankBase-f {
 				width: calc((var(--u) * 10));
 				height: calc((var(--u) * 10));
-				background-color: var(--dark-green);
+				background-color: #d9724b;
 				left: calc((var(--u) * -5));
 				top: calc((var(--u) * -5));
 			}
 
-			#tank #tankBody div #treadsLeft {
+			#tank #tankBody div #treadsLeft,
+			.tank-f .tankBody-f div .treadsLeft-f {
 				z-index: -1;
 				width: calc((var(--u) * 3));
 				top: calc((var(--u) * -6.25));
@@ -780,7 +797,8 @@
 				border-radius: calc((var(--u) * 0.5)) 0 0 calc((var(--u) * 0.5));
 			}
 
-			#tank #tankBody div #treadsRight {
+			#tank #tankBody div #treadsRight,
+			.tank-f .tankBody-f div .treadsRight-f {
 				z-index: -1;
 				width: calc((var(--u) * 3));
 				top: calc((var(--u) * -6.25));
@@ -790,7 +808,8 @@
 				border-radius: 0 calc((var(--u) * 0.5)) calc((var(--u) * 0.5)) 0;
 			}
 
-			#tank #tankBody div #treadBumps {
+			#tank #tankBody div #treadBumps,
+			.tank-f .tankBody-f div .treadBumps-f {
 				height: calc((var(--u) * 12.5));
 				width: calc((var(--u) * 12.5));
 				left: calc((var(--u) * -6.25));
@@ -798,13 +817,15 @@
 				overflow: hidden;
 			}
 
-			#tank #tankBody div #treadBumps * {
+			#tank #tankBody div #treadBumps *,
+			.tank-f .tankBody-f div .treadBumps-f * {
 				height: calc((var(--u) * 0.3));
 				background: rgb(116, 117, 121);
 				background: linear-gradient(0deg, rgba(116, 117, 121, 1) 0%, rgba(76, 77, 79, 1) 50%, rgba(116, 117, 121, 1) 100%);
 				border-radius: 0;
 				width: calc((var(--u) * 3));
 				z-index: -1;
+				min-width: 1px;
 			}
 
 			.right0,
@@ -813,51 +834,72 @@
 			.right3,
 			.right4,
 			.right5,
-			.right6 {
+			.right6,
+			.right0-f,
+			.right1-f,
+			.right2-f,
+			.right3-f,
+			.right4-f,
+			.right5-f,
+			.right6-f {
 				left: calc((var(--u) * 9.5));
 			}
 
-			.left0 {
+			.left0,
+			.left0-f {
 				top: 0;
 			}
-			.left1 {
+			.left1,
+			.left1-f {
 				top: calc((var(--u) * 2.26));
 			}
-			.left2 {
+			.left2,
+			.left2-f {
 				top: calc((var(--u) * 4.52));
 			}
-			.left3 {
+			.left3,
+			.left3-f {
 				top: calc((var(--u) * 6.78));
 			}
-			.left4 {
+			.left4,
+			.left4-f {
 				top: calc((var(--u) * 9.04));
 			}
-			.left5 {
+			.left5,
+			.left5-f {
 				top: calc((var(--u) * 11.3));
 			}
-			.left6 {
+			.left6,
+			.left6-f {
 				top: calc((var(--u) * 13.56));
 			}
 
-			.right0 {
+			.right0,
+			.right0-f {
 				top: 0;
 			}
-			.right1 {
+			.right1,
+			.right1-f {
 				top: calc((var(--u) * 2.26));
 			}
-			.right2 {
+			.right2,
+			.right2-f {
 				top: calc((var(--u) * 4.52));
 			}
-			.right3 {
+			.right3,
+			.right3-f {
 				top: calc((var(--u) * 6.78));
 			}
-			.right4 {
+			.right4,
+			.right4-f {
 				top: calc((var(--u) * 9.04));
 			}
-			.right5 {
+			.right5,
+			.right5-f {
 				top: calc((var(--u) * 11.3));
 			}
-			.right6 {
+			.right6,
+			.right6-f {
 				top: calc((var(--u) * 13.56));
 			}
 
@@ -867,23 +909,124 @@
 				top: 50vh;
 			}
 
+			@media screen and (orientation: landscape) {
+				.tankTurret-f {
+					rotate: 90deg;
+				}
+			}
+
+			.tankTurret-f {
+				position: absolute;
+				width: 0;
+				height: 0;
+			}
+
+			.tankTurret-f * {
+				position: absolute;
+			}
+
+			.rocket1 {
+				width: calc((var(--u) * 3));
+				height: calc((var(--u) * 10));
+				background-color: var(--orange);
+				left: calc((var(--u) * -1.5));
+				top: calc((var(--u) * -6.7));
+				border-radius: calc((var(--u) * 0.4)) !important;
+				border-bottom-left-radius: 0 !important;
+				border-bottom-right-radius: 0 !important;
+				border-bottom: none !important;
+			}
+
+			.rocket2 {
+				width: calc((var(--u) * 6));
+				height: calc((var(--u) * 5.5));
+				border-radius: calc((var(--u) * 0.4)) !important;
+				left: calc((var(--u) * -3));
+				top: calc((var(--u) * -1.2));
+				background-color: var(--yellow);
+				box-shadow: none !important;
+				clip-path: polygon(50% 0, 100% 40%, 100% 100%, 50% 60%, 0 100%, 0 40%);
+				z-index: -1;
+			}
+
+			.rocket3 {
+				width: calc((var(--u) * 3));
+				height: calc((var(--u) * 2.5));
+				border-radius: calc((var(--u) * 0.4)) !important;
+				left: calc((var(--u) * -1.5));
+				top: calc((var(--u) * -8.9));
+				background-color: var(--yellow);
+				box-shadow: none !important;
+				clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+				z-index: -1;
+			}
+
+			.rico2 *, .rico2.outer {
+				width: calc((var(--u) * 2));
+				height: calc((var(--u) * 5));
+				box-shadow: none !important;
+			}
+
+			.rico2 .inner {
+			    filter: blur( calc((var(--u) * 0.6)));
+			}
+
+			span.rico2 {
+				background-color: var(--yellow);
+				clip-path: polygon(0 0, 100% 0, 85% 100%, 15% 100%);
+				right: 0;
+			}
+
+			.rico2.outer {
+				left: calc((var(--u) * -1));
+				top: calc((var(--u) * -7.5));
+				background-color: rgba(0, 0, 0, 0.6);
+				clip-path: polygon(0 0, 100% 0, 85% 100%, 15% 100%);
+				z-index: 0;
+			}
+
+
+
+			.rico1 *, .rico1.outer {
+				width: calc((var(--u) * 8.5));
+				height: calc((var(--u) * 8.5));
+				box-shadow: none !important;
+			}
+
+			.rico1 .inner {
+			    filter: blur( calc((var(--u) * 0.6)));
+			}
+
+			span.rico1 {
+				background-color: var(--orange);
+				clip-path: polygon(55% 0, 100% 62%, 50% 100%, 0 62%, 45% 0);
+				right: 0;
+			}
+
+			.rico1.outer {
+				z-index: 5;
+				left: calc((var(--u) * -4.25));
+				top: calc((var(--u) * -4.25));
+				background-color: rgba(0, 0, 0, 0.6);
+				clip-path: polygon(55% 0, 100% 62%, 50% 100%, 0 62%, 45% 0);
+			}
+
 			.flame1 {
 				width: calc((var(--u) * 4.25));
 				height: calc((var(--u) * 9));
-				left: calc((var(--u) * -4.45));
-				top: calc((var(--u) * -4.5));
-				background-color: var(--yellow);
+				left: calc((var(--u) * -4.5));
+				top: calc((var(--u) * -4.7));
+				background-color: var(--orange);
 				border-radius: calc((var(--u)) * 2) !important;
 			}
 
 			.flame2 {
 				width: calc((var(--u) * 4.25));
 				height: calc((var(--u) * 9));
-				background-color: var(--yellow);
-				left: calc((var(--u) * 0.2));
-				top: calc((var(--u) * -4.5));
+				background-color: var(--orange);
+				left: calc((var(--u) * 0.25));
+				top: calc((var(--u) * -4.7));
 				border-radius: calc((var(--u)) * 2) !important;
-				z-index: -1;
 			}
 
 			.flame3 {
@@ -891,80 +1034,154 @@
 				height: calc((var(--u) * 7));
 				background-color: var(--yellow);
 				left: calc((var(--u) * -0.75));
-				top: calc((var(--u) * -9));
+				top: calc((var(--u) * -9.2));
 				border-radius: 0 !important;
 				z-index: 0;
 				clip-path: polygon(25% 0, 75% 0, 100% 10%, 100% 70%, 50% 100%, 50% 100%, 0% 70%, 0 10%);
 			}
 
 			.flame4 {
-				width: calc((var(--u) * 0.5));
+				width: calc((var(--u) * 1.5));
 				height: calc((var(--u) * 7));
-				background-color: var(--yellow);
-				left: calc((var(--u) * -0.25));
+				background-color: var(--orange);
+				left: calc((var(--u) * -0.75));
 				top: calc((var(--u) * -4));
 				border-radius: 0 !important;
 				z-index: -2;
+				box-shadow: inset 0 0 calc((var(--u) * 5)) calc((var(--u) * 5)) rgba(0, 0, 0, 0.3) !important;
 			}
 
-			.taser1 {
+			.flame4-1 {
+				width: calc((var(--u) * 2.5));
+				height: calc((var(--u) * 0.35));
+				left: calc((var(--u) * -3.6));
+				top: calc((var(--u) * 2));
+				background-color: black;
+				border-radius: 0 !important;
+			}
+
+			.flame4-2 {
+				width: calc((var(--u) * 2.5));
+				height: calc((var(--u) * 0.35));
+				left: calc((var(--u) * -3.6));
+				top: calc((var(--u) * 0.25));
+				background-color: black;
+				border-radius: 0 !important;
+			}
+
+			.flame4-3 {
+				width: calc((var(--u) * 2.5));
+				height: calc((var(--u) * 0.35));
+				left: calc((var(--u) * -3.6));
+				top: calc((var(--u) * -1.5));
+				background-color: black;
+				border-radius: 0 !important;
+			}
+
+			.flame4-4 {
+				width: calc((var(--u) * 2.5));
+				height: calc((var(--u) * 0.35));
+				left: calc((var(--u) * 1.1));
+				top: calc((var(--u) * 2));
+				background-color: black;
+				border-radius: 0 !important;
+			}
+
+			.flame4-5 {
+				width: calc((var(--u) * 2.5));
+				height: calc((var(--u) * 0.35));
+				left: calc((var(--u) * 1.1));
+				top: calc((var(--u) * 0.25));
+				background-color: black;
+				border-radius: 0 !important;
+			}
+
+			.flame4-6 {
+				width: calc((var(--u) * 2.5));
+				height: calc((var(--u) * 0.35));
+				left: calc((var(--u) * 1.1));
+				top: calc((var(--u) * -1.5));
+				background-color: black;
+				border-radius: 0 !important;
+			}
+
+
+
+
+			.taser1 *, .taser1.outer {
 				width: calc((var(--u) * 8.5));
 				height: calc((var(--u) * 8.5));
+				box-shadow: none !important;
+			}
+
+			.taser1 .inner {
+			    filter: blur( calc((var(--u) * 0.6)));
+			}
+
+			span.taser1 {
+				background-color: var(--orange);
+				clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+				right: 0;
+			}
+
+			.taser1.outer {
+				z-index: 5;
 				left: calc((var(--u) * -4.25));
 				top: calc((var(--u) * -4.25));
-				background-color: var(--light-green);
+				background-color: rgba(0, 0, 0, 0.6);
 				clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
 			}
 
+
+
+
 			.taser2 {
-				rotate: 2deg;
 				width: calc((var(--u) * 1));
-				height: calc((var(--u) * 6));
+				height: calc((var(--u) * 10));
 				background-color: var(--yellow);
-				left: calc((var(--u) * -1));
-				top: calc((var(--u) * -9));
-				z-index: -1;
+				left: calc((var(--u) * -1.25));
+				top: calc((var(--u) * -10));
+				z-index: 2;
 			}
 
 			.taser3 {
-				rotate: -2deg;
 				width: calc((var(--u) * 1));
-				height: calc((var(--u) * 6));
+				height: calc((var(--u) * 10));
 				background-color: var(--yellow);
-				left: calc((var(--u) * 0.5));
-				top: calc((var(--u) * -9));
-				z-index: -1;
+				left: calc((var(--u) * 0.25));
+				top: calc((var(--u) * -10));
+				z-index: 2;
 			}
 
 			.minigun1 {
 				width: calc((var(--u) * 1.25));
-				height: calc((var(--u) * 12));
+				height: calc((var(--u) * 10));
 				background-color: var(--yellow);
-				left: calc((var(--u) * 1.075));
-				top: calc((var(--u) * -12));
+				left: calc((var(--u) * 0.7));
+				top: calc((var(--u) * -10));
 			}
 			.minigun2 {
 				width: calc((var(--u) * 1.25));
-				height: calc((var(--u) * 12));
+				height: calc((var(--u) * 10));
 				background-color: var(--yellow);
-				left: calc((var(--u) * -2.325));
-				top: calc((var(--u) * -12));
+				left: calc((var(--u) * -1.95));
+				top: calc((var(--u) * -10));
 			}
 
 			.minigun3 {
-				width: calc((var(--u) * 8));
-				height: calc((var(--u) * 8));
-				left: calc((var(--u) * -4));
-				top: calc((var(--u) * -4));
-				background-color: var(--light-green);
+				width: calc((var(--u) * 7));
+				height: calc((var(--u) * 7));
+				left: calc((var(--u) * -3.5));
+				top: calc((var(--u) * -3.5));
+				background-color: var(--orange);
 			}
 
 			.rock1 {
 				width: calc((var(--u) * 8.3));
-				height: calc((var(--u) * 4));
+				height: calc((var(--u) * 8.3));
 				background-color: var(--yellow);
 				left: calc((var(--u) * -4));
-				top: calc((var(--u) * -0.3));
+				top: calc((var(--u) * -4.6));
 				box-shadow: inset 0 0 0.7vw 0.7vw rgba(0, 0, 0, 0.2);
 			}
 			.rock2 {
@@ -991,7 +1208,6 @@
 				height: calc((var(--u) * 2.5));
 				background-color: var(--grey);
 				clip-path: polygon(11% 35%, 15% 15%, 38% 10%, 60% 14%, 81% 16%, 95% 38%, 90% 60%, 81% 80%, 59% 91%, 29% 94%, 22% 76%, 11% 66%);
-				position: relative;
 				z-index: -1;
 			}
 
@@ -1086,7 +1302,7 @@
 			<div id="lobby">
 				<div id="lobbyArea">
                     <label>
-                        <input type="text" id="userName" placeholder="TYPE YOUR NAME" maxlength="20">
+                        <input type="text" id="userName" placeholder="TYPE YOUR NAME" maxlength="20" autocomplete="off">
                     </label>
                     <button id="goToShop">
 						SHOP<span class="material-symbols-outlined">keyboard_double_arrow_right</span>
@@ -1188,23 +1404,244 @@
 							<div id="arrowUp"><span class="material-symbols-outlined">keyboard_arrow_up</span></div>
 							<span class="upgradeButtons swiper-container">
 								<span class="swiper-wrapper">
-									<button class="label swiper-slide" id='rockCannon'>1</button> <!-- ROCK CANNON -->
-									<button class="label swiper-slide" id='minigun'>2</button> <!-- MINIGUN -->
-									<button class="label swiper-slide" id='taser'>3</button> <!-- TASER -->
-									<button class="label swiper-slide" id='flamethrower'>4</button> <!-- FLAMETHROWER -->
-									<button class="label swiper-slide" id='richochet'>5</button> <!-- RICOCHET -->
-									<button class="label swiper-slide" id='rocket'>6</button> <!-- ROCKET -->
+									<button class="label swiper-slide" id='rockCannon'>
+										<div class="tank-wrapper-f">
+											<div class="tank-f">
+												<div class="tankBody-f">
+													<div>
+														<div class="tankBase-f"></div>
+														<div class="treadsLeft-f"></div>
+														<div class="treadsRight-f"></div>
+														<div class="treadBumps-f">
+															<div class="left0-f movingTread-f pauseAnimation-f"></div>
+															<div class="left1-f movingTread-f pauseAnimation-f"></div>
+															<div class="left2-f movingTread-f pauseAnimation-f"></div>
+															<div class="left3-f movingTread-f pauseAnimation-f"></div>
+															<div class="left4-f movingTread-f pauseAnimation-f"></div>
+															<div class="left5-f movingTread-f pauseAnimation-f"></div>
+															<div class="left6-f movingTread-f pauseAnimation-f"></div>
+															<div class="right0-f movingTread-f pauseAnimation-f"></div>
+															<div class="right1-f movingTread-f pauseAnimation-f"></div>
+															<div class="right2-f movingTread-f pauseAnimation-f"></div>
+															<div class="right3-f movingTread-f pauseAnimation-f"></div>
+															<div class="right4-f movingTread-f pauseAnimation-f"></div>
+															<div class="right5-f movingTread-f pauseAnimation-f"></div>
+															<div class="right6-f movingTread-f pauseAnimation-f"></div>
+														</div>
+													</div>
+												</div>
+												<div class="tankTurret-f">
+													<div class="rock1"></div>
+													<div class="rock2"></div>
+													<div class="rock3"></div>
+													<div class="rock3-1"></div>
+													<div class="rock3-2"></div>
+													<div class="rock3-3"></div>
+													<div class="rock3-4"></div>
+													<div class="rock3-5"></div>
+												</div>
+											</div>
+										</div>
+									</button> <!-- ROCK CANNON -->
+									<button class="label swiper-slide" id='minigun'>
+										<div class="tank-wrapper-f">
+											<div class="tank-f">
+												<div class="tankBody-f">
+													<div>
+														<div class="tankBase-f"></div>
+														<div class="treadsLeft-f"></div>
+														<div class="treadsRight-f"></div>
+														<div class="treadBumps-f">
+															<div class="left0-f movingTread-f pauseAnimation-f"></div>
+															<div class="left1-f movingTread-f pauseAnimation-f"></div>
+															<div class="left2-f movingTread-f pauseAnimation-f"></div>
+															<div class="left3-f movingTread-f pauseAnimation-f"></div>
+															<div class="left4-f movingTread-f pauseAnimation-f"></div>
+															<div class="left5-f movingTread-f pauseAnimation-f"></div>
+															<div class="left6-f movingTread-f pauseAnimation-f"></div>
+															<div class="right0-f movingTread-f pauseAnimation-f"></div>
+															<div class="right1-f movingTread-f pauseAnimation-f"></div>
+															<div class="right2-f movingTread-f pauseAnimation-f"></div>
+															<div class="right3-f movingTread-f pauseAnimation-f"></div>
+															<div class="right4-f movingTread-f pauseAnimation-f"></div>
+															<div class="right5-f movingTread-f pauseAnimation-f"></div>
+															<div class="right6-f movingTread-f pauseAnimation-f"></div>
+														</div>
+													</div>
+												</div>
+												<div class="tankTurret-f">
+													<div class="minigun1"></div>
+													<div class="minigun2"></div>
+													<div class="minigun3"></div>
+												</div>
+											</div>
+										</div>
+									</button> <!-- MINIGUN -->
+									<button class="label swiper-slide" id='taser'>
+										<div class="tank-wrapper-f">
+											<div class="tank-f">
+												<div class="tankBody-f">
+													<div>
+														<div class="tankBase-f"></div>
+														<div class="treadsLeft-f"></div>
+														<div class="treadsRight-f"></div>
+														<div class="treadBumps-f">
+															<div class="left0-f movingTread-f pauseAnimation-f"></div>
+															<div class="left1-f movingTread-f pauseAnimation-f"></div>
+															<div class="left2-f movingTread-f pauseAnimation-f"></div>
+															<div class="left3-f movingTread-f pauseAnimation-f"></div>
+															<div class="left4-f movingTread-f pauseAnimation-f"></div>
+															<div class="left5-f movingTread-f pauseAnimation-f"></div>
+															<div class="left6-f movingTread-f pauseAnimation-f"></div>
+															<div class="right0-f movingTread-f pauseAnimation-f"></div>
+															<div class="right1-f movingTread-f pauseAnimation-f"></div>
+															<div class="right2-f movingTread-f pauseAnimation-f"></div>
+															<div class="right3-f movingTread-f pauseAnimation-f"></div>
+															<div class="right4-f movingTread-f pauseAnimation-f"></div>
+															<div class="right5-f movingTread-f pauseAnimation-f"></div>
+															<div class="right6-f movingTread-f pauseAnimation-f"></div>
+														</div>
+													</div>
+												</div>
+												<div class="tankTurret-f">
+													<div class="taser1 outer">
+														<div class="inner">
+															<span class="taser1"></span>
+														</div>
+													</div>
+													<div class="taser2"></div>
+													<div class="taser3"></div>
+												</div>
+											</div>
+										</div>
+									</button> <!-- TASER -->
+									<button class="label swiper-slide" id='flamethrower'>
+										<div class="tank-wrapper-f">
+											<div class="tank-f">
+												<div class="tankBody-f">
+													<div>
+														<div class="tankBase-f"></div>
+														<div class="treadsLeft-f"></div>
+														<div class="treadsRight-f"></div>
+														<div class="treadBumps-f">
+															<div class="left0-f movingTread-f pauseAnimation-f"></div>
+															<div class="left1-f movingTread-f pauseAnimation-f"></div>
+															<div class="left2-f movingTread-f pauseAnimation-f"></div>
+															<div class="left3-f movingTread-f pauseAnimation-f"></div>
+															<div class="left4-f movingTread-f pauseAnimation-f"></div>
+															<div class="left5-f movingTread-f pauseAnimation-f"></div>
+															<div class="left6-f movingTread-f pauseAnimation-f"></div>
+															<div class="right0-f movingTread-f pauseAnimation-f"></div>
+															<div class="right1-f movingTread-f pauseAnimation-f"></div>
+															<div class="right2-f movingTread-f pauseAnimation-f"></div>
+															<div class="right3-f movingTread-f pauseAnimation-f"></div>
+															<div class="right4-f movingTread-f pauseAnimation-f"></div>
+															<div class="right5-f movingTread-f pauseAnimation-f"></div>
+															<div class="right6-f movingTread-f pauseAnimation-f"></div>
+														</div>
+													</div>
+												</div>
+												<div class="tankTurret-f">
+													<div class="flame1"></div>
+													<div class="flame2"></div>
+													<div class="flame3"></div>
+													<div class="flame4"></div>
+													<div class="flame4-1"></div>
+													<div class="flame4-2"></div>
+													<div class="flame4-3"></div>
+													<div class="flame4-4"></div>
+													<div class="flame4-5"></div>
+													<div class="flame4-6"></div>
+												</div>
+											</div>
+										</div>
+									</button> <!-- FLAMETHROWER -->
+									<button class="label swiper-slide" id='richochet'>
+										<div class="tank-wrapper-f">
+											<div class="tank-f">
+												<div class="tankBody-f">
+													<div>
+														<div class="tankBase-f"></div>
+														<div class="treadsLeft-f"></div>
+														<div class="treadsRight-f"></div>
+														<div class="treadBumps-f">
+															<div class="left0-f movingTread-f pauseAnimation-f"></div>
+															<div class="left1-f movingTread-f pauseAnimation-f"></div>
+															<div class="left2-f movingTread-f pauseAnimation-f"></div>
+															<div class="left3-f movingTread-f pauseAnimation-f"></div>
+															<div class="left4-f movingTread-f pauseAnimation-f"></div>
+															<div class="left5-f movingTread-f pauseAnimation-f"></div>
+															<div class="left6-f movingTread-f pauseAnimation-f"></div>
+															<div class="right0-f movingTread-f pauseAnimation-f"></div>
+															<div class="right1-f movingTread-f pauseAnimation-f"></div>
+															<div class="right2-f movingTread-f pauseAnimation-f"></div>
+															<div class="right3-f movingTread-f pauseAnimation-f"></div>
+															<div class="right4-f movingTread-f pauseAnimation-f"></div>
+															<div class="right5-f movingTread-f pauseAnimation-f"></div>
+															<div class="right6-f movingTread-f pauseAnimation-f"></div>
+														</div>
+													</div>
+												</div>
+												<div class="tankTurret-f">
+													<div class="rico1 outer">
+														<div class="inner">
+															<span class="rico1"></span>
+														</div>
+													</div>
+													<div class="rico2 outer">
+														<div class="inner">
+															<span class="rico2"></span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</button> <!-- RICOCHET -->
+									<button class="label swiper-slide" id='rocket'>
+										<div class="tank-wrapper-f">
+											<div class="tank-f">
+												<div class="tankBody-f">
+													<div>
+														<div class="tankBase-f"></div>
+														<div class="treadsLeft-f"></div>
+														<div class="treadsRight-f"></div>
+														<div class="treadBumps-f">
+															<div class="left0-f movingTread-f pauseAnimation-f"></div>
+															<div class="left1-f movingTread-f pauseAnimation-f"></div>
+															<div class="left2-f movingTread-f pauseAnimation-f"></div>
+															<div class="left3-f movingTread-f pauseAnimation-f"></div>
+															<div class="left4-f movingTread-f pauseAnimation-f"></div>
+															<div class="left5-f movingTread-f pauseAnimation-f"></div>
+															<div class="left6-f movingTread-f pauseAnimation-f"></div>
+															<div class="right0-f movingTread-f pauseAnimation-f"></div>
+															<div class="right1-f movingTread-f pauseAnimation-f"></div>
+															<div class="right2-f movingTread-f pauseAnimation-f"></div>
+															<div class="right3-f movingTread-f pauseAnimation-f"></div>
+															<div class="right4-f movingTread-f pauseAnimation-f"></div>
+															<div class="right5-f movingTread-f pauseAnimation-f"></div>
+															<div class="right6-f movingTread-f pauseAnimation-f"></div>
+														</div>
+													</div>
+												</div>
+												<div class="tankTurret-f">
+													<div class="rocket1"></div>
+													<div class="rocket2"></div>
+													<div class="rocket3"></div>
+												</div>
+											</div>
+										</div>
+									</button> <!-- ROCKET -->
 									<button class="label swiper-slide" id='bomb'>7</button> <!-- BOMB -->
 									<button class="label swiper-slide" id='shock'>8</button> <!-- SHOCK -->
 									<button class="label swiper-slide" id='machineGun'>9</button> <!-- MACHINE GUN -->
 									<button class="label swiper-slide" id='railGun'>10</button> <!-- RAILGUN -->
 									<button class="label swiper-slide" id='mines'>11</button> <!-- MINES -->
-									<button class="label swiper-slide" id='sniper'>12</button> <!-- SNIPER GUN -->
-									<button class="label swiper-slide" id='grenade'>13</button> <!-- GRENADE -->
-									<button class="label swiper-slide" id='miniTank'>14</button> <!-- EXPLOSIVE MINI TANKS -->
-									<button class="label swiper-slide" id='oilTank'>15</button> <!-- OIL TANK -->
-									<button class="label swiper-slide" id='ram'>16</button> <!-- RAM -->
-									<button class="label swiper-slide" id='invisible'>17</button> <!-- INVISIBILITY -->
+									<!--<button class="label swiper-slide" id='sniper'>12</button> &lt;!&ndash; SNIPER GUN &ndash;&gt;-->
+									<!--<button class="label swiper-slide" id='grenade'>13</button> &lt;!&ndash; GRENADE &ndash;&gt;-->
+									<button class="label swiper-slide" id='miniTank'>12</button> <!-- EXPLOSIVE MINI TANKS -->
+									<!--<button class="label swiper-slide" id='oilTank'>15</button> &lt;!&ndash; OIL TANK &ndash;&gt;-->
+									<!--<button class="label swiper-slide" id='ram'>16</button> &lt;!&ndash; RAM &ndash;&gt;-->
+									<!--<button class="label swiper-slide" id='invisible'>17</button> &lt;!&ndash; INVISIBILITY &ndash;&gt;-->
 								</span>
 							</span>
 						</div>
@@ -1242,16 +1679,16 @@
 						</div>
 					</div>
 					<div id="tankTurret">
-						<div class="taser1"></div>
-						<div class="taser2"></div>
-						<div class="taser3"></div>
-						<div class=""></div>
-						<div class=""></div> <!-- USE THIS DIV TO MAKE LINES ON TANK -->
-						<div class=""></div> <!-- USE THIS DIV TO MAKE LINES ON TANK -->
-						<div class=""></div> <!-- USE THIS DIV TO MAKE LINES ON TANK -->
-						<div class=""></div> <!-- USE THIS DIV TO MAKE LINES ON TANK -->
-						<div class=""></div> <!-- USE THIS DIV TO MAKE LINES ON TANK -->
-						<div class=""></div> <!-- USE THIS DIV TO MAKE LINES ON TANK -->
+						<div class="flame1"></div>
+						<div class="flame2"></div>
+						<div class="flame3"></div>
+						<div class="flame4"></div>
+						<div class="flame4-1"></div>
+						<div class="flame4-2"></div>
+						<div class="flame4-3"></div>
+						<div class="flame4-4"></div>
+						<div class="flame4-5"></div>
+						<div class="flame4-6"></div>
 					</div>
 				</div>
 			</div>
@@ -1289,7 +1726,7 @@
 				}
 				let tankUpgrades =
 									[
-						[['rockCannon'],   [[100, 100],[100, 100], [1, 1], [0, 0], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]]], // ROCK CANNON
+						[['rockCannon'],   [[1, 5],[100, 100], [1, 1], [0, 0], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]]], // ROCK CANNON
 						[['minigun'],      [[20, 100] ,[20, 100] , [1, 2], [0, 0], [1, 2], [1, 2], [1, 2], [1, 2], [1, 2], [1, 2], [1, 2], [1, 2], [1, 2]]], // MINIGUN
 						[['taser'],        [[20, 100] ,[20, 100] , [1, 3], [0, 0], [1, 3], [1, 3], [1, 3], [1, 3], [1, 3], [1, 3], [1, 3], [1, 3], [1, 3]]], // TASER
 						[['flamethrower'], [[20, 100] ,[20, 100] , [1, 4], [0, 0], [1, 4], [1, 4], [1, 4], [1, 4], [3, 4], [1, 4], [1, 4], [1, 4], [1, 4]]], // FLAMETHROWER
