@@ -1,1408 +1,1460 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
-		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-		<title>Smash Tanks</title>
-		<style>
-			/*------------------------------------------------------------------
-            [Table of contents]
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Smash Tanks</title>
+	<style>
+		/*------------------------------------------------------------------
+        [Table of contents]
 
-            1. Root, *, body, tag formating & imports
-            2. Alerts / .alerts
-            2. @media Styles
-            3. Intro / #intro
-            4. Lobby / #lobby
-            5. Shop / #shop
-            6. Game / #game
-            7. Tank / .tank
-            ------------------------------------------------------------------*/
+        1. Root, *, body, tag formating & imports
+        2. Alerts / .alerts
+        2. @media Styles
+        3. Intro / #intro
+        4. Lobby / #lobby
+        5. Shop / #shop
+        6. Game / #game
+        7. Tank / .tank
+        ------------------------------------------------------------------*/
 
-			/*------------------------------------------------------------------
-			Root, *, body, tag formating & imports
-			\/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
-			------------------------------------------------------------------*/
+		/*------------------------------------------------------------------
+        Root, *, body, tag formating & imports
+        \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
+        ------------------------------------------------------------------*/
 
-			@font-face {
-			  font-family: 'Material Symbols Outlined';
-			  font-style: normal;
-			  font-weight: 700;
-			}
+		@font-face {
+			font-family: 'Material Symbols Outlined';
+			font-style: normal;
+			font-weight: 700;
+		}
 
-			.material-symbols-outlined {
-			  font-family: 'Material Symbols Outlined',serif;
-			  font-weight: normal;
-			  font-style: normal;
-			  line-height: 1;
-			  letter-spacing: normal;
-			  text-transform: none;
-			  display: inline-block;
-			  white-space: nowrap;
-			  word-wrap: normal;
-			  direction: ltr;
-			  -webkit-font-feature-settings: 'liga';
-			  -webkit-font-smoothing: antialiased;
-				vertical-align: middle !important;
-				font-size: calc((3vw + 3vh) / 2);
-			}
+		.material-symbols-outlined {
+			font-family: 'Material Symbols Outlined',serif;
+			font-weight: normal;
+			font-style: normal;
+			line-height: 1;
+			letter-spacing: normal;
+			text-transform: none;
+			display: inline-block;
+			white-space: nowrap;
+			word-wrap: normal;
+			direction: ltr;
+			-webkit-font-feature-settings: 'liga';
+			-webkit-font-smoothing: antialiased;
+			vertical-align: middle !important;
+			font-size: calc((3vw + 3vh) / 2);
+		}
 
-			:root {
-				--darkest-green: #044100;
-				--darker-green: #055600;
-				--dark-green: #066c00; /* #B80F0A; */
-				--light-green: #4caf50;
-				--lighter-green: #26cd79;
-				--grey: #747579;
-				--yellow: #cddc39;
-				--orange: #d2592c;
-				--u: calc((0.3vw + 0.3vh)); /* NEEDS TO BE .3vw + .3vh */
-			}
+		:root {
+			--darkest-green: #044100;
+			--darker-green: #055600;
+			--dark-green: #066c00; /* #B80F0A; */
+			--light-green: #4caf50;
+			--lighter-green: #26cd79;
+			--grey: #747579;
+			--yellow: #cddc39;
+			--orange: #d2592c;
+			--u: calc((0.165vw + 0.165vh)); /* NEEDS TO BE .3vw + .3vh */
+		}
 
-			@font-face {
-				font-family: 'Bebas Neue';
-				src: url('./Bebas_Neue/BebasNeue-Regular.ttf') format('truetype');
-				font-weight: normal;
-    			font-style: normal;
-			}
+		@font-face {
+			font-family: 'Bebas Neue';
+			src: url('./Bebas_Neue/BebasNeue-Regular.ttf') format('truetype');
+			font-weight: normal;
+			font-style: normal;
+		}
 
-			* {
-				transition:
+		* {
+			transition:
 					visibility 0s,
 					opacity 0.4s linear;
-				color: black;
-				font-family: 'Bebas Neue', sans-serif;
-				font-weight: 1000;
-				font-style: normal;
+			color: black;
+			font-family: 'Bebas Neue', sans-serif;
+			font-weight: 1000;
+			font-style: normal;
 
-				/*-------
-	            No Select
-	            \/ \/ \/‎‎
-	            -------*/
-				-webkit-touch-callout: none !important; /* iOS Safari */
-				-webkit-user-select: none !important; /* Safari */
-				-moz-user-select: none !important; /* Old versions of Firefox */
-				-ms-user-select: none !important; /* Internet Explorer/Edge */
-				user-select: none !important; /* Non-prefixed version, currently
+			/*-------
+            No Select
+            \/ \/ \/‎‎
+            -------*/
+			-webkit-touch-callout: none !important; /* iOS Safari */
+			-webkit-user-select: none !important; /* Safari */
+			-moz-user-select: none !important; /* Old versions of Firefox */
+			-ms-user-select: none !important; /* Internet Explorer/Edge */
+			user-select: none !important; /* Non-prefixed version, currently
 						              supported by Chrome, Edge, Opera and Firefox */
+		}
+
+		.pauseAnimation {
+			-webkit-animation-play-state: paused !important;
+			-moz-animation-play-state: paused !important;
+			-o-animation-play-state: paused !important;
+			animation-play-state: paused !important;
+		}
+
+		button {
+			background-color: var(--dark-green);
+			color: white;
+			border: none;
+			cursor: pointer;
+			border-radius: 0.5vw;
+		}
+
+		button * {
+			color: white;
+			background-color: transparent;
+		}
+
+		button:hover {
+			background-color: var(--darker-green);
+		}
+
+		button:active {
+			background-color: var(--darkest-green);
+		}
+
+		progress {
+			border-radius: 0.1vw;
+			box-shadow: 0.2vw 0.2vw 0.8vw rgba(0, 0, 0, 0.2);
+			width: 18vw;
+		}
+
+		progress::-webkit-progress-bar {
+			background-color: #a6a6a6;
+		}
+
+		progress::-webkit-progress-value {
+			background-color: var(--grey);
+		}
+
+		body {
+			position: fixed;
+			top: 0;
+			height: 100vh;
+			width: 100vw;
+			margin: 0;
+			overflow-x: hidden;
+			overflow-y: auto;
+		}
+
+		/*------------------------------------------------------------------
+        Alerts / .alerts
+         \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
+        ------------------------------------------------------------------*/
+
+		#NotCompatable {
+			visibility: hidden;
+			opacity: 0;
+			font-size: 4.5vw;
+			width: 100vw;
+			height: 100vh;
+			top: 0;
+			left: 0;
+			text-align: center;
+			padding-top: 20vh;
+			position: absolute;
+			z-index: 999999;
+			background-color: #26cd79;
+		}
+
+		#rotateScreen {
+			visibility: hidden;
+			opacity: 0;
+			position: absolute;
+			width: 100vw;
+			height: 100vh;
+			top: 0;
+			left: 0;
+			text-align: center;
+			padding-top: 20vh;
+			z-index: 999;
+			background-color: #26cd79;
+		}
+
+		#rotateScreen .label {
+			font-size: 5vw;
+		}
+
+		#rotateScreen svg {
+			rotate: 45deg;
+			margin-top: 8vh;
+			height: calc((35vw + 35vh) / 2);
+			text-align: center;
+		}
+
+		#rotateScreen .noThanks {
+			left: 37.5vw;
+			position: fixed;
+			width: 25vw;
+			height: 10vh;
+			bottom: 10vh;
+			font-size: calc((3vw + 3vh) / 2);
+		}
+
+		/*------------------------------------------------------------------
+        @media Styles
+        \/ \/ \/ \/ \/ \/ \/
+        ------------------------------------------------------------------*/
+
+		@keyframes moveTreads {
+			0% {
+				transform: translateY(calc((var(--u) * -2.26)));
 			}
 
-			.pauseAnimation {
-				-webkit-animation-play-state: paused !important;
-				-moz-animation-play-state: paused !important;
-				-o-animation-play-state: paused !important;
-				animation-play-state: paused !important;
+			100% {
+				transform: translateY(calc((var(--u) * 2.26)));
 			}
+		}
 
-			button {
-				background-color: var(--dark-green);
-				color: white;
-				border: none;
-				cursor: pointer;
-				border-radius: 0.5vw;
+		@keyframes loadTitle {
+			0% {
+				opacity: 0;
 			}
-
-			button * {
-				color: white;
-				background-color: transparent;
+			100% {
+				opacity: 1;
 			}
+		}
 
-			button:hover {
-				background-color: var(--darker-green);
+		@keyframes shake {
+			0% {
+				transform: translate(0.4vw, 0.4vw) rotate(0deg);
 			}
-
-			button:active {
-				background-color: var(--darkest-green);
+			10% {
+				transform: translate(-0.4vw, -0.8vw) rotate(-2deg);
 			}
-
-			progress {
-				border-radius: 0.1vw;
-				box-shadow: 0.2vw 0.2vw 0.8vw rgba(0, 0, 0, 0.2);
-				width: 18vw;
+			20% {
+				transform: translate(-1.2vw, 0px) rotate(2deg);
 			}
-
-			progress::-webkit-progress-bar {
-				background-color: #a6a6a6;
+			30% {
+				transform: translate(1.2vw, 0.8vw) rotate(0deg);
 			}
-
-			progress::-webkit-progress-value {
-				background-color: var(--grey);
+			40% {
+				transform: translate(0.4vw, -0.4vw) rotate(2deg);
 			}
-
-			body {
-				position: fixed;
-				top: 0;
-				height: 100vh;
-				width: 100vw;
-				margin: 0;
-				overflow-x: hidden;
-				overflow-y: auto;
+			50% {
+				transform: translate(-0.4vw, 0.8vw) rotate(-2deg);
 			}
+			60% {
+				transform: translate(-1.2vw, 0.4vw) rotate(0deg);
+			}
+			70% {
+				transform: translate(1.2vw, 0.4vw) rotate(-2deg);
+			}
+			80% {
+				transform: translate(-0.4vw, -0.4vw) rotate(2deg);
+			}
+			90% {
+				transform: translate(0.4vw, 0.8vw) rotate(0deg);
+			}
+			100% {
+				transform: translate(0.4vw, -0.8vw) rotate(-2deg);
+			}
+		}
 
-			/*------------------------------------------------------------------
-            Alerts / .alerts
-             \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
-            ------------------------------------------------------------------*/
-
+		@media screen and (min-aspect-ratio: 3.8/1), (max-aspect-ratio: 0.5/1) {
 			#NotCompatable {
-				visibility: hidden;
-				opacity: 0;
-				font-size: 4.5vw;
-				width: 100vw;
-				height: 100vh;
-				top: 0;
-				left: 0;
-				text-align: center;
-				padding-top: 20vh;
-				position: absolute;
-				z-index: 999999;
-				background-color: #26cd79;
+				visibility: visible;
+				opacity: 1;
 			}
+		}
 
-			#rotateScreen {
-				visibility: hidden;
-				opacity: 0;
-				position: absolute;
-				width: 100vw;
-				height: 100vh;
-				top: 0;
-				left: 0;
-				text-align: center;
-				padding-top: 20vh;
-				z-index: 999;
-				background-color: #26cd79;
-			}
+		/*------------------------------------------------------------------
+        Intro / #intro
+        \/ \/ \/ \/ \/
+        ------------------------------------------------------------------*/
 
-			#rotateScreen .label {
-				font-size: 5vw;
-			}
+		#intro {
+			position: relative;
+			transition: opacity 0.5s;
+			width: 100vw;
+			height: 100vh;
+			background-color: white;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: column;
+			z-index: 99999;
+			animation: loadTitle 2s, shake 0.5s ease-in-out;
+		}
 
-			#rotateScreen svg {
-				rotate: 45deg;
-				margin-top: 8vh;
-				height: calc((35vw + 35vh) / 2);
-				text-align: center;
-			}
+		#intro #title {
+			margin-top: 10vh;
+			font-size: calc((7vw + 7vh) / 2);
+			text-align: center;
+		}
 
-			#rotateScreen .noThanks {
-				left: 37.5vw;
-				position: fixed;
-				width: 25vw;
-				height: 10vh;
-				bottom: 10vh;
-				font-size: calc((3vw + 3vh) / 2);
-			}
+		#intro #title span {
+			display: inline-block;
+			font-size: calc((10vw + 10vh) / 2);
+		}
 
-			/*------------------------------------------------------------------
-            @media Styles
-			\/ \/ \/ \/ \/ \/ \/
-			------------------------------------------------------------------*/
-
-			@keyframes moveTreads {
-				0% {
-					transform: translateY(calc((var(--u) * -2.26)));
-				}
-
-				100% {
-					transform: translateY(calc((var(--u) * 2.26)));
-				}
-			}
-
-			@keyframes loadTitle {
-				0% {
-					opacity: 0;
-				}
-				100% {
-					opacity: 1;
-				}
-			}
-
-			@keyframes shake {
-				0% {
-					transform: translate(0.4vw, 0.4vw) rotate(0deg);
-				}
-				10% {
-					transform: translate(-0.4vw, -0.8vw) rotate(-2deg);
-				}
-				20% {
-					transform: translate(-1.2vw, 0px) rotate(2deg);
-				}
-				30% {
-					transform: translate(1.2vw, 0.8vw) rotate(0deg);
-				}
-				40% {
-					transform: translate(0.4vw, -0.4vw) rotate(2deg);
-				}
-				50% {
-					transform: translate(-0.4vw, 0.8vw) rotate(-2deg);
-				}
-				60% {
-					transform: translate(-1.2vw, 0.4vw) rotate(0deg);
-				}
-				70% {
-					transform: translate(1.2vw, 0.4vw) rotate(-2deg);
-				}
-				80% {
-					transform: translate(-0.4vw, -0.4vw) rotate(2deg);
-				}
-				90% {
-					transform: translate(0.4vw, 0.8vw) rotate(0deg);
-				}
-				100% {
-					transform: translate(0.4vw, -0.8vw) rotate(-2deg);
-				}
-			}
-
-			@media screen and (min-aspect-ratio: 3.8/1), (max-aspect-ratio: 0.5/1) {
-				#NotCompatable {
-					visibility: visible;
-					opacity: 1;
-				}
-			}
-
-			/*------------------------------------------------------------------
-            Intro / #intro
-            \/ \/ \/ \/ \/
-            ------------------------------------------------------------------*/
-
-			#intro {
-				position: relative;
-				transition: opacity 0.5s;
-				width: 100vw;
-				height: 100vh;
-				background-color: white;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				flex-direction: column;
-				z-index: 99999;
-				animation: loadTitle 2s, shake 0.5s ease-in-out;
-			}
-
-			#intro #title {
-				margin-top: 10vh;
-				font-size: calc((7vw + 7vh) / 2);
-				text-align: center;
-			}
-
-			#intro #title span {
-				display: inline-block;
-				font-size: calc((10vw + 10vh) / 2);
-			}
-
-			#intro #container .start {
-				position: absolute;
-				top: 0;
-				width: 30vw;
-				left: 35vw;
-				height: 10vh;
-				font-size: calc((3vw + 3vh) / 2);
-			}
+		#intro #container .start {
+			position: absolute;
+			top: 0;
+			width: 30vw;
+			left: 35vw;
+			height: 10vh;
+			font-size: calc((3vw + 3vh) / 2);
+		}
 
 
-			#intro #container {
-				position: relative;
-				width: 80%;
-				background-color: #f3f3f3;
-				border-radius: calc((1vw + 1vh) / 2);
-				overflow: hidden;
-				margin-bottom: 16vh;
-			}
+		#intro #container {
+			position: relative;
+			width: 80%;
+			background-color: #f3f3f3;
+			border-radius: calc((1vw + 1vh) / 2);
+			overflow: hidden;
+			margin-bottom: 16vh;
+		}
 
-			#intro #container.nowButton {
-				width: 100% !important;
-				background-color: transparent !important;
-				border-radius: 0 !important;
-				overflow: auto !important;
-				height: 10vh !important;
-				margin-bottom: 8vh !important;
-			}
+		#intro #container.nowButton {
+			width: 100% !important;
+			background-color: transparent !important;
+			border-radius: 0 !important;
+			overflow: auto !important;
+			height: 10vh !important;
+			margin-bottom: 8vh !important;
+		}
 
-			#intro #container #loadingProgressBarStartup {
-				transition: 0.5s;
-				width: 0;
-				height: 2vh;
-				background-color: var(--dark-green);
-			}
+		#intro #container #loadingProgressBarStartup {
+			transition: 0.5s;
+			width: 0;
+			height: 2vh;
+			background-color: var(--dark-green);
+		}
 
-			/*------------------------------------------------------------------
-			Lobby / #lobby
-			\/ \/ \/ \/ \/
-			------------------------------------------------------------------*/
+		/*------------------------------------------------------------------
+        Lobby / #lobby
+        \/ \/ \/ \/ \/
+        ------------------------------------------------------------------*/
 
-			#lobby {
-				visibility: hidden;
-				opacity: 0;
-			}
+		#lobby {
+			visibility: hidden;
+			opacity: 0;
+		}
 
-			#lobby #lobbyArea {
-				transition: transform 0.5s;
-			}
+		#lobby #lobbyArea {
+			transition: transform 0.5s;
+		}
 
-			#lobby #lobbyArea button {
-				font-size: calc((3.5vw + 3.5vh) / 2);
-				position: fixed;
-			}
+		#lobby #lobbyArea button {
+			font-size: calc((3.5vw + 3.5vh) / 2);
+			position: fixed;
+		}
 
-			#lobby #lobbyArea #startTankGame {
-				position: absolute;
-				width: calc(100vw - (5vw + 5vh));
-				right: calc((5vw + 5vh) / 2);
-			}
+		#lobby #lobbyArea #startTankGame {
+			position: absolute;
+			width: calc(100vw - (5vw + 5vh));
+			right: calc((5vw + 5vh) / 2);
+		}
 
-			#lobby #lobbyArea #goToShop {
-				width: 20vw;
-				right: calc((5vw + 5vh) / 2);
-				top: calc((5vw + 5vh) / 2);
-			}
+		#lobby #lobbyArea #goToShop {
+			width: 20vw;
+			right: calc((5vw + 5vh) / 2);
+			top: calc((5vw + 5vh) / 2);
+		}
 
-			#lobby #lobbyArea #userName {
-				position: fixed;
-				font-size: calc((4vw + 4vh) / 2);
-				letter-spacing: 0.2vw;
-				left: calc((5vw + 5vh) / 2);
-				top: calc((5vw + 5vh) / 2);
-				width: calc((40vw + 40vh) / 2);
-				height: calc((10vw + 10vh) / 2);
-				border: none;
-				padding-top: calc((1vh + 1vw) / 2);
-				padding-left: calc((1vh + 1vw) / 2);
-				border-top-right-radius: 0.3vw;
-				border-top-left-radius: 0.3vw;
-				background-color: rgba(38, 205, 122, 0.5);
-				color: var(--dark-green);
-				border-bottom: calc(0.3vw + 0.3vh) solid var(--light-green);
-			}
+		#lobby #lobbyArea #userName {
+			position: fixed;
+			font-size: calc((4vw + 4vh) / 2);
+			letter-spacing: 0.2vw;
+			left: calc((5vw + 5vh) / 2);
+			top: calc((5vw + 5vh) / 2);
+			width: calc((40vw + 40vh) / 2);
+			height: calc((10vw + 10vh) / 2);
+			border: none;
+			padding-top: calc((1vh + 1vw) / 2);
+			padding-left: calc((1vh + 1vw) / 2);
+			border-top-right-radius: 0.3vw;
+			border-top-left-radius: 0.3vw;
+			background-color: rgba(38, 205, 122, 0.5);
+			color: var(--dark-green);
+			border-bottom: calc(0.3vw + 0.3vh) solid var(--light-green);
+		}
 
-			input:focus {
-			    outline: none;
-			}
+		input:focus {
+			outline: none;
+		}
 
-			::placeholder {
-			  color: var(--dark-green);
-			  opacity: 1;
-			}
+		::placeholder {
+			color: var(--dark-green);
+			opacity: 1;
+		}
 
-			::-ms-input-placeholder {
-			  color: var(--dark-green);
-			}
+		::-ms-input-placeholder {
+			color: var(--dark-green);
+		}
 
-			#lobby #lobbyArea #userName:focus {
-				border-top: calc(0.1vw + 0.1vh) solid var(--dark-green);
-				border-left: calc(0.1vw + 0.1vh) solid var(--dark-green);
-				border-right: calc(0.1vw + 0.1vh) solid var(--dark-green);
-			}
-
-			#lobby #lobbyArea #openBox {
-				width: 20vw;
-				right: calc((5vw + 5vh) / 2);
-				line-height: 4vw;
-			}
+		#lobby #lobbyArea #openBox {
+			width: 20vw;
+			right: calc((5vw + 5vh) / 2);
+			line-height: 4vw;
+		}
 
 
-			#lobby #lobbyArea #openBox #chestSVG {
-				height: calc((3.5vw + 3.5vh) / 2);
-				vertical-align: middle;
-			}
+		#lobby #lobbyArea #openBox #chestSVG {
+			height: calc((3.5vw + 3.5vh) / 2);
+			vertical-align: middle;
+		}
 
-			#lobby #lobbyArea #startTankGame {
-					width: 30vw;
-			}
+		#lobby #lobbyArea #startTankGame {
+			width: 30vw;
+		}
 
-			#lobby #lobbyArea #unlockScreen {
-				transition: scale 0.5s;
-				scale: 0;
-				width: 60vw;
-				height: calc(100vh - 40vw);
-				background-color: var(--lighter-green);
-				position: fixed;
-				z-index: 5;
-				top: 10vw;
-				left: 10vw;
-				border-radius: 1vw;
-				text-align: center;
-				font-size: calc((4vw + 4vh) / 2);
-				padding: 10vw;
-			}
+		#lobby #lobbyArea #unlockScreen {
+			transition: scale 0.5s;
+			scale: 0;
+			width: 60vw;
+			height: calc(100vh - 40vw);
+			background-color: var(--lighter-green);
+			position: fixed;
+			z-index: 5;
+			top: 10vw;
+			left: 10vw;
+			border-radius: 1vw;
+			text-align: center;
+			font-size: calc((4vw + 4vh) / 2);
+			padding: 10vw;
+		}
 
-			#lobby #lobbyArea #unlockScreen #notEnoughCoins div .material-symbols-outlined {
-				font-size: calc((5vw + 5vh) / 2);
-			}
+		#lobby #lobbyArea #unlockScreen #notEnoughCoins div .material-symbols-outlined {
+			font-size: calc((5vw + 5vh) / 2);
+		}
 
-			#lobby #lobbyArea #hideBackground {
-				transition: opacity 0.5s;
-				opacity: 0;
-				visibility: hidden;
-				width: 100vw;
-				height: 100vh;
-				position: fixed;
-				background-color: rgba(255, 255, 255, 0.8);
-			}
+		#lobby #lobbyArea #hideBackground {
+			transition: opacity 0.5s;
+			opacity: 0;
+			visibility: hidden;
+			width: 100vw;
+			height: 100vh;
+			position: fixed;
+			background-color: rgba(255, 255, 255, 0.8);
+		}
 
-			#lobby #lobbyArea #unlockScreen #notEnoughCoins {
-				position: fixed;
-				background-color: var(--lighter-green);
-				text-align: center;
-				width: 60vw;
-				border-radius: 1vw;
-				display: none;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-				justify-items: center;
-				height: calc(100vh - 34.5vw);
-				font-size: calc((7vw + 7vh) / 2);
-				padding: 10vw;
-/*				display: flex;*/
-				scale: 0;
-				z-index: 7;
-				top: 10vw;
-				left: 10vw;
-			}
+		#lobby #lobbyArea #unlockScreen #notEnoughCoins {
+			position: fixed;
+			background-color: var(--lighter-green);
+			text-align: center;
+			width: 60vw;
+			border-radius: 1vw;
+			display: none;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			justify-items: center;
+			height: calc(100vh - 34.5vw);
+			font-size: calc((7vw + 7vh) / 2);
+			padding: 10vw;
+			/*				display: flex;*/
+			scale: 0;
+			z-index: 7;
+			top: 10vw;
+			left: 10vw;
+		}
 
-			#lobby #lobbyArea #unlockScreen #buyTankOption {
+		#lobby #lobbyArea #unlockScreen #buyTankOption {
 
-			}
+		}
 
-			#lobby #lobbyArea #unlockScreen #buyTankOption button {
-				position: absolute;
-				width: 20vw;
-				height: 10vh;
-				bottom: 10vh;
-			}
+		#lobby #lobbyArea #unlockScreen #buyTankOption button {
+			position: absolute;
+			width: 20vw;
+			height: 10vh;
+			bottom: 10vh;
+		}
 
-			#lobby #lobbyArea #unlockScreen #buyTankOption button:nth-child(1) {
-				left: 18vw;
-			}
+		#lobby #lobbyArea #unlockScreen #buyTankOption button:nth-child(1) {
+			left: 18vw;
+		}
 
-			#lobby #lobbyArea #unlockScreen #buyTankOption button:nth-child(2) {
-				right: 18vw;
-			}
-			/*------------------------------------------------------------------
-            Shop / #shop
-            \/ \/ \/ \/ \/
-            ------------------------------------------------------------------*/
+		#lobby #lobbyArea #unlockScreen #buyTankOption button:nth-child(2) {
+			right: 18vw;
+		}
+		/*------------------------------------------------------------------
+        Shop / #shop
+        \/ \/ \/ \/ \/
+        ------------------------------------------------------------------*/
 
-			#shop {
-				position: fixed;
-				left: 0;
-				top: 0;
-				width: 100vw;
-				height: 100vh;
-				transition: transform 0.5s;
-			}
+		#shop {
+			position: fixed;
+			left: 0;
+			top: 0;
+			width: 100vw;
+			height: 100vh;
+			transition: transform 0.5s;
+		}
 
-			.pageRight {
-				transform: translateX(100%);
-			}
+		.pageRight {
+			transform: translateX(100%);
+		}
 
-			.pageLeft {
-				transform: translateX(-100%);
-			}
+		.pageLeft {
+			transform: translateX(-100%);
+		}
 
-			#shop #startGameAfterShop {
-				position: absolute;
-				font-size: calc((3.5vw + 3.5vh) / 2);
-				color: white;
-				background-color: var(--dark-green);
-				left: calc((5vw + 5vh) / 2);
-				top: calc((5vw + 5vh) / 2);
-			}
+		#shop #startGameAfterShop {
+			position: absolute;
+			font-size: calc((3.5vw + 3.5vh) / 2);
+			color: white;
+			background-color: var(--dark-green);
+			left: calc((5vw + 5vh) / 2);
+			top: calc((5vw + 5vh) / 2);
+		}
 
-			#shop .upgradeTitle {
-				position: absolute;
-				padding-top: calc((5vw + 5vh) / 4);
-				font-size: calc((10vw + 10vh) / 2);
-				text-align: center;
-				width: 100vw;
-				right: 0;
-			}
+		#shop .upgradeTitle {
+			position: absolute;
+			padding-top: calc((5vw + 5vh) / 4);
+			font-size: calc((10vw + 10vh) / 2);
+			text-align: center;
+			width: 100vw;
+			right: 0;
+		}
 
-			#shop #upgradeOptions {
-				position: absolute;
-				bottom: 0;
-				width: 100%;
-			}
+		#shop #upgradeOptions {
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+		}
 
-			#shop button {
-				width: 20vw;
-				background-color: rgba(0, 0, 0, 0.3);
-				cursor: pointer;
-				color: black;
-				position: relative;
-				z-index: 1;
-				font-size: calc((3vw + 3vh) / 2);
-			}
+		#shop button {
+			width: 20vw;
+			background-color: rgba(0, 0, 0, 0.3);
+			cursor: pointer;
+			color: black;
+			position: relative;
+			z-index: 1;
+			font-size: calc((3vw + 3vh) / 2);
+		}
 
-			#shop .upgradeOptions .selectWeapon {
-				height: 100%;
-				position: relative;
-			}
+		#shop .upgradeOptions .selectWeapon {
+			height: 100%;
+			position: relative;
+		}
 
+		#shop .upgradeOptions .selectWeapon .content {
+			width: 100vw;
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			justify-content: space-evenly;
+			text-align: center;
+			padding: 0 0.5vw calc(5vh + (2vw + 2vh) + calc((11vw + 11vh) / 2)) 0.5vw;
+			margin-top: 0.5vw;
+			box-sizing: border-box;
+			height: calc(100% - 3vh);
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(30vw, 1fr));
+			gap: 0.5vw;
+			grid-gap: 0;
+			overflow-y: auto;
+		}
+
+		#shop .upgradeOptions .selectWeapon .content .upgradeTankSection {
+			background-image: linear-gradient(var(--dark-green), var(--dark-green));
+			background-repeat: no-repeat;
+			background-position: left bottom;
+			margin: calc((2vw + 2vh) / 2);
+			padding: calc((2vw + 2vh) / 2);
+			box-sizing: border-box;
+			background-color: #22b86d;
+			text-align: center;
+			font-size: calc((4vw + 4vh) / 2);
+			min-height: calc(11vh + 11vw);
+			position: relative;
+		}
+		#shop .upgradeOptions .selectWeapon .content .upgradeTankSection .upgradeCost {
+			position: absolute;
+			bottom: 8%;
+			left: 0;
+			width: 100%;
+		}
+		@media screen and (min-aspect-ratio: 2.5/1) {
 			#shop .upgradeOptions .selectWeapon .content {
-				width: 100vw;
-				position: absolute;
-				right: 0;
-				bottom: 0;
-				justify-content: space-evenly;
-				text-align: center;
-				padding: 0 0.5vw calc(5vh + (2vw + 2vh) + calc((11vw + 11vh) / 2)) 0.5vw;
-				margin-top: 0.5vw;
-				box-sizing: border-box;
-				height: calc(100% - 3vh);
-				display: grid;
-				grid-template-columns: repeat(auto-fill, minmax(30vw, 1fr));
-				gap: 0.5vw;
-				grid-gap: 0;
-				overflow-y: auto;
+				grid-template-columns: repeat(auto-fill, minmax(20vw, 1fr));
 			}
+		}
 
-			#shop .upgradeOptions .selectWeapon .content .upgradeTankSection {
-				background-image: linear-gradient(var(--dark-green), var(--dark-green));
-				background-repeat: no-repeat;
-				background-position: left bottom;
-				margin: calc((2vw + 2vh) / 2);
-				padding: calc((2vw + 2vh) / 2);
-				box-sizing: border-box;
-				background-color: #22b86d;
-				text-align: center;
-				font-size: calc((4vw + 4vh) / 2);
-				min-height: calc(11vh + 11vw);
-				position: relative;
-			}
-			#shop .upgradeOptions .selectWeapon .content .upgradeTankSection .upgradeCost {
-				position: absolute;
-				bottom: 8%;
-				left: 0;
-				width: 100%;
-			}
-			@media screen and (min-aspect-ratio: 2.5/1) {
-				#shop .upgradeOptions .selectWeapon .content {
-					grid-template-columns: repeat(auto-fill, minmax(20vw, 1fr));
-				}
-			}
+		#shop .upgradeOptions .selectWeapon .content .upgradeTankSection > * {
+			display: block;
+		}
 
-			#shop .upgradeOptions .selectWeapon .content .upgradeTankSection > * {
-				display: block;
-			}
+		#shop .upgradeOptions .selectWeapon .content .upgradeTankSection * {
+			color: white;
+		}
 
-			#shop .upgradeOptions .selectWeapon .content .upgradeTankSection * {
-				color: white;
-			}
+		#shop .upgradeOptions .selectWeapon .upgradeButtons button {
+			border: calc((0.2vw + 0.2vh) / 2) dashed var(--darkest-green);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: calc((11vw + 11vh) / 2);
+			height: calc((11vw + 11vh) / 2);
+			border-radius: 25%;
+			scroll-snap-align: center;
+			user-select: none;
+			cursor: pointer;
+			flex-grow: 0;
+			flex-shrink: 0;
+			background-color: var(--lighter-green);
+		}
 
-			#shop .upgradeOptions .selectWeapon .upgradeButtons button {
-				border: calc((0.2vw + 0.2vh) / 2) dashed var(--darkest-green);
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				width: calc((11vw + 11vh) / 2);
-				height: calc((11vw + 11vh) / 2);
-				border-radius: 25%;
-				scroll-snap-align: center;
-				user-select: none;
-				cursor: pointer;
-				flex-grow: 0;
-				flex-shrink: 0;
-				background-color: var(--lighter-green);
-			}
+		#shop .upgradeOptions .selectWeapon .upgradeButtons button.selected {
+			background-color: var(--dark-green);
+			border: calc((0.2vw + 0.2vh) / 2) solid black;
+			color: white;
+		}
 
-			#shop .upgradeOptions .selectWeapon .upgradeButtons button.selected {
-				background-color: var(--dark-green);
-				border: calc((0.2vw + 0.2vh) / 2) solid black;
-				color: white;
+		#shop .upgradeOptions .selectWeapon .upgradeButtons {
+			width: 80vw;
+			display: flex;
+			position: fixed;
+			left: calc((100vw - (80vw + (2vw + 2vh))) / 2);
+			bottom: 4vh;
+			border-radius: 5vw;
+			cursor: grab;
+			gap: 2%;
+			border: calc((0.2vw + 0.2vh) / 2) dashed black;
+			box-shadow:
+					inset 2vw 0 2vw -2vw var(--grey),
+					inset -2vw 0 2vw -2vw var(--grey);
+			padding: calc((2vw + 2vh) / 2);
+			overflow: hidden;
+			background-color: rgb(245, 245, 245);
+		}
+
+		#shop .upgradeOptions .selectWeapon #arrowRight {
+			display: none;
+		}
+
+		#shop .upgradeOptions .selectWeapon #arrowUp {
+			position: fixed;
+			bottom: 0;
+			display: flex;
+			justify-content: center;
+			width: 100vw;
+			height: 4vh;
+			text-align: left;
+			align-items: center;
+		}
+
+		#shop .upgradeOptions .selectWeapon #arrowUp * {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 20vw;
+			font-size: 7vw;
+		}
+
+
+		#shop #currentMoney {
+			box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			width: 20vw;
+			border: 0.3vw solid var(--dark-green);
+			text-align: center;
+			position: fixed;
+			right: calc((5vw + 5vh) / 2);
+			top: calc((5vw + 5vh) / 2);
+			font-size: calc((4vw + 4vh) / 2);
+			border-radius: 0.5vw;
+			display: flex;
+			justify-content: center;
+			align-content: center;
+			flex-direction: column;
+		}
+
+
+
+		@media (orientation: landscape) {
+			#shop .upgradeOptions .selectWeapon .content {
+				width: calc(100vw - ((11vw + 11vh) / 2) - ((2vw + 2vh) / 2) - 8vw);
+				padding: 0.5vw;
 			}
 
 			#shop .upgradeOptions .selectWeapon .upgradeButtons {
-				width: 80vw;
-				display: flex;
-				position: fixed;
-				left: calc((100vw - (80vw + (2vw + 2vh))) / 2);
-				bottom: 4vh;
-				border-radius: 5vw;
-				cursor: grab;
-				gap: 2%;
-				border: calc((0.2vw + 0.2vh) / 2) dashed black;
+				height: calc(90vh - (2vw + 2vh)) !important;
+				border-radius: 5vh;
+				width: calc((11vw + 11vh) / 2);
+				left: 5vh;
+				bottom: 5vh;
 				box-shadow:
-					inset 2vw 0 2vw -2vw var(--grey),
-					inset -2vw 0 2vw -2vw var(--grey);
-				padding: calc((2vw + 2vh) / 2);
-				overflow: hidden;
-				background-color: rgb(245, 245, 245);
+						inset 0 2vw 2vw -2vw var(--grey),
+						inset 0 -2vw 2vw -2vw var(--grey);
 			}
 
 			#shop .upgradeOptions .selectWeapon #arrowRight {
-				display: none;
-			}
-
-			#shop .upgradeOptions .selectWeapon #arrowUp {
 				position: fixed;
-				bottom: 0;
 				display: flex;
 				justify-content: center;
-				width: 100vw;
-				height: 4vh;
+				align-self: center;
+				height: 100vh;
+				top: 0;
+				width: 3vw;
 				text-align: left;
 				align-items: center;
 			}
 
-			#shop .upgradeOptions .selectWeapon #arrowUp * {
+			#shop .upgradeOptions .selectWeapon #arrowRight * {
 				display: flex;
+				height: 20vh;
+				font-size: 7vh;
 				align-items: center;
 				justify-content: center;
-				width: 20vw;
-				font-size: 7vw;
 			}
 
-
-			#shop #currentMoney {
-				box-sizing: border-box;
-			    -moz-box-sizing: border-box;
-			    -webkit-box-sizing: border-box;
-				width: 20vw;
-				border: 0.3vw solid var(--dark-green);
-				text-align: center;
-				position: fixed;
-				right: calc((5vw + 5vh) / 2);
-				top: calc((5vw + 5vh) / 2);
-				font-size: calc((4vw + 4vh) / 2);
-				border-radius: 0.5vw;
-				display: flex;
-				justify-content: center;
-				align-content: center;
-				flex-direction: column;
-			}
-
-
-
-			@media (orientation: landscape) {
-				#shop .upgradeOptions .selectWeapon .content {
-					width: calc(100vw - ((11vw + 11vh) / 2) - ((2vw + 2vh) / 2) - 8vw);
-					padding: 0.5vw;
-				}
-
-				#shop .upgradeOptions .selectWeapon .upgradeButtons {
-					height: calc(90vh - (2vw + 2vh)) !important;
-					border-radius: 5vh;
-					width: calc((11vw + 11vh) / 2);
-					left: 5vh;
-					bottom: 5vh;
-					box-shadow:
-						inset 0 2vw 2vw -2vw var(--grey),
-						inset 0 -2vw 2vw -2vw var(--grey);
-				}
-
-				#shop .upgradeOptions .selectWeapon #arrowRight {
-					position: fixed;
-					display: flex;
-					justify-content: center;
-					align-self: center;
-					height: 100vh;
-					top: 0;
-					width: 3vw;
-					text-align: left;
-					align-items: center;
-				}
-
-				#shop .upgradeOptions .selectWeapon #arrowRight * {
-					display: flex;
-					height: 20vh;
-					font-size: 7vh;
-					align-items: center;
-					justify-content: center;
-				}
-
-				#shop .upgradeOptions .selectWeapon #arrowUp {
-					display: none;
-				}
-
-				#shop #startGameAfterShop {
-					left: calc((((13vw + 13vh) / 2) + ((2vw + 2vh) / 2) + 4vw) + (5vw + 5vh) / 2);
-				}
-
-				#shop .upgradeTitle {
-					width: calc(100vw - ((11vw + 11vh) / 2) - ((2vw + 2vh) / 2) - 4vw);
-				}
-
-
-			}
-			/*------------------------------------------------------------------
-            Game / #game
-            \/ \/ \/ \/ \/
-            ------------------------------------------------------------------*/
-
-			#game {
-				position: absolute;
-				width: 100vw;
-				height: 100vw;
-				top: 0;
-				left: 0;
-				transform-origin: center center;
-				visibility: hidden;
-				opacity: 0;
-			}
-
-			/*------------------------------------------------------------------
-            Tank / .Tank
-            \/ \/ \/ \/ \/
-            ------------------------------------------------------------------*/
-
-			#tank,
-			#tank *,
-			.tank-f,
-			.tank-f * {
-				position: absolute;
-				border-radius: calc((var(--u) * 0.8));
-			}
-
-			.tank-wrapper-f {
-				position: relative;
-			}
-
-			#tankBody *:not(#treadBumps),
-			#tankTurret *:not(#treadBumps),
-			.tankBody-f *:not(.treadBumps-f),
-			.tankTurret-f *:not(.treadBumps-f) {
-				box-shadow: inset 0 0 calc((var(--u) * 0.5)) calc((var(--u) * 0.5)) rgba(0, 0, 0, 0.3);
-			}
-
-			#tank #tankBody {
-				position: fixed;
-				left: 50vw;
-				top: 50vh;
-				transition: transform 0.2s linear;
-			}
-
-			.tank-f .tankBody-f {
-				position: absolute;
-				transition: transform 0.2s linear;
-			}
-
-			#tank #tankBody div #tankBase,
-			.tank-f .tankBody-f div .tankBase-f {
-				width: calc((var(--u) * 10));
-				height: calc((var(--u) * 10));
-				background-color: #d9724b;
-				left: calc((var(--u) * -5));
-				top: calc((var(--u) * -5));
-			}
-
-			#tank #tankBody div #treadsLeft,
-			.tank-f .tankBody-f div .treadsLeft-f {
-				z-index: -1;
-				width: calc((var(--u) * 3));
-				top: calc((var(--u) * -6.25));
-				left: calc((var(--u) * -6.25));
-				height: calc((var(--u) * 12.5));
-				background-color: var(--grey);
-				border-radius: calc((var(--u) * 0.5)) 0 0 calc((var(--u) * 0.5));
-			}
-
-			#tank #tankBody div #treadsRight,
-			.tank-f .tankBody-f div .treadsRight-f {
-				z-index: -1;
-				width: calc((var(--u) * 3));
-				top: calc((var(--u) * -6.25));
-				left: calc((var(--u) * 3.25));
-				height: calc((var(--u) * 12.5));
-				background-color: var(--grey);
-				border-radius: 0 calc((var(--u) * 0.5)) calc((var(--u) * 0.5)) 0;
-			}
-
-			#tank #tankBody div #treadBumps,
-			.tank-f .tankBody-f div .treadBumps-f {
-				height: calc((var(--u) * 12.5));
-				width: calc((var(--u) * 12.5));
-				left: calc((var(--u) * -6.25));
-				top: calc((var(--u) * -6.25));
-				overflow: hidden;
-			}
-
-			#tank #tankBody div #treadBumps *,
-			.tank-f .tankBody-f div .treadBumps-f * {
-				height: calc((var(--u) * 0.3));
-				background: rgb(116, 117, 121);
-				background: linear-gradient(0deg, rgba(116, 117, 121, 1) 0%, rgba(76, 77, 79, 1) 50%, rgba(116, 117, 121, 1) 100%);
-				border-radius: 0;
-				width: calc((var(--u) * 3));
-				z-index: -1;
-				min-width: 1px;
-			}
-
-			.right0,
-			.right1,
-			.right2,
-			.right3,
-			.right4,
-			.right5,
-			.right6,
-			.right0-f,
-			.right1-f,
-			.right2-f,
-			.right3-f,
-			.right4-f,
-			.right5-f,
-			.right6-f {
-				left: calc((var(--u) * 9.5));
-			}
-
-			.left0,
-			.left0-f {
-				top: 0;
-			}
-			.left1,
-			.left1-f {
-				top: calc((var(--u) * 2.26));
-			}
-			.left2,
-			.left2-f {
-				top: calc((var(--u) * 4.52));
-			}
-			.left3,
-			.left3-f {
-				top: calc((var(--u) * 6.78));
-			}
-			.left4,
-			.left4-f {
-				top: calc((var(--u) * 9.04));
-			}
-			.left5,
-			.left5-f {
-				top: calc((var(--u) * 11.3));
-			}
-			.left6,
-			.left6-f {
-				top: calc((var(--u) * 13.56));
-			}
-
-			.right0,
-			.right0-f {
-				top: 0;
-			}
-			.right1,
-			.right1-f {
-				top: calc((var(--u) * 2.26));
-			}
-			.right2,
-			.right2-f {
-				top: calc((var(--u) * 4.52));
-			}
-			.right3,
-			.right3-f {
-				top: calc((var(--u) * 6.78));
-			}
-			.right4,
-			.right4-f {
-				top: calc((var(--u) * 9.04));
-			}
-			.right5,
-			.right5-f {
-				top: calc((var(--u) * 11.3));
-			}
-			.right6,
-			.right6-f {
-				top: calc((var(--u) * 13.56));
-			}
-
-			#tankTurret {
-				position: fixed;
-				left: 50vw;
-				top: 50vh;
-			}
-
-			@media screen and (orientation: landscape) {
-				.tankTurret-f {
-					rotate: 90deg;
-				}
-			}
-
-			.tankTurret-f {
-				position: absolute;
-				width: 0;
-				height: 0;
-			}
-
-			.tankTurret-f * {
-				position: absolute;
-			}
-
-			.rocket1 {
-				width: calc((var(--u) * 3));
-				height: calc((var(--u) * 10));
-				background-color: var(--orange);
-				left: calc((var(--u) * -1.5));
-				top: calc((var(--u) * -6.7));
-				border-radius: calc((var(--u) * 0.4)) !important;
-				border-bottom-left-radius: 0 !important;
-				border-bottom-right-radius: 0 !important;
-				border-bottom: none !important;
-			}
-
-			.rocket2 {
-				width: calc((var(--u) * 6));
-				height: calc((var(--u) * 5.5));
-				border-radius: calc((var(--u) * 0.4)) !important;
-				left: calc((var(--u) * -3));
-				top: calc((var(--u) * -1.2));
-				background-color: var(--yellow);
-				box-shadow: none !important;
-				clip-path: polygon(50% 0, 100% 40%, 100% 100%, 50% 60%, 0 100%, 0 40%);
-				z-index: -1;
-			}
-
-			.rocket3 {
-				width: calc((var(--u) * 3));
-				height: calc((var(--u) * 2.5));
-				border-radius: calc((var(--u) * 0.4)) !important;
-				left: calc((var(--u) * -1.5));
-				top: calc((var(--u) * -8.9));
-				background-color: var(--yellow);
-				box-shadow: none !important;
-				clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-				z-index: -1;
-			}
-
-			.rico2 *, .rico2.outer {
-				width: calc((var(--u) * 2));
-				height: calc((var(--u) * 5));
-				box-shadow: none !important;
-			}
-
-			.rico2 .inner {
-			    filter: blur( calc((var(--u) * 0.6)));
-			}
-
-			span.rico2 {
-				background-color: var(--yellow);
-				clip-path: polygon(0 0, 100% 0, 85% 100%, 15% 100%);
-				right: 0;
-			}
-
-			.rico2.outer {
-				left: calc((var(--u) * -1));
-				top: calc((var(--u) * -7.5));
-				background-color: rgba(0, 0, 0, 0.6);
-				clip-path: polygon(0 0, 100% 0, 85% 100%, 15% 100%);
-				z-index: 0;
-			}
-
-
-
-			.rico1 *, .rico1.outer {
-				width: calc((var(--u) * 8.5));
-				height: calc((var(--u) * 8.5));
-				box-shadow: none !important;
-			}
-
-			.rico1 .inner {
-			    filter: blur( calc((var(--u) * 0.6)));
-			}
-
-			span.rico1 {
-				background-color: var(--orange);
-				clip-path: polygon(55% 0, 100% 62%, 50% 100%, 0 62%, 45% 0);
-				right: 0;
-			}
-
-			.rico1.outer {
-				z-index: 5;
-				left: calc((var(--u) * -4.25));
-				top: calc((var(--u) * -4.25));
-				background-color: rgba(0, 0, 0, 0.6);
-				clip-path: polygon(55% 0, 100% 62%, 50% 100%, 0 62%, 45% 0);
-			}
-
-			.flame1 {
-				width: calc((var(--u) * 4.25));
-				height: calc((var(--u) * 9));
-				left: calc((var(--u) * -4.5));
-				top: calc((var(--u) * -4.7));
-				background-color: var(--orange);
-				border-radius: calc((var(--u)) * 2) !important;
-			}
-
-			.flame2 {
-				width: calc((var(--u) * 4.25));
-				height: calc((var(--u) * 9));
-				background-color: var(--orange);
-				left: calc((var(--u) * 0.25));
-				top: calc((var(--u) * -4.7));
-				border-radius: calc((var(--u)) * 2) !important;
-			}
-
-			.flame3 {
-				width: calc((var(--u) * 1.5));
-				height: calc((var(--u) * 7));
-				background-color: var(--yellow);
-				left: calc((var(--u) * -0.75));
-				top: calc((var(--u) * -9.2));
-				border-radius: 0 !important;
-				z-index: 0;
-				clip-path: polygon(25% 0, 75% 0, 100% 10%, 100% 70%, 50% 100%, 50% 100%, 0% 70%, 0 10%);
-			}
-
-			.flame4 {
-				width: calc((var(--u) * 1.5));
-				height: calc((var(--u) * 7));
-				background-color: var(--orange);
-				left: calc((var(--u) * -0.75));
-				top: calc((var(--u) * -4));
-				border-radius: 0 !important;
-				z-index: -2;
-				box-shadow: inset 0 0 calc((var(--u) * 5)) calc((var(--u) * 5)) rgba(0, 0, 0, 0.3) !important;
-			}
-
-			.flame4-1 {
-				width: calc((var(--u) * 2.5));
-				height: calc((var(--u) * 0.35));
-				left: calc((var(--u) * -3.6));
-				top: calc((var(--u) * 2));
-				background-color: black;
-				border-radius: 0 !important;
-			}
-
-			.flame4-2 {
-				width: calc((var(--u) * 2.5));
-				height: calc((var(--u) * 0.35));
-				left: calc((var(--u) * -3.6));
-				top: calc((var(--u) * 0.25));
-				background-color: black;
-				border-radius: 0 !important;
-			}
-
-			.flame4-3 {
-				width: calc((var(--u) * 2.5));
-				height: calc((var(--u) * 0.35));
-				left: calc((var(--u) * -3.6));
-				top: calc((var(--u) * -1.5));
-				background-color: black;
-				border-radius: 0 !important;
-			}
-
-			.flame4-4 {
-				width: calc((var(--u) * 2.5));
-				height: calc((var(--u) * 0.35));
-				left: calc((var(--u) * 1.1));
-				top: calc((var(--u) * 2));
-				background-color: black;
-				border-radius: 0 !important;
-			}
-
-			.flame4-5 {
-				width: calc((var(--u) * 2.5));
-				height: calc((var(--u) * 0.35));
-				left: calc((var(--u) * 1.1));
-				top: calc((var(--u) * 0.25));
-				background-color: black;
-				border-radius: 0 !important;
-			}
-
-			.flame4-6 {
-				width: calc((var(--u) * 2.5));
-				height: calc((var(--u) * 0.35));
-				left: calc((var(--u) * 1.1));
-				top: calc((var(--u) * -1.5));
-				background-color: black;
-				border-radius: 0 !important;
-			}
-
-
-
-
-			.taser1 *, .taser1.outer {
-				width: calc((var(--u) * 8.5));
-				height: calc((var(--u) * 8.5));
-				box-shadow: none !important;
-			}
-
-			.taser1 .inner {
-			    filter: blur( calc((var(--u) * 0.6)));
-			}
-
-			span.taser1 {
-				background-color: var(--orange);
-				clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
-				right: 0;
-			}
-
-			.taser1.outer {
-				z-index: 5;
-				left: calc((var(--u) * -4.25));
-				top: calc((var(--u) * -4.25));
-				background-color: rgba(0, 0, 0, 0.6);
-				clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
-			}
-
-
-
-
-			.taser2 {
-				width: calc((var(--u) * 1));
-				height: calc((var(--u) * 10));
-				background-color: var(--yellow);
-				left: calc((var(--u) * -1.25));
-				top: calc((var(--u) * -10));
-				z-index: 2;
-			}
-
-			.taser3 {
-				width: calc((var(--u) * 1));
-				height: calc((var(--u) * 10));
-				background-color: var(--yellow);
-				left: calc((var(--u) * 0.25));
-				top: calc((var(--u) * -10));
-				z-index: 2;
-			}
-
-			.minigun1 {
-				width: calc((var(--u) * 1.25));
-				height: calc((var(--u) * 10));
-				background-color: var(--yellow);
-				left: calc((var(--u) * 0.7));
-				top: calc((var(--u) * -10));
-			}
-			.minigun2 {
-				width: calc((var(--u) * 1.25));
-				height: calc((var(--u) * 10));
-				background-color: var(--yellow);
-				left: calc((var(--u) * -1.95));
-				top: calc((var(--u) * -10));
-			}
-
-			.minigun3 {
-				width: calc((var(--u) * 7));
-				height: calc((var(--u) * 7));
-				left: calc((var(--u) * -3.5));
-				top: calc((var(--u) * -3.5));
-				background-color: var(--orange);
-			}
-
-			.rock1 {
-				width: calc((var(--u) * 8.3));
-				height: calc((var(--u) * 8.3));
-				background-color: var(--yellow);
-				left: calc((var(--u) * -4));
-				top: calc((var(--u) * -4.6));
-				box-shadow: inset 0 0 0.7vw 0.7vw rgba(0, 0, 0, 0.2);
-			}
-			.rock2 {
-				width: calc((var(--u) * 3));
-				height: calc((var(--u) * 10));
-				background-color: var(--yellow);
-				left: calc((var(--u) * -1.5));
-				top: calc((var(--u) * -9));
-			}
-
-			.rock3 {
-				width: calc((var(--u) * 2.5));
-				height: calc((var(--u) * 2.5));
-				left: calc((var(--u) * -1.25));
-				top: calc((var(--u) * -10));
-				background-color: var(--grey);
-				clip-path: polygon(11% 35%, 15% 15%, 38% 10%, 60% 14%, 81% 16%, 95% 38%, 90% 60%, 81% 80%, 59% 91%, 29% 94%, 22% 76%, 11% 66%);
-				position: relative;
-				z-index: -1;
-			}
-
-			.rock3-1, .rock3-2, .rock3-3, .rock3-4, .rock3-5 {
-				width: calc((var(--u) * 2.5));
-				height: calc((var(--u) * 2.5));
-				background-color: var(--grey);
-				clip-path: polygon(11% 35%, 15% 15%, 38% 10%, 60% 14%, 81% 16%, 95% 38%, 90% 60%, 81% 80%, 59% 91%, 29% 94%, 22% 76%, 11% 66%);
-				z-index: -1;
-			}
-
-			.rock3-1 {
-				left: calc((var(--u) * -1));
-				top: calc((var(--u) * 0.3));
-				z-index: 2;
-				rotate: 45deg;
-			}
-
-			.rock3-2 {
-				left: calc((var(--u) * -3.5));
-				top: calc((var(--u) * -0.1));
-				z-index: 3;
-			}
-
-			.rock3-3 {
-				left: calc((var(--u) * 1));
-				top: calc((var(--u) * 1));
-				z-index: 4;
-				rotate: 180deg;
-			}
-
-			.rock3-4 {
-				left: calc((var(--u) * -2));
-				top: calc((var(--u) * 1));
-				z-index: 5;
-				rotate: 140deg;
-			}
-
-			.rock3-5 {
-				left: calc((var(--u) * 1));
-				top: calc((var(--u) * -0.4));
-				z-index: 6;
-				rotate: 80deg;
-			}
-
-			#tank #joystickContainer #onlineJoystick {
-				position: absolute;
-				bottom: 0;
-				width: calc((30vw + 30vh) / 2);
-				height: calc((30vw + 30vh) / 2);
+			#shop .upgradeOptions .selectWeapon #arrowUp {
 				display: none;
-				z-index: 10;
 			}
 
-			#tank #joystickContainer #shootingOnlineJoystick {
-				position: absolute;
-				width: 100vw;
-				height: 100vh;
-				z-index: 5;
+			#shop #startGameAfterShop {
+				left: calc((((13vw + 13vh) / 2) + ((2vw + 2vh) / 2) + 4vw) + (5vw + 5vh) / 2);
 			}
 
-			#tank #joystickContainer {
-				width: 100vw;
-				height: 100vh;
+			#shop .upgradeTitle {
+				width: calc(100vw - ((11vw + 11vh) / 2) - ((2vw + 2vh) / 2) - 4vw);
 			}
-		</style>
-	</head>
-	<body>
-		<div id="intro">
-			<div id="title">
-				<span>SMASH</span> <span>TANKS</span>
-			</div>
-			<div id="container">
-				<div id="loadingProgressBarStartup"></div>
-			</div>
+
+
+		}
+		/*------------------------------------------------------------------
+        Game / #game
+        \/ \/ \/ \/ \/
+        ------------------------------------------------------------------*/
+
+		#game {
+			position: absolute;
+			width: 100vw;
+			height: 100vw;
+			top: 0;
+			left: 0;
+			transform-origin: center center;
+			visibility: hidden;
+			opacity: 0;
+		}
+
+		#game-container {
+			z-index: -1;
+			position: absolute;
+			width: 100vw;
+			height: 100vh;
+			overflow: hidden;
+		}
+
+		#mainPlayer {
+			position: fixed;
+			width: 3vw;
+			height: 3vw;
+			background: red;
+			transform: translate(-50%, -50%);
+			z-index: 2;
+		}
+
+		.rock {
+			position: absolute;
+			z-index: 1;
+		}
+
+		.rock-0 {
+			background: #D2B48C;
+		}
+
+		/* Dirt/ground */
+		.rock-1 {
+			background: #4CAF50;
+		}
+
+		/* Green rock */
+		.rock-2 {
+			background: #888;
+		}
+
+		/* Grey rock */
+		.rock-3 {
+			background: #222;
+		}
+
+		/* Black rock (border) */
+		.rock-4 {
+			display: none;
+		}
+
+		/* Empty space - invisible */
+		.rock-5 {
+			background: #2196F3;
+		}
+
+		/* Blue starting block */
+
+		#world {
+			position: absolute;
+			transform: translate(0, 0);
+		}
+
+		/*------------------------------------------------------------------
+        Tank / .Tank
+        \/ \/ \/ \/ \/
+        ------------------------------------------------------------------*/
+
+		#tank,
+		#tank *,
+		.tank-f,
+		.tank-f * {
+			position: absolute;
+			border-radius: calc((var(--u) * 0.8));
+		}
+
+		.tank-wrapper-f {
+			position: relative;
+		}
+
+		#tankBody *:not(#treadBumps),
+		#tankTurret *:not(#treadBumps),
+		.tankBody-f *:not(.treadBumps-f),
+		.tankTurret-f *:not(.treadBumps-f) {
+			box-shadow: inset 0 0 calc((var(--u) * 0.5)) calc((var(--u) * 0.5)) rgba(0, 0, 0, 0.3);
+		}
+
+		#tank #tankBody {
+			position: fixed;
+			left: 50vw;
+			top: 50vh;
+			transition: transform 0.2s linear;
+		}
+
+		.tank-f .tankBody-f {
+			position: absolute;
+			transition: transform 0.2s linear;
+		}
+
+		#tank #tankBody div #tankBase,
+		.tank-f .tankBody-f div .tankBase-f {
+			width: calc((var(--u) * 10));
+			height: calc((var(--u) * 10));
+			background-color: #d9724b;
+			left: calc((var(--u) * -5));
+			top: calc((var(--u) * -5));
+		}
+
+		#tank #tankBody div #treadsLeft,
+		.tank-f .tankBody-f div .treadsLeft-f {
+			z-index: -1;
+			width: calc((var(--u) * 3));
+			top: calc((var(--u) * -6.25));
+			left: calc((var(--u) * -6.25));
+			height: calc((var(--u) * 12.5));
+			background-color: var(--grey);
+			border-radius: calc((var(--u) * 0.5)) 0 0 calc((var(--u) * 0.5));
+		}
+
+		#tank #tankBody div #treadsRight,
+		.tank-f .tankBody-f div .treadsRight-f {
+			z-index: -1;
+			width: calc((var(--u) * 3));
+			top: calc((var(--u) * -6.25));
+			left: calc((var(--u) * 3.25));
+			height: calc((var(--u) * 12.5));
+			background-color: var(--grey);
+			border-radius: 0 calc((var(--u) * 0.5)) calc((var(--u) * 0.5)) 0;
+		}
+
+		#tank #tankBody div #treadBumps,
+		.tank-f .tankBody-f div .treadBumps-f {
+			height: calc((var(--u) * 12.5));
+			width: calc((var(--u) * 12.5));
+			left: calc((var(--u) * -6.25));
+			top: calc((var(--u) * -6.25));
+			overflow: hidden;
+		}
+
+		#tank #tankBody div #treadBumps *,
+		.tank-f .tankBody-f div .treadBumps-f * {
+			height: calc((var(--u) * 0.3));
+			background: rgb(116, 117, 121);
+			background: linear-gradient(0deg, rgba(116, 117, 121, 1) 0%, rgba(76, 77, 79, 1) 50%, rgba(116, 117, 121, 1) 100%);
+			border-radius: 0;
+			width: calc((var(--u) * 3));
+			z-index: -1;
+			min-width: 1px;
+		}
+
+		.right0,
+		.right1,
+		.right2,
+		.right3,
+		.right4,
+		.right5,
+		.right6,
+		.right0-f,
+		.right1-f,
+		.right2-f,
+		.right3-f,
+		.right4-f,
+		.right5-f,
+		.right6-f {
+			left: calc((var(--u) * 9.5));
+		}
+
+		.left0,
+		.left0-f {
+			top: 0;
+		}
+		.left1,
+		.left1-f {
+			top: calc((var(--u) * 2.26));
+		}
+		.left2,
+		.left2-f {
+			top: calc((var(--u) * 4.52));
+		}
+		.left3,
+		.left3-f {
+			top: calc((var(--u) * 6.78));
+		}
+		.left4,
+		.left4-f {
+			top: calc((var(--u) * 9.04));
+		}
+		.left5,
+		.left5-f {
+			top: calc((var(--u) * 11.3));
+		}
+		.left6,
+		.left6-f {
+			top: calc((var(--u) * 13.56));
+		}
+
+		.right0,
+		.right0-f {
+			top: 0;
+		}
+		.right1,
+		.right1-f {
+			top: calc((var(--u) * 2.26));
+		}
+		.right2,
+		.right2-f {
+			top: calc((var(--u) * 4.52));
+		}
+		.right3,
+		.right3-f {
+			top: calc((var(--u) * 6.78));
+		}
+		.right4,
+		.right4-f {
+			top: calc((var(--u) * 9.04));
+		}
+		.right5,
+		.right5-f {
+			top: calc((var(--u) * 11.3));
+		}
+		.right6,
+		.right6-f {
+			top: calc((var(--u) * 13.56));
+		}
+
+		#tankTurret {
+			position: fixed;
+			left: 50vw;
+			top: 50vh;
+		}
+
+		@media screen and (orientation: landscape) {
+			.tankTurret-f {
+				rotate: 90deg;
+			}
+		}
+
+		.tankTurret-f {
+			position: absolute;
+			width: 0;
+			height: 0;
+		}
+
+		.tankTurret-f * {
+			position: absolute;
+		}
+
+		.rocket1 {
+			width: calc((var(--u) * 3));
+			height: calc((var(--u) * 10));
+			background-color: var(--orange);
+			left: calc((var(--u) * -1.5));
+			top: calc((var(--u) * -6.7));
+			border-radius: calc((var(--u) * 0.4)) !important;
+			border-bottom-left-radius: 0 !important;
+			border-bottom-right-radius: 0 !important;
+			border-bottom: none !important;
+		}
+
+		.rocket2 {
+			width: calc((var(--u) * 6));
+			height: calc((var(--u) * 5.5));
+			border-radius: calc((var(--u) * 0.4)) !important;
+			left: calc((var(--u) * -3));
+			top: calc((var(--u) * -1.2));
+			background-color: var(--yellow);
+			box-shadow: none !important;
+			clip-path: polygon(50% 0, 100% 40%, 100% 100%, 50% 60%, 0 100%, 0 40%);
+			z-index: -1;
+		}
+
+		.rocket3 {
+			width: calc((var(--u) * 3));
+			height: calc((var(--u) * 2.5));
+			border-radius: calc((var(--u) * 0.4)) !important;
+			left: calc((var(--u) * -1.5));
+			top: calc((var(--u) * -8.9));
+			background-color: var(--yellow);
+			box-shadow: none !important;
+			clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+			z-index: -1;
+		}
+
+		.rico2 *, .rico2.outer {
+			width: calc((var(--u) * 2));
+			height: calc((var(--u) * 5));
+			box-shadow: none !important;
+		}
+
+		.rico2 .inner {
+			filter: blur( calc((var(--u) * 0.6)));
+		}
+
+		span.rico2 {
+			background-color: var(--yellow);
+			clip-path: polygon(0 0, 100% 0, 85% 100%, 15% 100%);
+			right: 0;
+		}
+
+		.rico2.outer {
+			left: calc((var(--u) * -1));
+			top: calc((var(--u) * -7.5));
+			background-color: rgba(0, 0, 0, 0.6);
+			clip-path: polygon(0 0, 100% 0, 85% 100%, 15% 100%);
+			z-index: 0;
+		}
+
+
+
+		.rico1 *, .rico1.outer {
+			width: calc((var(--u) * 8.5));
+			height: calc((var(--u) * 8.5));
+			box-shadow: none !important;
+		}
+
+		.rico1 .inner {
+			filter: blur( calc((var(--u) * 0.6)));
+		}
+
+		span.rico1 {
+			background-color: var(--orange);
+			clip-path: polygon(55% 0, 100% 62%, 50% 100%, 0 62%, 45% 0);
+			right: 0;
+		}
+
+		.rico1.outer {
+			z-index: 5;
+			left: calc((var(--u) * -4.25));
+			top: calc((var(--u) * -4.25));
+			background-color: rgba(0, 0, 0, 0.6);
+			clip-path: polygon(55% 0, 100% 62%, 50% 100%, 0 62%, 45% 0);
+		}
+
+		.flame1 {
+			width: calc((var(--u) * 4.25));
+			height: calc((var(--u) * 9));
+			left: calc((var(--u) * -4.5));
+			top: calc((var(--u) * -4.7));
+			background-color: var(--orange);
+			border-radius: calc((var(--u)) * 2) !important;
+		}
+
+		.flame2 {
+			width: calc((var(--u) * 4.25));
+			height: calc((var(--u) * 9));
+			background-color: var(--orange);
+			left: calc((var(--u) * 0.25));
+			top: calc((var(--u) * -4.7));
+			border-radius: calc((var(--u)) * 2) !important;
+		}
+
+		.flame3 {
+			width: calc((var(--u) * 1.5));
+			height: calc((var(--u) * 7));
+			background-color: var(--yellow);
+			left: calc((var(--u) * -0.75));
+			top: calc((var(--u) * -9.2));
+			border-radius: 0 !important;
+			z-index: 0;
+			clip-path: polygon(25% 0, 75% 0, 100% 10%, 100% 70%, 50% 100%, 50% 100%, 0% 70%, 0 10%);
+		}
+
+		.flame4 {
+			width: calc((var(--u) * 1.5));
+			height: calc((var(--u) * 7));
+			background-color: var(--orange);
+			left: calc((var(--u) * -0.75));
+			top: calc((var(--u) * -4));
+			border-radius: 0 !important;
+			z-index: -2;
+			box-shadow: inset 0 0 calc((var(--u) * 5)) calc((var(--u) * 5)) rgba(0, 0, 0, 0.3) !important;
+		}
+
+		.flame4-1 {
+			width: calc((var(--u) * 2.5));
+			height: calc((var(--u) * 0.35));
+			left: calc((var(--u) * -3.6));
+			top: calc((var(--u) * 2));
+			background-color: black;
+			border-radius: 0 !important;
+		}
+
+		.flame4-2 {
+			width: calc((var(--u) * 2.5));
+			height: calc((var(--u) * 0.35));
+			left: calc((var(--u) * -3.6));
+			top: calc((var(--u) * 0.25));
+			background-color: black;
+			border-radius: 0 !important;
+		}
+
+		.flame4-3 {
+			width: calc((var(--u) * 2.5));
+			height: calc((var(--u) * 0.35));
+			left: calc((var(--u) * -3.6));
+			top: calc((var(--u) * -1.5));
+			background-color: black;
+			border-radius: 0 !important;
+		}
+
+		.flame4-4 {
+			width: calc((var(--u) * 2.5));
+			height: calc((var(--u) * 0.35));
+			left: calc((var(--u) * 1.1));
+			top: calc((var(--u) * 2));
+			background-color: black;
+			border-radius: 0 !important;
+		}
+
+		.flame4-5 {
+			width: calc((var(--u) * 2.5));
+			height: calc((var(--u) * 0.35));
+			left: calc((var(--u) * 1.1));
+			top: calc((var(--u) * 0.25));
+			background-color: black;
+			border-radius: 0 !important;
+		}
+
+		.flame4-6 {
+			width: calc((var(--u) * 2.5));
+			height: calc((var(--u) * 0.35));
+			left: calc((var(--u) * 1.1));
+			top: calc((var(--u) * -1.5));
+			background-color: black;
+			border-radius: 0 !important;
+		}
+
+
+
+
+		.taser1 *, .taser1.outer {
+			width: calc((var(--u) * 8.5));
+			height: calc((var(--u) * 8.5));
+			box-shadow: none !important;
+		}
+
+		.taser1 .inner {
+			filter: blur( calc((var(--u) * 0.6)));
+		}
+
+		span.taser1 {
+			background-color: var(--orange);
+			clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+			right: 0;
+		}
+
+		.taser1.outer {
+			z-index: 5;
+			left: calc((var(--u) * -4.25));
+			top: calc((var(--u) * -4.25));
+			background-color: rgba(0, 0, 0, 0.6);
+			clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+		}
+
+
+
+
+		.taser2 {
+			width: calc((var(--u) * 1));
+			height: calc((var(--u) * 10));
+			background-color: var(--yellow);
+			left: calc((var(--u) * -1.25));
+			top: calc((var(--u) * -10));
+			z-index: 2;
+		}
+
+		.taser3 {
+			width: calc((var(--u) * 1));
+			height: calc((var(--u) * 10));
+			background-color: var(--yellow);
+			left: calc((var(--u) * 0.25));
+			top: calc((var(--u) * -10));
+			z-index: 2;
+		}
+
+		.minigun1 {
+			width: calc((var(--u) * 1.25));
+			height: calc((var(--u) * 10));
+			background-color: var(--yellow);
+			left: calc((var(--u) * 0.7));
+			top: calc((var(--u) * -10));
+		}
+		.minigun2 {
+			width: calc((var(--u) * 1.25));
+			height: calc((var(--u) * 10));
+			background-color: var(--yellow);
+			left: calc((var(--u) * -1.95));
+			top: calc((var(--u) * -10));
+		}
+
+		.minigun3 {
+			width: calc((var(--u) * 7));
+			height: calc((var(--u) * 7));
+			left: calc((var(--u) * -3.5));
+			top: calc((var(--u) * -3.5));
+			background-color: var(--orange);
+		}
+
+		.rock1 {
+			width: calc((var(--u) * 8.3));
+			height: calc((var(--u) * 8.3));
+			background-color: var(--yellow);
+			left: calc((var(--u) * -4));
+			top: calc((var(--u) * -4.6));
+			box-shadow: inset 0 0 0.7vw 0.7vw rgba(0, 0, 0, 0.2);
+		}
+		.rock2 {
+			width: calc((var(--u) * 3));
+			height: calc((var(--u) * 10));
+			background-color: var(--yellow);
+			left: calc((var(--u) * -1.5));
+			top: calc((var(--u) * -9));
+		}
+
+		.rock3 {
+			width: calc((var(--u) * 2.5));
+			height: calc((var(--u) * 2.5));
+			left: calc((var(--u) * -1.25));
+			top: calc((var(--u) * -10));
+			background-color: var(--grey);
+			clip-path: polygon(11% 35%, 15% 15%, 38% 10%, 60% 14%, 81% 16%, 95% 38%, 90% 60%, 81% 80%, 59% 91%, 29% 94%, 22% 76%, 11% 66%);
+			position: relative;
+			z-index: -1;
+		}
+
+		.rock3-1, .rock3-2, .rock3-3, .rock3-4, .rock3-5 {
+			width: calc((var(--u) * 2.5));
+			height: calc((var(--u) * 2.5));
+			background-color: var(--grey);
+			clip-path: polygon(11% 35%, 15% 15%, 38% 10%, 60% 14%, 81% 16%, 95% 38%, 90% 60%, 81% 80%, 59% 91%, 29% 94%, 22% 76%, 11% 66%);
+			z-index: -1;
+		}
+
+		.rock3-1 {
+			left: calc((var(--u) * -1));
+			top: calc((var(--u) * 0.3));
+			z-index: 2;
+			rotate: 45deg;
+		}
+
+		.rock3-2 {
+			left: calc((var(--u) * -3.5));
+			top: calc((var(--u) * -0.1));
+			z-index: 3;
+		}
+
+		.rock3-3 {
+			left: calc((var(--u) * 1));
+			top: calc((var(--u) * 1));
+			z-index: 4;
+			rotate: 180deg;
+		}
+
+		.rock3-4 {
+			left: calc((var(--u) * -2));
+			top: calc((var(--u) * 1));
+			z-index: 5;
+			rotate: 140deg;
+		}
+
+		.rock3-5 {
+			left: calc((var(--u) * 1));
+			top: calc((var(--u) * -0.4));
+			z-index: 6;
+			rotate: 80deg;
+		}
+
+		#tank #joystickContainer #onlineJoystick {
+			position: absolute;
+			bottom: 0;
+			width: calc((30vw + 30vh) / 2);
+			height: calc((30vw + 30vh) / 2);
+			display: none;
+			z-index: 10;
+		}
+
+		#tank #joystickContainer #shootingOnlineJoystick {
+			position: absolute;
+			width: 100vw;
+			height: 100vh;
+			z-index: 5;
+		}
+
+		#tank #joystickContainer {
+			width: 100vw;
+			height: 100vh;
+		}
+	</style>
+</head>
+<body>
+<div id="intro">
+	<div id="title">
+		<span>SMASH</span> <span>TANKS</span>
+	</div>
+	<div id="container">
+		<div id="loadingProgressBarStartup"></div>
+	</div>
+</div>
+<div id="restOfContent">
+	<div class="alerts">
+		<div id="NotCompatable">
+			SORRY, YOUR SCREEN SIZE IS NOT COMPATABLE WITH THIS GAME. <br />
+			TIP: TRY ROTATING YOUR SCREEN FOR A BETTER VIEW.
 		</div>
-		<div id="restOfContent">
-			<div class="alerts">
-				<div id="NotCompatable">
-					SORRY, YOUR SCREEN SIZE IS NOT COMPATABLE WITH THIS GAME. <br />
-					TIP: TRY ROTATING YOUR SCREEN FOR A BETTER VIEW.
-				</div>
-				<div id="rotateScreen">
-					<div class="label">FOR A BETTER EXPERIENCE, ROTATE YOUR SCREEN</div>
-					<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" viewBox="302.05 440.29 479.95 837.51">
-						<g transform="translate(0.000000,1920.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
-							<path
-								d="M4176 14766 c-24 -20 -37 -39 -33 -47 3 -8 78 -99 166 -203 88 -105 159 -191 158 -193 -2 -1 -48 7 -102 18 -140 29 -368 23 -500 -14 -171 -48 -296 -112 -437 -226 -337 -271 -487 -746 -366 -1159 l13 -43 47 43 47 43 -14 70 c-21 102 -19 272 5 381 42 203 129 364 274 510 209 210 469 313 756 299 85 -4 228 -29 242 -43 4 -4 -78 -78 -183 -166 -104 -87 -189 -161 -189 -165 0 -3 15 -24 34 -46 31 -36 35 -38 52 -25 77 62 530 444 531 449 3 6 -445 544 -456 548 -3 1 -24 -13 -45 -31z"
-							></path>
-							<path
-								d="M4030 13378 c-30 -6 -62 -15 -70 -22 -8 -6 -28 -18 -44 -26 -45 -23 -141 -120 -160 -162 -9 -21 -20 -38 -24 -38 -4 0 -16 -35 -25 -77 -16 -73 -17 -238 -17 -2480 0 -1741 3 -2417 11 -2455 35 -163 178 -309 339 -345 69 -15 2617 -18 2722 -3 87 13 166 59 246 145 34 36 62 71 62 77 0 6 6 19 13 27 8 9 21 48 31 86 15 64 16 273 16 2472 0 1753 -3 2416 -11 2455 -35 162 -179 309 -341 347 -61 14 -2667 13 -2748 -1z m2723 -289 c33 -20 66 -56 78 -87 5 -13 9 -75 9 -138 l0 -114 -1432 2 -1433 3 -3 95 c-3 94 10 170 28 170 6 0 10 7 10 15 0 8 12 22 28 32 15 10 29 20 32 24 3 4 14 9 25 12 11 3 607 4 1325 3 1181 -1 1308 -3 1333 -17z m87 -2514 l0 -1895 -1432 2 -1433 3 -3 1880 c-1 1034 0 1886 3 1893 3 9 300 12 1435 12 l1430 0 0 -1895z m0 -2299 l0 -125 -49 -50 c-39 -40 -57 -51 -92 -56 -24 -3 -620 -5 -1324 -3 -1389 3 -1297 -1 -1353 56 -39 41 -52 87 -52 192 0 53 3 100 7 103 3 4 649 7 1435 7 l1428 0 0 -124z"
-							></path>
-							<path d="M7713 8272 l-43 -37 15 -74 c22 -101 20 -274 -4 -386 -73 -351 -321 -633 -660 -751 -177 -62 -412 -71 -580 -22 l-44 13 179 150 c98 83 186 157 196 165 16 14 15 18 -21 58 l-38 43 -259 -216 c-142 -119 -267 -225 -277 -234 -17 -17 -8 -29 208 -287 124 -148 230 -270 234 -272 5 -1 27 13 49 31 l41 35 -170 202 c-93 112 -168 204 -167 206 2 1 27 -4 57 -12 318 -82 694 -1 957 207 279 221 434 540 434 897 0 122 -36 323 -58 322 -4 -1 -26 -18 -49 -38z"></path>
-						</g>
-					</svg>
-					<button onclick="this.parentElement.style.visibility = 'hidden'" class="noThanks">NO THANKS</button>
+		<div id="rotateScreen">
+			<div class="label">FOR A BETTER EXPERIENCE, ROTATE YOUR SCREEN</div>
+			<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" viewBox="302.05 440.29 479.95 837.51">
+				<g transform="translate(0.000000,1920.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+					<path
+							d="M4176 14766 c-24 -20 -37 -39 -33 -47 3 -8 78 -99 166 -203 88 -105 159 -191 158 -193 -2 -1 -48 7 -102 18 -140 29 -368 23 -500 -14 -171 -48 -296 -112 -437 -226 -337 -271 -487 -746 -366 -1159 l13 -43 47 43 47 43 -14 70 c-21 102 -19 272 5 381 42 203 129 364 274 510 209 210 469 313 756 299 85 -4 228 -29 242 -43 4 -4 -78 -78 -183 -166 -104 -87 -189 -161 -189 -165 0 -3 15 -24 34 -46 31 -36 35 -38 52 -25 77 62 530 444 531 449 3 6 -445 544 -456 548 -3 1 -24 -13 -45 -31z"
+					></path>
+					<path
+							d="M4030 13378 c-30 -6 -62 -15 -70 -22 -8 -6 -28 -18 -44 -26 -45 -23 -141 -120 -160 -162 -9 -21 -20 -38 -24 -38 -4 0 -16 -35 -25 -77 -16 -73 -17 -238 -17 -2480 0 -1741 3 -2417 11 -2455 35 -163 178 -309 339 -345 69 -15 2617 -18 2722 -3 87 13 166 59 246 145 34 36 62 71 62 77 0 6 6 19 13 27 8 9 21 48 31 86 15 64 16 273 16 2472 0 1753 -3 2416 -11 2455 -35 162 -179 309 -341 347 -61 14 -2667 13 -2748 -1z m2723 -289 c33 -20 66 -56 78 -87 5 -13 9 -75 9 -138 l0 -114 -1432 2 -1433 3 -3 95 c-3 94 10 170 28 170 6 0 10 7 10 15 0 8 12 22 28 32 15 10 29 20 32 24 3 4 14 9 25 12 11 3 607 4 1325 3 1181 -1 1308 -3 1333 -17z m87 -2514 l0 -1895 -1432 2 -1433 3 -3 1880 c-1 1034 0 1886 3 1893 3 9 300 12 1435 12 l1430 0 0 -1895z m0 -2299 l0 -125 -49 -50 c-39 -40 -57 -51 -92 -56 -24 -3 -620 -5 -1324 -3 -1389 3 -1297 -1 -1353 56 -39 41 -52 87 -52 192 0 53 3 100 7 103 3 4 649 7 1435 7 l1428 0 0 -124z"
+					></path>
+					<path d="M7713 8272 l-43 -37 15 -74 c22 -101 20 -274 -4 -386 -73 -351 -321 -633 -660 -751 -177 -62 -412 -71 -580 -22 l-44 13 179 150 c98 83 186 157 196 165 16 14 15 18 -21 58 l-38 43 -259 -216 c-142 -119 -267 -225 -277 -234 -17 -17 -8 -29 208 -287 124 -148 230 -270 234 -272 5 -1 27 13 49 31 l41 35 -170 202 c-93 112 -168 204 -167 206 2 1 27 -4 57 -12 318 -82 694 -1 957 207 279 221 434 540 434 897 0 122 -36 323 -58 322 -4 -1 -26 -18 -49 -38z"></path>
+				</g>
+			</svg>
+			<button onclick="this.parentElement.style.visibility = 'hidden'" class="noThanks">NO THANKS</button>
+		</div>
+	</div>
+
+	<div id="lobby">
+		<div id="lobbyArea">
+			<label>
+				<input type="text" id="userName" placeholder="TYPE YOUR NAME" maxlength="20" autocomplete="off">
+			</label>
+			<button id="goToShop">
+				SHOP<span class="material-symbols-outlined">keyboard_double_arrow_right</span>
+			</button>
+
+			<button id="openBox" onclick="document.getElementById('unlockScreen').style.scale = '1';document.getElementById('hideBackground').style.visibility = 'visible';document.getElementById('hideBackground').style.opacity = '1';">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.5 -0.5 16 16" fill="currentColor" id="chestSVG"><desc>Treasure Chest Streamline Icon: https://streamlinehq.com</desc><path d="M11.175 1.9875H3.825c-2.0287441406249997 0.002173828125 -3.67283203125 1.646255859375 -3.675 3.675v6.3c0 0.579919921875 0.470080078125 1.0500234375000002 1.05 1.05h12.6c0.579919921875 0.0000234375 1.05 -0.470080078125 1.05 -1.05V5.6625c-0.0021679687499999998 -2.0287441406249997 -1.646255859375 -3.6728261718749997 -3.675 -3.675Zm2.625 3.675v0.525h-2.1V3.09c1.2213984375 0.25113281249999997 2.0984765625 1.3255546875000002 2.1 2.5725000000000002Zm-5.775 2.625h-1.05V6.1875h1.05Zm-1.575 1.05h2.1c0.289951171875 0 0.525 -0.235048828125 0.525 -0.525v-1.575h1.575v4.725H4.35v-4.725h1.575v1.575c0 0.28995703125 0.23504296875 0.5250117187500001 0.525 0.525Zm2.625 -3.15v-0.525c0 -0.28993945312499997 -0.23506054687500003 -0.52498828125 -0.525 -0.525h-2.1c-0.28995703125 -0.00001171875 -0.525 0.23504296875 -0.525 0.525v0.525H4.35V3.0375h6.3v3.15ZM3.3 3.09V6.1875H1.2v-0.525c0.0015234374999999998 -1.2469453124999998 0.8786015625 -2.3213671875 2.1 -2.5725000000000002ZM1.2 7.2375h2.1v4.725H1.2Zm12.6 4.725h-2.1v-4.725h2.1v4.725Z" stroke-width="1"></path></svg>
+				UNLOCK
+			</button>
+
+			<button id="startTankGame">
+				START<span class="material-symbols-outlined">keyboard_double_arrow_right</span>
+			</button>
+
+			<div id="hideBackground"></div>
+			<div id="unlockScreen">
+				<div id="notEnoughCoins"><div>YOU DONT HAVE ENOUGH COINS TO UNLOCK! <br><br><br> YOU ONLY NEED <span id="coinsLeftUntilUnlock">45</span><span class="material-symbols-outlined">diamond</span></div></div>
+				<div id="buyTankOption">
+					ARE YOU SURE YOU WANT TO SPEND 200 COINS TO BUY A TANK?
+					<button>YES</button>
+					<button onclick="document.getElementById('unlockScreen').style.scale = '0'; document.getElementById('hideBackground').style.visibility = 'hidden';document.getElementById('hideBackground').style.opacity = '0';">NO</button>
 				</div>
 			</div>
 
-			<div id="lobby">
-				<div id="lobbyArea">
-                    <label>
-                        <input type="text" id="userName" placeholder="TYPE YOUR NAME" maxlength="20" autocomplete="off">
-                    </label>
-                    <button id="goToShop">
-						SHOP<span class="material-symbols-outlined">keyboard_double_arrow_right</span>
-					</button>
-
-					<button id="openBox" onclick="document.getElementById('unlockScreen').style.scale = '1';document.getElementById('hideBackground').style.visibility = 'visible';document.getElementById('hideBackground').style.opacity = '1';">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.5 -0.5 16 16" fill="currentColor" id="chestSVG"><desc>Treasure Chest Streamline Icon: https://streamlinehq.com</desc><path d="M11.175 1.9875H3.825c-2.0287441406249997 0.002173828125 -3.67283203125 1.646255859375 -3.675 3.675v6.3c0 0.579919921875 0.470080078125 1.0500234375000002 1.05 1.05h12.6c0.579919921875 0.0000234375 1.05 -0.470080078125 1.05 -1.05V5.6625c-0.0021679687499999998 -2.0287441406249997 -1.646255859375 -3.6728261718749997 -3.675 -3.675Zm2.625 3.675v0.525h-2.1V3.09c1.2213984375 0.25113281249999997 2.0984765625 1.3255546875000002 2.1 2.5725000000000002Zm-5.775 2.625h-1.05V6.1875h1.05Zm-1.575 1.05h2.1c0.289951171875 0 0.525 -0.235048828125 0.525 -0.525v-1.575h1.575v4.725H4.35v-4.725h1.575v1.575c0 0.28995703125 0.23504296875 0.5250117187500001 0.525 0.525Zm2.625 -3.15v-0.525c0 -0.28993945312499997 -0.23506054687500003 -0.52498828125 -0.525 -0.525h-2.1c-0.28995703125 -0.00001171875 -0.525 0.23504296875 -0.525 0.525v0.525H4.35V3.0375h6.3v3.15ZM3.3 3.09V6.1875H1.2v-0.525c0.0015234374999999998 -1.2469453124999998 0.8786015625 -2.3213671875 2.1 -2.5725000000000002ZM1.2 7.2375h2.1v4.725H1.2Zm12.6 4.725h-2.1v-4.725h2.1v4.725Z" stroke-width="1"></path></svg>
-						UNLOCK
-					</button>
-
-					<button id="startTankGame">
-						START<span class="material-symbols-outlined">keyboard_double_arrow_right</span>
-					</button>
-
-					<div id="hideBackground"></div>
-					<div id="unlockScreen">
-						<div id="notEnoughCoins"><div>YOU DONT HAVE ENOUGH COINS TO UNLOCK! <br><br><br> YOU ONLY NEED <span id="coinsLeftUntilUnlock">45</span><span class="material-symbols-outlined">diamond</span></div></div>
-						<div id="buyTankOption">
-							ARE YOU SURE YOU WANT TO SPEND 200 COINS TO BUY A TANK?
-							<button>YES</button>
-							<button onclick="document.getElementById('unlockScreen').style.scale = '0'; document.getElementById('hideBackground').style.visibility = 'hidden';document.getElementById('hideBackground').style.opacity = '0';">NO</button>
-						</div>
-					</div>
-
-				<!-- Remember to Add streak and levels -->
-				</div>
-				<div id="shop" class="pageRight">
-					<div class="upgradeTitle">SHOP</div>
-					<button id="startGameAfterShop">
-						<span class="material-symbols-outlined">keyboard_double_arrow_left</span>LOBBY
-					</button>
-					<div id="currentMoney">
+			<!-- Remember to Add streak and levels -->
+		</div>
+		<div id="shop" class="pageRight">
+			<div class="upgradeTitle">SHOP</div>
+			<button id="startGameAfterShop">
+				<span class="material-symbols-outlined">keyboard_double_arrow_left</span>LOBBY
+			</button>
+			<div id="currentMoney">
 						<span>
 							<span id='money'>45</span>
 							<span class="material-symbols-outlined">diamond</span>
 						</span>
+			</div>
+			<div class="upgradeOptions" id="upgradeOptions">
+				<!--Upgrade Types: Movement Speed, Turret Speed, Armor, Maxiumum Ammunition, Visibility, Projectile Speed, etc, etc-->
+				<!--<span id="rockShooterProgressLabel">4/5</span>-->
+				<!--<progress id="rockShooterTankProgressBar" value="0.8"></progress>-->
+				<div class="selectWeapon">
+					<div class="content">
+						<div class="upgradeTankSection" id="currentWeapon">
+							<span class="label" id="insertWeaponName"></span>
+							<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+						</div>
+						<div class="upgradeTankSection" id="currentAmmo">
+							<span class="label">AMMO</span>
+							<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+						</div>
+						<div class="upgradeTankSection" id="strength">
+							<span class="label">ATTACK STRENGTH</span>
+							<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+						</div>
+						<div class="upgradeTankSection" id="blastRadius">
+							<span class="label">BLAST RADIUS</span>
+							<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+						</div>
+						<div class="upgradeTankSection" id="armor">
+							<span class="label">ARMOR</span>
+							<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+						</div>
+						<div class="upgradeTankSection" id="speed">
+							<span class="label">SPEED</span>
+							<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+						</div>
+						<div class="upgradeTankSection" id="turretSpeed">
+							<span class="label">TURRET SPEED</span>
+							<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+						</div>
+						<div class="upgradeTankSection" id="visibility">
+							<span class="label">VISIBILITY</span>
+							<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+						</div>
+						<div class="upgradeTankSection" id="projectileSpeed">
+							<span class="label">PROJECTILE SPEED</span>
+							<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+						</div>
+						<!-- More Projectile Upgrade = More Projectile Distance -->
+						<div class="upgradeTankSection" id="fortune">
+							<span class="label">Fortune</span>
+							<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+						</div>
+						<div class="upgradeTankSection" id="reloadSpeed">
+							<span class="label">Reload Speed</span>
+							<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
+						</div>
+						<div class="upgradeTankSection" id="maxAmmo">
+							<span class="label">Max Ammo</span>
+							<span class="upgradeCost">15<span class="material-symbols-outlined">diamond</span></span>
+						</div>
+						<div class="upgradeTankSection" id="waterProofing">
+							<span class="label">WATER RESISTANCE</span>
+							<span class="upgradeCost">15<span class="material-symbols-outlined">diamond</span></span>
+						</div>
 					</div>
-					<div class="upgradeOptions" id="upgradeOptions">
-						<!--Upgrade Types: Movement Speed, Turret Speed, Armor, Maxiumum Ammunition, Visibility, Projectile Speed, etc, etc-->
-						<!--<span id="rockShooterProgressLabel">4/5</span>-->
-						<!--<progress id="rockShooterTankProgressBar" value="0.8"></progress>-->
-						<div class="selectWeapon">
-							<div class="content">
-								<div class="upgradeTankSection" id="currentWeapon">
-									<span class="label" id="insertWeaponName"></span>
-									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-								</div>
-								<div class="upgradeTankSection" id="currentAmmo">
-									<span class="label">AMMO</span>
-									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-								</div>
-								<div class="upgradeTankSection" id="strength">
-									<span class="label">ATTACK STRENGTH</span>
-									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-								</div>
-								<div class="upgradeTankSection" id="blastRadius">
-									<span class="label">BLAST RADIUS</span>
-									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-								</div>
-								<div class="upgradeTankSection" id="armor">
-									<span class="label">ARMOR</span>
-									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-								</div>
-								<div class="upgradeTankSection" id="speed">
-									<span class="label">SPEED</span>
-									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-								</div>
-								<div class="upgradeTankSection" id="turretSpeed">
-									<span class="label">TURRET SPEED</span>
-									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-								</div>
-								<div class="upgradeTankSection" id="visibility">
-									<span class="label">VISIBILITY</span>
-									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-								</div>
-								<div class="upgradeTankSection" id="projectileSpeed">
-									<span class="label">PROJECTILE SPEED</span>
-									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-								</div>
-								<!-- More Projectile Upgrade = More Projectile Distance -->
-								<div class="upgradeTankSection" id="fortune">
-									<span class="label">Fortune</span>
-									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-								</div>
-								<div class="upgradeTankSection" id="reloadSpeed">
-									<span class="label">Reload Speed</span>
-									<span class="upgradeCost">15 <span class="material-symbols-outlined">diamond</span></span>
-								</div>
-								<div class="upgradeTankSection" id="maxAmmo">
-									<span class="label">Max Ammo</span>
-									<span class="upgradeCost">15<span class="material-symbols-outlined">diamond</span></span>
-								</div>
-								<div class="upgradeTankSection" id="waterProofing">
-									<span class="label">WATER RESISTANCE</span>
-									<span class="upgradeCost">15<span class="material-symbols-outlined">diamond</span></span>
-								</div>
-							</div>
-							<div id="arrowRight"><span class="material-symbols-outlined">chevron_right</span></div>
-							<div id="arrowUp"><span class="material-symbols-outlined">keyboard_arrow_up</span></div>
-							<span class="upgradeButtons swiper-container">
+					<div id="arrowRight"><span class="material-symbols-outlined">chevron_right</span></div>
+					<div id="arrowUp"><span class="material-symbols-outlined">keyboard_arrow_up</span></div>
+					<span class="upgradeButtons swiper-container">
 								<span class="swiper-wrapper">
 									<button class="label swiper-slide" id='rockCannon'>
 										<div class="tank-wrapper-f">
@@ -1644,449 +1696,728 @@
 									<!--<button class="label swiper-slide" id='invisible'>17</button> &lt;!&ndash; INVISIBILITY &ndash;&gt;-->
 								</span>
 							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div id="game">
-				<div id="tank">
-					<div id="joystickContainer">
-						<div id="onlineJoystick"></div>
-						<div id="shootingOnlineJoystick"></div>
-					</div>
-					<div id="tankBody">
-						<div>
-							<div id="tankBase"></div>
-							<div id="treadsLeft"></div>
-							<div id="treadsRight"></div>
-							<div id="treadBumps">
-								<div class="left0 movingTread pauseAnimation"></div>
-								<div class="left1 movingTread pauseAnimation"></div>
-								<div class="left2 movingTread pauseAnimation"></div>
-								<div class="left3 movingTread pauseAnimation"></div>
-								<div class="left4 movingTread pauseAnimation"></div>
-								<div class="left5 movingTread pauseAnimation"></div>
-								<div class="left6 movingTread pauseAnimation"></div>
-								<div class="right0 movingTread pauseAnimation"></div>
-								<div class="right1 movingTread pauseAnimation"></div>
-								<div class="right2 movingTread pauseAnimation"></div>
-								<div class="right3 movingTread pauseAnimation"></div>
-								<div class="right4 movingTread pauseAnimation"></div>
-								<div class="right5 movingTread pauseAnimation"></div>
-								<div class="right6 movingTread pauseAnimation"></div>
-							</div>
-						</div>
-					</div>
-					<div id="tankTurret">
-						<div class="flame1"></div>
-						<div class="flame2"></div>
-						<div class="flame3"></div>
-						<div class="flame4"></div>
-						<div class="flame4-1"></div>
-						<div class="flame4-2"></div>
-						<div class="flame4-3"></div>
-						<div class="flame4-4"></div>
-						<div class="flame4-5"></div>
-						<div class="flame4-6"></div>
-					</div>
 				</div>
 			</div>
 		</div>
-		<script src="./Loader.js"></script>
-		<script>
-			function s() {
-				/* Variables */
-				let introLoaded, mobile, isRotating;
-				introLoaded = mobile = isRotating = false;
+	</div>
 
-				let angle, currentRotation, targetRotation, currentMoneyAmount;
-				angle = currentRotation = targetRotation = currentMoneyAmount = 0;
+	<div id="game">
+		<div id="game-container">
+			<div id="world"></div>
+			<div id="mainPlayer"></div>
+		</div>
+		<div id="tank">
+			<div id="joystickContainer">
+				<div id="onlineJoystick"></div>
+				<div id="shootingOnlineJoystick"></div>
+			</div>
+			<div id="tankBody">
+				<div>
+					<div id="tankBase"></div>
+					<div id="treadsLeft"></div>
+					<div id="treadsRight"></div>
+					<div id="treadBumps">
+						<div class="left0 movingTread pauseAnimation"></div>
+						<div class="left1 movingTread pauseAnimation"></div>
+						<div class="left2 movingTread pauseAnimation"></div>
+						<div class="left3 movingTread pauseAnimation"></div>
+						<div class="left4 movingTread pauseAnimation"></div>
+						<div class="left5 movingTread pauseAnimation"></div>
+						<div class="left6 movingTread pauseAnimation"></div>
+						<div class="right0 movingTread pauseAnimation"></div>
+						<div class="right1 movingTread pauseAnimation"></div>
+						<div class="right2 movingTread pauseAnimation"></div>
+						<div class="right3 movingTread pauseAnimation"></div>
+						<div class="right4 movingTread pauseAnimation"></div>
+						<div class="right5 movingTread pauseAnimation"></div>
+						<div class="right6 movingTread pauseAnimation"></div>
+					</div>
+				</div>
+			</div>
+			<div id="tankTurret">
+				<div class="flame1"></div>
+				<div class="flame2"></div>
+				<div class="flame3"></div>
+				<div class="flame4"></div>
+				<div class="flame4-1"></div>
+				<div class="flame4-2"></div>
+				<div class="flame4-3"></div>
+				<div class="flame4-4"></div>
+				<div class="flame4-5"></div>
+				<div class="flame4-6"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="./Loader.js"></script>
+<script>
+	function s() {
+		/* Variables */
+		let introLoaded, mobile, isRotating;
+		introLoaded = mobile = isRotating = false;
 
-				let turretSpeed = 2.5;
-				let driveSpeed = 0.5;
-				let tankNames = {
-					'rockCannon' : 'Rock Cannon',
-					'minigun' : 'MiniGun',
-					'taser' : 'Taser',
-					'flamethrower' : 'Flamethrower',
-					'richochet' : 'Ricochet',
-					'rocket' : 'Rocket',
-					'bomb' : 'Bomb',
-					'shock' : 'Shock',
-					'machineGun' : 'Machine Gun',
-					'railGun' : 'Railgun',
-					'mines' : 'Mines',
-					'sniper' : 'Sniper',
-					'grenade' : 'Grenade',
-					'miniTank' : 'RC Tank',
-					'oilTank' : 'Oil Tank',
-					'ram' : 'Ram',
-					'invisible' : 'Invisibility'
+		let angle, currentRotation, targetRotation, currentMoneyAmount;
+		angle = currentRotation = targetRotation = currentMoneyAmount = 0;
+
+		let turretSpeed = 2.5;
+		let driveSpeed = 0.5;
+		let tankNames = {
+			'rockCannon' : 'Rock Cannon',
+			'minigun' : 'MiniGun',
+			'taser' : 'Taser',
+			'flamethrower' : 'Flamethrower',
+			'richochet' : 'Ricochet',
+			'rocket' : 'Rocket',
+			'bomb' : 'Bomb',
+			'shock' : 'Shock',
+			'machineGun' : 'Machine Gun',
+			'railGun' : 'Railgun',
+			'mines' : 'Mines',
+			'sniper' : 'Sniper',
+			'grenade' : 'Grenade',
+			'miniTank' : 'RC Tank',
+			'oilTank' : 'Oil Tank',
+			'ram' : 'Ram',
+			'invisible' : 'Invisibility'
+		}
+		let tankUpgrades =
+				[
+					[['rockCannon'],   [[1, 5],[100, 100], [1, 1], [0, 0], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]]], // ROCK CANNON
+					[['minigun'],      [[20, 100] ,[20, 100] , [1, 2], [0, 0], [1, 2], [1, 2], [1, 2], [1, 2], [1, 2], [1, 2], [1, 2], [1, 2], [1, 2]]], // MINIGUN
+					[['taser'],        [[20, 100] ,[20, 100] , [1, 3], [0, 0], [1, 3], [1, 3], [1, 3], [1, 3], [1, 3], [1, 3], [1, 3], [1, 3], [1, 3]]], // TASER
+					[['flamethrower'], [[20, 100] ,[20, 100] , [1, 4], [0, 0], [1, 4], [1, 4], [1, 4], [1, 4], [3, 4], [1, 4], [1, 4], [1, 4], [1, 4]]], // FLAMETHROWER
+					[['richochet'],    [[20, 100] ,[20, 100] , [1, 5], [0, 0], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // RICOCHET
+					[['rocket'],       [[20, 100] ,[20, 100] , [1, 5], [1, 5], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // ROCKET
+					[['bomb'],         [[20, 100] ,[20, 100] , [1, 5], [1, 5], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // BOMB
+					[['shock'],        [[20, 100] ,[20, 100] , [1, 5], [0, 0], [1, 4], [1, 6], [3, 5], [1, 4], [4, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // SHOCK
+					[['machineGun'],   [[20, 100] ,[20, 100] , [1, 5], [0, 0], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // MACHINE GUN
+					[['railGun'],      [[20, 100] ,[20, 100] , [1, 5], [0, 0], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // RAILGUN
+					[['mines'],        [[20, 100] ,[20, 100] , [1, 5], [1, 4], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // MINES
+					[['sniper'],       [[20, 100] ,[20, 100] , [1, 5], [0, 0], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // SNIPER GUN
+					[['grenade'],      [[20, 100] ,[20, 100] , [1, 5], [1, 4], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // GRENADE
+					[['miniTank'],     [[20, 100] ,[20, 100] , [1, 5], [1, 4], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // EXPLOSIVE MINI TANKS
+					[['oilTank'],      [[20, 100] ,[20, 100] , [1, 5], [0, 0], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // OIL TANK
+					[['ram'],          [[20, 100] ,[20, 100] , [1, 5], [0, 0], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // RAM
+					[['invisible'],    [[20, 100] ,[20, 100] , [1, 5], [0, 0], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // INVISIBILITY
+				]
+		// currentWeapon currentAmmo strength blastRadius armor speed turretSpeed visibility projectileSpeed fortune reloadSpeed maxAmmo waterProofing
+
+		/* Elements */
+
+		/*ALERTS*/
+
+		const rotateScreen = document.getElementById("rotateScreen");
+
+		/*INTRO*/
+		const introElement = document.getElementById("intro");
+		const startButton = document.getElementById("start");
+
+		/*GAME*/
+
+		const game = document.getElementById("game");
+
+		/*LOBBY*/
+		const goToShop = document.getElementById("goToShop");
+		const lobby = document.getElementById("lobby");
+		const lobbyArea = document.getElementById("lobbyArea");
+		const startTankGame = document.getElementById("startTankGame");
+		const openBox = document.getElementById('openBox');
+
+		/*SHOP*/
+		const shop = document.getElementById("shop");
+		const beginGame = document.getElementById("startGameAfterShop");
+		const upgradeOptions = document.getElementById("upgradeOptions");
+		const upgradeTitle = document.querySelector(".upgradeTitle");
+		const currentMoney = document.getElementById('currentMoney');
+
+		/*TANK*/
+		const onlineJoystick = document.getElementById("onlineJoystick");
+		const shootingOnlineJoystick = document.getElementById("shootingOnlineJoystick",);
+		const tankBody = document.getElementById("tankBody");
+		const tankTurret = document.getElementById("tankTurret");
+
+		/* INTRO */
+
+		startButton.addEventListener("click", () => {
+			introElement.style.setProperty("visibility", "hidden");
+			introElement.style.setProperty("opacity", "0");
+			introElement.style.setProperty("display", "none");
+			lobby.style.setProperty("visibility", "visible");
+			lobby.style.setProperty("opacity", "1");
+
+			let elementHeight = `${document.body.offsetHeight - upgradeTitle.offsetHeight}px`;
+			upgradeOptions.style.setProperty("height", elementHeight);
+			let upgradeTitleOffsetHeight = `${upgradeTitle.offsetHeight * 0.5}px`;
+			beginGame.style.setProperty("height", upgradeTitleOffsetHeight);
+			goToShop.style.setProperty("height", upgradeTitleOffsetHeight);
+			currentMoney.style.setProperty('height', upgradeTitleOffsetHeight);
+			openBox.style.setProperty('height', upgradeTitleOffsetHeight);
+			openBox.style.top = `${(window.innerHeight * 0.05 + window.innerWidth * 0.05) + upgradeTitle.offsetHeight * 0.5}px`;
+			startTankGame.style.setProperty('height', `${upgradeTitle.offsetHeight * 0.5 * 1.25}px`);
+			startTankGame.style.setProperty('height', upgradeTitleOffsetHeight);
+			startTankGame.style.top = `${((window.innerHeight - upgradeTitle.offsetHeight * 0.5) - ((0.05 * window.innerHeight + 0.05 * window.innerWidth) / 2))}px`;
+		});
+
+		/* SHOP */
+		/* Go back and forth through lobby and shop */
+		goToShop.addEventListener("click", () => {
+			lobbyArea.classList.remove("pageLeft");
+			lobbyArea.classList.remove("pageRight");
+			shop.classList.remove("pageLeft");
+			shop.classList.remove("pageRight");
+
+			lobbyArea.classList.add("pageLeft");
+		});
+
+		beginGame.addEventListener("click", () => {
+			lobbyArea.classList.remove("pageLeft");
+			lobbyArea.classList.remove("pageRight");
+			shop.classList.remove("pageLeft");
+			shop.classList.remove("pageRight");
+
+			shop.classList.add("pageRight");
+		});
+
+		/* Addeventlistener for click in upgrade section */
+		startTankGame.addEventListener("click", () => {
+			lobby.style.setProperty("visibility", "hidden");
+			lobby.style.setProperty("opacity", "0");
+			lobby.style.setProperty("display", "none");
+			game.style.setProperty("visibility", "visible");
+			game.style.setProperty("opacity", "1");
+			startTouchScreenMovement();
+		});
+
+		/* Setting tankBody Dimentions when Screen Resizes */
+		/* OnResize Function */
+		window.onresize = () => {
+			let elementHeight = `${document.body.offsetHeight - upgradeTitle.offsetHeight}px`;
+			upgradeOptions.style.setProperty("height", elementHeight);
+			let upgradeTitleOffsetHeight = `${upgradeTitle.offsetHeight * 0.5}px`;
+			beginGame.style.setProperty("height", upgradeTitleOffsetHeight);
+			goToShop.style.setProperty("height", upgradeTitleOffsetHeight);
+			currentMoney.style.setProperty('height', upgradeTitleOffsetHeight);
+			openBox.style.setProperty('height', upgradeTitleOffsetHeight);
+			openBox.style.top = `${(window.innerHeight * 0.05 + window.innerWidth * 0.05) + upgradeTitle.offsetHeight * 0.5}px`;
+			startTankGame.style.setProperty('height', `${upgradeTitle.offsetHeight * 0.5 * 1.25}px`);
+			startTankGame.style.top = `${((window.innerHeight - upgradeTitle.offsetHeight * 0.5 * 1.25) - ((0.05 * window.innerHeight + 0.05 * window.innerWidth) / 2))}px`;
+			setTimeout(() => {
+				if (window.matchMedia("(orientation: portrait)").matches) {
+					rotateScreen.style.visibility = "visible";
+					rotateScreen.style.opacity = "1";
 				}
-				let tankUpgrades =
-									[
-						[['rockCannon'],   [[1, 5],[100, 100], [1, 1], [0, 0], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]]], // ROCK CANNON
-						[['minigun'],      [[20, 100] ,[20, 100] , [1, 2], [0, 0], [1, 2], [1, 2], [1, 2], [1, 2], [1, 2], [1, 2], [1, 2], [1, 2], [1, 2]]], // MINIGUN
-						[['taser'],        [[20, 100] ,[20, 100] , [1, 3], [0, 0], [1, 3], [1, 3], [1, 3], [1, 3], [1, 3], [1, 3], [1, 3], [1, 3], [1, 3]]], // TASER
-						[['flamethrower'], [[20, 100] ,[20, 100] , [1, 4], [0, 0], [1, 4], [1, 4], [1, 4], [1, 4], [3, 4], [1, 4], [1, 4], [1, 4], [1, 4]]], // FLAMETHROWER
-						[['richochet'],    [[20, 100] ,[20, 100] , [1, 5], [0, 0], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // RICOCHET
-						[['rocket'],       [[20, 100] ,[20, 100] , [1, 5], [1, 5], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // ROCKET
-						[['bomb'],         [[20, 100] ,[20, 100] , [1, 5], [1, 5], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // BOMB
-						[['shock'],        [[20, 100] ,[20, 100] , [1, 5], [0, 0], [1, 4], [1, 6], [3, 5], [1, 4], [4, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // SHOCK
-						[['machineGun'],   [[20, 100] ,[20, 100] , [1, 5], [0, 0], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // MACHINE GUN
-						[['railGun'],      [[20, 100] ,[20, 100] , [1, 5], [0, 0], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // RAILGUN
-						[['mines'],        [[20, 100] ,[20, 100] , [1, 5], [1, 4], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // MINES
-						[['sniper'],       [[20, 100] ,[20, 100] , [1, 5], [0, 0], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // SNIPER GUN
-						[['grenade'],      [[20, 100] ,[20, 100] , [1, 5], [1, 4], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // GRENADE
-						[['miniTank'],     [[20, 100] ,[20, 100] , [1, 5], [1, 4], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // EXPLOSIVE MINI TANKS
-						[['oilTank'],      [[20, 100] ,[20, 100] , [1, 5], [0, 0], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // OIL TANK
-						[['ram'],          [[20, 100] ,[20, 100] , [1, 5], [0, 0], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // RAM
-						[['invisible'],    [[20, 100] ,[20, 100] , [1, 5], [0, 0], [1, 4], [1, 6], [1, 5], [1, 4], [1, 6], [1, 4], [1, 6], [1, 7], [1, 7]]], // INVISIBILITY
-						]
-				// currentWeapon currentAmmo strength blastRadius armor speed turretSpeed visibility projectileSpeed fortune reloadSpeed maxAmmo waterProofing
 
-		        /* Elements */
+				// Check if the screen is landscape
+				if (window.matchMedia("(orientation: landscape)").matches) {
+					rotateScreen.style.visibility = "hidden";
+					rotateScreen.style.opacity = "0";
+				}
+			}, 300);
+		};
 
-		        /*ALERTS*/
+		/* Put Message: "Rotate Screen For Better Experience" */
+		setTimeout(() => {
+			if (window.matchMedia("(orientation: portrait)").matches) {
+				rotateScreen.style.visibility = "visible";
+				rotateScreen.style.opacity = "1";
+			}
 
-		        const rotateScreen = document.getElementById("rotateScreen");
+			if (window.matchMedia("(orientation: landscape)").matches) {
+				rotateScreen.style.visibility = "hidden";
+				rotateScreen.style.opacity = "0";
+			}
+		}, 300);
 
-		        /*INTRO*/
-		        const introElement = document.getElementById("intro");
-		        const startButton = document.getElementById("start");
+		function initSwiper(direction) {
+			if (window.swiper) {
+				window.swiper.destroy(true, true);
+			}
 
-		        /*GAME*/
+			window.swiper = new Swiper(".swiper-container", {
+				direction: direction,
+				slidesPerView: "auto",
+				spaceBetween: 10,
+				centeredSlides: true,
+				freeMode: false, // Disable freeMode to enable snapping
 
-		        const game = document.getElementById("game");
+				on: {
+					slideChange: function () {
+						updateSelectedItem(window.swiper.activeIndex);
+					},
+				},
+			});
+		}
 
-		        /*LOBBY*/
-		        const goToShop = document.getElementById("goToShop");
-		        const lobby = document.getElementById("lobby");
-		        const lobbyArea = document.getElementById("lobbyArea");
-		        const startTankGame = document.getElementById("startTankGame");
-				const openBox = document.getElementById('openBox');
+		function updateUpgrades(currentProgress) {
+			const upgradeSection = ['currentWeapon', 'currentAmmo', 'strength', 'blastRadius', 'armor', 'speed', 'turretSpeed', 'visibility', 'projectileSpeed', 'fortune', 'reloadSpeed', 'maxAmmo', 'waterProofing']
+			let upgradeSectionLength = currentProgress.length;
+			for(let i = 0; i < upgradeSectionLength; i++) {
+				const currentElement = document.getElementById(upgradeSection[i])
+				const [first, second] = currentProgress[i];
+				if(first === 0 && second === 0) {
+					currentElement.style.setProperty('display', 'none');
+				} else {
+					const percentage = (first / second) * 100;
+					currentElement.style.setProperty('display', 'block');
+					currentElement.style.setProperty('background-size', `${percentage}% 7%`);
+				}
 
-		        /*SHOP*/
-		        const shop = document.getElementById("shop");
-		        const beginGame = document.getElementById("startGameAfterShop");
-		        const upgradeOptions = document.getElementById("upgradeOptions");
-		        const upgradeTitle = document.querySelector(".upgradeTitle");
-				const currentMoney = document.getElementById('currentMoney');
+			}
+		}
 
-		        /*TANK*/
-		        const onlineJoystick = document.getElementById("onlineJoystick");
-		        const shootingOnlineJoystick = document.getElementById("shootingOnlineJoystick",);
-		        const tankBody = document.getElementById("tankBody");
-		        const tankTurret = document.getElementById("tankTurret");
-
-		        /* INTRO */
-
-		        startButton.addEventListener("click", () => {
-                introElement.style.setProperty("visibility", "hidden");
-                introElement.style.setProperty("opacity", "0");
-                introElement.style.setProperty("display", "none");
-                lobby.style.setProperty("visibility", "visible");
-                lobby.style.setProperty("opacity", "1");
-
-	            let elementHeight = `${document.body.offsetHeight - upgradeTitle.offsetHeight}px`;
-	            upgradeOptions.style.setProperty("height", elementHeight);
-	            let upgradeTitleOffsetHeight = `${upgradeTitle.offsetHeight * 0.5}px`;
-	            beginGame.style.setProperty("height", upgradeTitleOffsetHeight);
-	            goToShop.style.setProperty("height", upgradeTitleOffsetHeight);
-				currentMoney.style.setProperty('height', upgradeTitleOffsetHeight);
-				openBox.style.setProperty('height', upgradeTitleOffsetHeight);
-				openBox.style.top = `${(window.innerHeight * 0.05 + window.innerWidth * 0.05) + upgradeTitle.offsetHeight * 0.5}px`;
-				startTankGame.style.setProperty('height', `${upgradeTitle.offsetHeight * 0.5 * 1.25}px`);
-				startTankGame.style.setProperty('height', upgradeTitleOffsetHeight);
-				startTankGame.style.top = `${((window.innerHeight - upgradeTitle.offsetHeight * 0.5) - ((0.05 * window.innerHeight + 0.05 * window.innerWidth) / 2))}px`;
-		        });
-
-		        /* SHOP */
-		        /* Go back and forth through lobby and shop */
-		        goToShop.addEventListener("click", () => {
-		            lobbyArea.classList.remove("pageLeft");
-		            lobbyArea.classList.remove("pageRight");
-		            shop.classList.remove("pageLeft");
-		            shop.classList.remove("pageRight");
-
-		            lobbyArea.classList.add("pageLeft");
-		        });
-
-		        beginGame.addEventListener("click", () => {
-		            lobbyArea.classList.remove("pageLeft");
-		            lobbyArea.classList.remove("pageRight");
-		            shop.classList.remove("pageLeft");
-		            shop.classList.remove("pageRight");
-
-		            shop.classList.add("pageRight");
-		        });
-
-		        /* Addeventlistener for click in upgrade section */
-		        startTankGame.addEventListener("click", () => {
-		            lobby.style.setProperty("visibility", "hidden");
-		            lobby.style.setProperty("opacity", "0");
-		            lobby.style.setProperty("display", "none");
-		            game.style.setProperty("visibility", "visible");
-		            game.style.setProperty("opacity", "1");
-		            startTouchScreenMovement();
-		        });
-
-		        /* Setting tankBody Dimentions when Screen Resizes */
-		        /* OnResize Function */
-		        window.onresize = () => {
-		            let elementHeight = `${document.body.offsetHeight - upgradeTitle.offsetHeight}px`;
-		            upgradeOptions.style.setProperty("height", elementHeight);
-		            let upgradeTitleOffsetHeight = `${upgradeTitle.offsetHeight * 0.5}px`;
-		            beginGame.style.setProperty("height", upgradeTitleOffsetHeight);
-		            goToShop.style.setProperty("height", upgradeTitleOffsetHeight);
-					currentMoney.style.setProperty('height', upgradeTitleOffsetHeight);
-					openBox.style.setProperty('height', upgradeTitleOffsetHeight);
-					openBox.style.top = `${(window.innerHeight * 0.05 + window.innerWidth * 0.05) + upgradeTitle.offsetHeight * 0.5}px`;
-					startTankGame.style.setProperty('height', `${upgradeTitle.offsetHeight * 0.5 * 1.25}px`);
-                    startTankGame.style.top = `${((window.innerHeight - upgradeTitle.offsetHeight * 0.5 * 1.25) - ((0.05 * window.innerHeight + 0.05 * window.innerWidth) / 2))}px`;
-					setTimeout(() => {
-						if (window.matchMedia("(orientation: portrait)").matches) {
-		                    rotateScreen.style.visibility = "visible";
-		                    rotateScreen.style.opacity = "1";
-		                }
-
-		                // Check if the screen is landscape
-		                if (window.matchMedia("(orientation: landscape)").matches) {
-		                    rotateScreen.style.visibility = "hidden";
-		                    rotateScreen.style.opacity = "0";
-		                }
-					}, 300);
-		        };
-
-		        /* Put Message: "Rotate Screen For Better Experience" */
-				setTimeout(() => {
-					if (window.matchMedia("(orientation: portrait)").matches) {
-			            rotateScreen.style.visibility = "visible";
-			            rotateScreen.style.opacity = "1";
-			        }
-
-			        if (window.matchMedia("(orientation: landscape)").matches) {
-			            rotateScreen.style.visibility = "hidden";
-			            rotateScreen.style.opacity = "0";
-			        }
-				}, 300);
-
-		        function initSwiper(direction) {
-		            if (window.swiper) {
-		                window.swiper.destroy(true, true);
-		            }
-
-		            window.swiper = new Swiper(".swiper-container", {
-		                direction: direction,
-		                slidesPerView: "auto",
-		                spaceBetween: 10,
-		                centeredSlides: true,
-		                freeMode: false, // Disable freeMode to enable snapping
-
-		                on: {
-		                    slideChange: function () {
-		                        updateSelectedItem(window.swiper.activeIndex);
-		                    },
-		                },
-		            });
-		        }
-
-				function updateUpgrades(currentProgress) {
-					const upgradeSection = ['currentWeapon', 'currentAmmo', 'strength', 'blastRadius', 'armor', 'speed', 'turretSpeed', 'visibility', 'projectileSpeed', 'fortune', 'reloadSpeed', 'maxAmmo', 'waterProofing']
-					let upgradeSectionLength = currentProgress.length;
-					for(let i = 0; i < upgradeSectionLength; i++) {
-						const currentElement = document.getElementById(upgradeSection[i])
-						const [first, second] = currentProgress[i];
-						if(first === 0 && second === 0) {
-							currentElement.style.setProperty('display', 'none');
-						} else {
-							const percentage = (first / second) * 100;
-							currentElement.style.setProperty('display', 'block');
-							currentElement.style.setProperty('background-size', `${percentage}% 7%`);
+		function updateSelectedItem(index) {
+			const slides = document.querySelectorAll(".swiper-slide");
+			slides.forEach((slide, i) => {
+				if (i === index) {
+					slide.classList.add("selected");
+					document.getElementById('insertWeaponName').innerText = tankNames[`${slide.id}`];
+					let len = slides.length;
+					for(let x = 0; x < len; x++) {
+						if(document.getElementById(tankUpgrades[x][0][0]) === document.getElementById(slide.id)) {
+							updateUpgrades(tankUpgrades[x][1]);
 						}
-
 					}
+				} else {
+					slide.classList.remove("selected");
+				}
+			});
+		}
+
+		document.querySelectorAll(".swiper-slide").forEach((slide, index) => {
+			slide.addEventListener("click", () => {
+				window.swiper.slideTo(index);
+				updateSelectedItem(index);
+			});
+		});
+
+		function handleOrientationChange() {
+			if (window.matchMedia("(orientation: portrait)").matches) {
+				initSwiper("horizontal");
+			} else {
+				initSwiper("vertical");
+			}
+			updateSelectedItem(0);
+		}
+
+		window.addEventListener("resize", handleOrientationChange);
+		window.addEventListener("orientationchange", handleOrientationChange);
+
+		document.addEventListener("contextmenu", function (e) {
+			e.preventDefault();
+		});
+
+		handleOrientationChange();
+
+		/* TANK */
+		/* Set animation based on tank movement speed */
+		const MovingTreads = document.querySelectorAll(".movingTread");
+		MovingTreads.forEach((div) => {
+			div.style.animation = `moveTreads ${0.4 / driveSpeed}s linear infinite`;
+		});
+
+		/* Find shortest path for tank body */
+		function getShortestRotationAngle(current, target) {
+			let delta = target - current;
+			delta = ((((delta + 180) % 360) + 540) % 360) - 180;
+			return current + delta;
+		}
+
+		/* Change tank body direction based on keys pressed using code above */
+		function updateTankDirection(exactAngle) {
+			if (typeof exactAngle !== "undefined") {
+				angle = getShortestRotationAngle(angle, 90 - exactAngle);
+				MovingTreads.forEach((div) => {
+					div.classList.remove("pauseAnimation");
+				});
+			}
+
+			if (angle !== null) {
+				tankBody.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+				setMovement(angle, true);
+				document.getElementById('mainPlayer').style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+			}
+
+		}
+
+		function startTouchScreenMovement() {
+			mobile = true;
+
+			tankBody.style.setProperty("transition", "0.1s");
+			onlineJoystick.style.setProperty("display", "block");
+			const joystick = nipplejs.create({
+				zone: onlineJoystick,
+				shape: "square",
+				mode: "static",
+				size: (window.innerWidth * 0.2 + window.innerHeight * 0.2) / 2,
+				position: { left: "50%", bottom: "50%" },
+				color: "#066c00",
+				fadeTime: 500,
+			});
+
+			joystick.on("move", function (evt, data) {
+				if (!(data.force < 0.5)) {
+					updateTankDirection(data.angle.degree); // Get the angle in degrees
+				}
+			});
+
+			joystick.on("end", function () {
+				MovingTreads.forEach((div) => {
+					div.classList.add("pauseAnimation");
+				});
+				setMovement(false, false);
+			});
+
+			const shootingjoystick = nipplejs.create({
+				mode: "dynamic",
+				zone: shootingOnlineJoystick,
+				size:
+						(window.innerWidth * 0.12 + window.innerHeight * 0.12) / 2,
+				catchDistance: window.innerHeight * 0.2,
+				color: "#066c00",
+				fadeTime: 500,
+			});
+
+			shootingjoystick.on("start", function (evt, nipple) {
+				let onlineJoystick = document
+						.getElementById("onlineJoystick")
+						.getBoundingClientRect();
+				if (
+						nipple.position.x < onlineJoystick.right &&
+						nipple.position.y > onlineJoystick.top
+				) {
+					nipple.destroy();
+				}
+			});
+
+			shootingjoystick.on("move", function (evt, data) {
+				if (!(data.force < 0.5)) {
+					updateRotation(90 - data.angle.degree);
+				}
+			});
+
+			function normalizeAngle(angle) {
+				return ((angle % 360) + 360) % 360;
+			}
+
+			let lastTime = performance.now();
+
+			function shootingJoystickAim(currentTime) {
+				let deltaTime = (currentTime - lastTime) / 20; // Convert to seconds
+				lastTime = currentTime;
+				if (
+						normalizeAngle(currentRotation) !==
+						normalizeAngle(targetRotation)
+				) {
+					isRotating = true;
+
+					let normalizedCurrent = normalizeAngle(currentRotation);
+					let normalizedTarget = normalizeAngle(targetRotation);
+
+					let diff = normalizeAngle(
+							normalizedTarget - normalizedCurrent,
+					);
+					if (diff > 180) diff -= 360;
+
+					let maxRotation = turretSpeed * deltaTime;
+
+					if (Math.abs(diff) > maxRotation) {
+						currentRotation += Math.sign(diff) * maxRotation;
+					} else {
+						currentRotation = targetRotation;
+						isRotating = false;
+					}
+
+					tankTurret.style.transform = `rotate(${currentRotation}deg)`;
+				} else if (isRotating) {
+					isRotating = false;
+				}
+				requestAnimationFrame(shootingJoystickAim);
+			}
+
+			requestAnimationFrame(shootingJoystickAim);
+
+			shootingjoystick.on("end", function () {
+				// Shoot When rotation is finished
+			});
+
+			function updateRotation(newAngle) {
+				targetRotation = newAngle;
+			}
+
+			return updateRotation;
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+	const world = document.getElementById('world');
+	const mainPlayer = document.getElementById('mainPlayer');
+	const rocks = [];
+	let startingBlock = null;
+
+	const GRID_SIZE = 32;
+	const BLOCK_SIZE = 4;
+
+	// Updated map layout with 5 representing the starting block
+	const mapLayout = [
+		[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4],
+		[4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 4],
+		[4, 4, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 3, 0, 3, 0, 3, 3, 3, 0, 0, 0, 0, 0, 3, 4],
+		[4, 4, 3, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 3, 0, 3, 4, 3, 0, 3, 3, 3, 0, 3, 4],
+		[4, 4, 3, 0, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 3, 0, 3, 0, 3, 3, 3, 0, 3, 6, 3, 0, 3, 4],
+		[4, 4, 3, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 3, 0, 3, 0, 0, 0, 0, 0, 3, 4, 3, 0, 3, 4],
+		[4, 4, 3, 1, 1, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 3, 3, 3, 0, 3, 0, 0, 3, 3, 3, 3, 4, 3, 0, 3, 4],
+		[4, 4, 3, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 3, 4, 4, 4, 4, 3, 0, 3, 4],
+		[4, 4, 3, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 3, 0, 3, 4],
+		[4, 4, 3, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3],
+		[4, 4, 3, 3, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
+		[4, 4, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 3],
+		[4, 4, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 2, 0, 3],
+		[4, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 0, 0, 0, 0, 0, 2, 2, 0, 1, 1, 1, 2, 0, 3],
+		[4, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 0, 1, 1, 1, 0, 2, 2, 0, 2, 2, 2, 2, 0, 3],
+		[4, 4, 3, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 1, 1, 1, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3],
+		[4, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 2, 0, 0, 1, 1, 1, 1, 0, 3],
+		[4, 4, 3, 0, 0, 2, 2, 2, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 1, 0, 0, 1, 0, 3],
+		[4, 4, 3, 0, 0, 2, 2, 2, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 1, 0, 0, 1, 0, 3],
+		[4, 4, 3, 0, 0, 2, 2, 2, 0, 1, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 3, 3, 3],
+		[4, 4, 3, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 2, 0, 0, 2, 2, 2, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3, 4, 4],
+		[4, 4, 3, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 0, 0, 3, 4, 4],
+		[4, 4, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 4, 4, 3, 0, 0, 3, 4, 4],
+		[4, 4, 4, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 4, 4, 3, 3, 3, 3, 4, 4],
+		[4, 4, 4, 4, 3, 0, 0, 0, 3, 3, 3, 3, 0, 0, 1, 1, 1, 0, 3, 3, 3, 0, 0, 3, 3, 4, 4, 4, 4, 4, 4, 4],
+		[4, 4, 4, 4, 3, 0, 0, 0, 3, 4, 4, 3, 0, 0, 1, 0, 0, 0, 3, 4, 3, 0, 0, 0, 3, 3, 4, 4, 4, 4, 4, 4],
+		[4, 4, 4, 4, 3, 0, 0, 0, 3, 4, 4, 3, 0, 0, 1, 0, 0, 0, 3, 4, 3, 0, 0, 0, 0, 3, 4, 4, 4, 4, 4, 4],
+		[4, 4, 4, 4, 3, 3, 3, 3, 3, 4, 4, 3, 3, 0, 1, 0, 0, 0, 3, 4, 3, 0, 0, 0, 0, 3, 4, 4, 4, 4, 4, 4],
+		[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4],
+		[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+		[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+		[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+	];
+
+	let worldX = 0;
+	let worldY = 0;
+	let vw = window.innerWidth / 100;
+	let normalSpeed = 0.2 * vw;
+	let slideSpeed = 0.17 * vw;
+	const control = 0.3;
+
+	let velocityX = 0;
+	let velocityY = 0;
+	let currentDirection = {x: 0, y: 0};
+	const friction = 1;
+
+	let currentAngle = 0;
+	let isDriving = false;
+
+	let playerBounds = {
+		width: 3 * vw,
+		height: 3 * vw,
+		x: 0,
+		y: 0
+	};
+
+	world.style.width = (GRID_SIZE * BLOCK_SIZE) + 'vw';
+	world.style.height = (GRID_SIZE * BLOCK_SIZE) + 'vw';
+
+	// Generate grid-based rocks and find starting position
+	for (let y = 0; y < GRID_SIZE; y++) {
+		for (let x = 0; x < GRID_SIZE; x++) {
+			const rockType = mapLayout[y][x];
+			if (rockType !== 4) {
+				const rock = document.createElement('div');
+				rock.className = `rock rock-${rockType}`;
+				rock.style.width = BLOCK_SIZE + 'vw';
+				rock.style.height = BLOCK_SIZE + 'vw';
+				rock.style.left = (x * BLOCK_SIZE) + 'vw';
+				rock.style.top = (y * BLOCK_SIZE) + 'vw';
+				world.appendChild(rock);
+
+				if (rockType === 5) {
+					startingBlock = {
+						x: x * BLOCK_SIZE * vw,
+						y: y * BLOCK_SIZE * vw
+					};
 				}
 
-		        function updateSelectedItem(index) {
-		            const slides = document.querySelectorAll(".swiper-slide");
-		            slides.forEach((slide, i) => {
-		                if (i === index) {
-		                    slide.classList.add("selected");
-							document.getElementById('insertWeaponName').innerText = tankNames[`${slide.id}`];
-							let len = slides.length;
-							for(let x = 0; x < len; x++) {
-								if(document.getElementById(tankUpgrades[x][0][0]) === document.getElementById(slide.id)) {
-									updateUpgrades(tankUpgrades[x][1]);
-								}
-							}
-		                } else {
-		                    slide.classList.remove("selected");
-		                }
-		            });
-		        }
+				// Only add collision for rocks (not dirt/ground or starting block)
+				if (rockType !== 0 && rockType !== 5) {
+					rocks.push({
+						element: rock,
+						x: x * BLOCK_SIZE * vw,
+						y: y * BLOCK_SIZE * vw,
+						width: BLOCK_SIZE * vw,
+						height: BLOCK_SIZE * vw
+					});
+				}
+			}
+		}
+	}
 
-		        document.querySelectorAll(".swiper-slide").forEach((slide, index) => {
-		            slide.addEventListener("click", () => {
-		                window.swiper.slideTo(index);
-		                updateSelectedItem(index);
-		            });
-		        });
+	// Position player at starting block
+	function positionPlayerAtStart() {
+		if (startingBlock) {
+			const centerX = window.innerWidth / 2;
+			const centerY = window.innerHeight / 2;
 
-		        function handleOrientationChange() {
-		            if (window.matchMedia("(orientation: portrait)").matches) {
-		                initSwiper("horizontal");
-		            } else {
-		                initSwiper("vertical");
-		            }
-		            updateSelectedItem(0);
-		        }
+			worldX = -(startingBlock.x - centerX + (BLOCK_SIZE * vw / 2));
+			worldY = -(startingBlock.y - centerY + (BLOCK_SIZE * vw / 2));
 
-		        window.addEventListener("resize", handleOrientationChange);
-		        window.addEventListener("orientationchange", handleOrientationChange);
+			playerBounds.x = centerX - (1.5 * vw);
+			playerBounds.y = centerY - (1.5 * vw);
 
-		        document.addEventListener("contextmenu", function (e) {
-		            e.preventDefault();
-		        });
+			mainPlayer.style.left = centerX + 'px';
+			mainPlayer.style.top = centerY + 'px';
 
-		        handleOrientationChange();
+			world.style.transform = `translate(${worldX}px, ${worldY}px)`;
+		}
+	}
 
-		        /* TANK */
-		        /* Set animation based on tank movement speed */
-		        const MovingTreads = document.querySelectorAll(".movingTread");
-		        MovingTreads.forEach((div) => {
-		            div.style.animation = `moveTreads ${0.4 / driveSpeed}s linear infinite`;
-		        });
+	// Initialize player position
+	positionPlayerAtStart();
 
-		        /* Find shortest path for tank body */
-		        function getShortestRotationAngle(current, target) {
-		            let delta = target - current;
-		            delta = ((((delta + 180) % 360) + 540) % 360) - 180;
-		            return current + delta;
-		        }
+	window.addEventListener('resize', () => {
+		const newVw = window.innerWidth / 100;
+		const scale = newVw / vw;
 
-		        /* Change tank body direction based on keys pressed using code above */
-		        function updateTankDirection(exactAngle) {
-		            if (typeof exactAngle !== "undefined") {
-		                angle = getShortestRotationAngle(angle, 90 - exactAngle);
-		                MovingTreads.forEach((div) => {
-		                    div.classList.remove("pauseAnimation");
-		                });
-		            }
+		vw = newVw;
+		normalSpeed = 0.3 * vw;
+		slideSpeed = 0.27 * vw;
 
-		            if (angle !== null) {
-		                tankBody.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
-		            }
-		        }
+		playerBounds.width = 3 * vw;
+		playerBounds.height = 3 * vw;
 
-		        function startTouchScreenMovement() {
-		            mobile = true;
+		rocks.forEach(rock => {
+			rock.width = BLOCK_SIZE * vw;
+			rock.height = BLOCK_SIZE * vw;
+			rock.x = parseInt(rock.element.style.left) * scale;
+			rock.y = parseInt(rock.element.style.top) * scale;
+		});
 
-		            tankBody.style.setProperty("transition", "0.1s");
-		            onlineJoystick.style.setProperty("display", "block");
-		            const joystick = nipplejs.create({
-		                zone: onlineJoystick,
-		                shape: "square",
-		                mode: "static",
-		                size: (window.innerWidth * 0.2 + window.innerHeight * 0.2) / 2,
-		                position: { left: "50%", bottom: "50%" },
-		                color: "#066c00",
-		                fadeTime: 500,
-		            });
+		if (startingBlock) {
+			startingBlock.x = parseInt(startingBlock.x * scale);
+			startingBlock.y = parseInt(startingBlock.y * scale);
+		}
 
-		            joystick.on("move", function (evt, data) {
-		                if (!(data.force < 0.5)) {
-		                    updateTankDirection(data.angle.degree); // Get the angle in degrees
-		                }
-		            });
+		positionPlayerAtStart();
+	});
 
-		            joystick.on("end", function () {
-		                MovingTreads.forEach((div) => {
-		                    div.classList.add("pauseAnimation");
-		                });
-		            });
+	function checkCollision(rect1, rect2) {
+		return (rect1.x < rect2.x + rect2.width &&
+				rect1.x + rect1.width > rect2.x &&
+				rect1.y < rect2.y + rect2.height &&
+				rect1.y + rect1.height > rect2.y);
+	}
 
-		            const shootingjoystick = nipplejs.create({
-		                mode: "dynamic",
-		                zone: shootingOnlineJoystick,
-		                size:
-		                    (window.innerWidth * 0.12 + window.innerHeight * 0.12) / 2,
-		                catchDistance: window.innerHeight * 0.2,
-		                color: "#066c00",
-		                fadeTime: 500,
-		            });
+	function setMovement(angle, driving) {
+		if (angle == false) {
+			isDriving = driving;
+		} else {
+			currentAngle = angle;
+			isDriving = driving;
+		}
+	}
 
-		            shootingjoystick.on("start", function (evt, nipple) {
-		                let onlineJoystick = document
-		                    .getElementById("onlineJoystick")
-		                    .getBoundingClientRect();
-		                if (
-		                    nipple.position.x < onlineJoystick.right &&
-		                    nipple.position.y > onlineJoystick.top
-		                ) {
-		                    nipple.destroy();
-		                }
-		            });
+	function tryMove(dx, dy) {
+		const newPlayerWorldPos = {
+			x: playerBounds.x - (worldX + dx),
+			y: playerBounds.y - (worldY + dy),
+			width: playerBounds.width,
+			height: playerBounds.height
+		};
 
-		            shootingjoystick.on("move", function (evt, data) {
-		                if (!(data.force < 0.5)) {
-		                    updateRotation(90 - data.angle.degree);
-		                }
-		            });
+		for (const rock of rocks) {
+			if (checkCollision(newPlayerWorldPos, rock)) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-		            function normalizeAngle(angle) {
-		                return ((angle % 360) + 360) % 360;
-		            }
+	function getSign(number) {
+		return number > 0 ? 1 : number < 0 ? -1 : 0;
+	}
 
-		            let lastTime = performance.now();
+	function update() {
+		let targetVelocityX = 0;
+		let targetVelocityY = 0;
+		let currentSpeed = normalSpeed;
 
-		            function shootingJoystickAim(currentTime) {
-		                let deltaTime = (currentTime - lastTime) / 20; // Convert to seconds
-		                lastTime = currentTime;
-		                if (
-		                    normalizeAngle(currentRotation) !==
-		                    normalizeAngle(targetRotation)
-		                ) {
-		                    isRotating = true;
+		if (isDriving) {
+			// Convert angle to radians and calculate velocities
+			// Note: Adding 90 to angle because 0 degrees should point downward
+			const angleRad = (currentAngle + 90) * (Math.PI / 180);
+			targetVelocityX = -currentSpeed * Math.cos(angleRad);
+			targetVelocityY = -currentSpeed * Math.sin(angleRad);
+		}
 
-		                    let normalizedCurrent = normalizeAngle(currentRotation);
-		                    let normalizedTarget = normalizeAngle(targetRotation);
+		let newDirectionX = getSign(targetVelocityX);
+		let newDirectionY = getSign(targetVelocityY);
 
-		                    let diff = normalizeAngle(
-		                        normalizedTarget - normalizedCurrent,
-		                    );
-		                    if (diff > 180) diff -= 360;
+		if (Math.abs(velocityX) > 0.1 && currentDirection.x !== 0 &&
+				newDirectionX !== 0 && newDirectionX !== currentDirection.x) {
+			targetVelocityX = 0;
+		} else {
+			currentDirection.x = newDirectionX;
+		}
 
-		                    let maxRotation = turretSpeed * deltaTime;
+		if (Math.abs(velocityY) > 0.1 && currentDirection.y !== 0 &&
+				newDirectionY !== 0 && newDirectionY !== currentDirection.y) {
+			targetVelocityY = 0;
+		} else {
+			currentDirection.y = newDirectionY;
+		}
 
-		                    if (Math.abs(diff) > maxRotation) {
-		                        currentRotation += Math.sign(diff) * maxRotation;
-		                    } else {
-		                        currentRotation = targetRotation;
-		                        isRotating = false;
-		                    }
+		velocityX = velocityX * (1 - control) + targetVelocityX * control;
+		velocityY = velocityY * (1 - control) + targetVelocityY * control;
 
-		                    tankTurret.style.transform = `rotate(${currentRotation}deg)`;
-		                } else if (isRotating) {
-		                    isRotating = false;
-		                }
-		                requestAnimationFrame(shootingJoystickAim);
-		            }
+		if (!isDriving) {
+			velocityX *= friction;
+			velocityY *= friction;
+		}
 
-		            requestAnimationFrame(shootingJoystickAim);
+		if (Math.abs(velocityX) < 0.01) velocityX = 0;
+		if (Math.abs(velocityY) < 0.01) velocityY = 0;
 
-		            shootingjoystick.on("end", function () {
-		                // Shoot When rotation is finished
-		            });
+		let canMoveX = tryMove(velocityX, 0);
+		let canMoveY = tryMove(0, velocityY);
 
-		            function updateRotation(newAngle) {
-		                targetRotation = newAngle;
-		            }
+		if ((canMoveX && !canMoveY) || (!canMoveX && canMoveY)) {
+			velocityX *= (slideSpeed / normalSpeed);
+			velocityY *= (slideSpeed / normalSpeed);
+		}
 
-		            return updateRotation;
-		        }
-		    }
-		</script>
-	</body>
+		if (canMoveX) {
+			worldX += velocityX;
+		} else {
+			velocityX = 0;
+			currentDirection.x = 0;
+		}
+
+		if (canMoveY) {
+			worldY += velocityY;
+		} else {
+			velocityY = 0;
+			currentDirection.y = 0;
+		}
+
+		// Also rotate the tank sprite
+		mainPlayer.style.transform = `translate(-50%, -50%) rotate(${currentAngle}deg)`;
+		world.style.transform = `translate(${worldX}px, ${worldY}px)`;
+
+		requestAnimationFrame(update);
+	}
+
+	update();
+</script>
+</body>
 </html>
