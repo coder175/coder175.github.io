@@ -56,7 +56,7 @@
 			--grey: #747579;
 			--yellow: #cddc39;
 			--orange: #d2592c;
-			--u: calc((0.165vw + 0.165vh)); /* NEEDS TO BE .3vw + .3vh */
+			--u: calc((0.12vw + 0.12vh)); /* NEEDS TO BE .3vw + .3vh */
 		}
 
 		@font-face {
@@ -745,8 +745,8 @@
 
 		#mainPlayer {
 			position: fixed;
-			width: 3vw;
-			height: 3vw;
+			width: calc((3vw + 3vh) / 2);
+			height: calc((3vw + 3vh) / 2);
 			background: red;
 			transform: translate(-50%, -50%);
 			z-index: 2;
@@ -1300,8 +1300,8 @@
 		#tank #joystickContainer #onlineJoystick {
 			position: absolute;
 			bottom: 0;
-			width: calc((30vw + 30vh) / 2);
-			height: calc((30vw + 30vh) / 2);
+			width: calc((42vw + 42vh) / 2);
+			height: calc((35vw + 35vh) / 2);
 			display: none;
 			z-index: 10;
 		}
@@ -2034,7 +2034,6 @@
 			if (angle !== null) {
 				tankBody.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
 				setMovement(angle, true);
-				document.getElementById('mainPlayer').style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
 			}
 
 		}
@@ -2046,9 +2045,9 @@
 			onlineJoystick.style.setProperty("display", "block");
 			const joystick = nipplejs.create({
 				zone: onlineJoystick,
-				shape: "square",
+				shape: "circle",
 				mode: "static",
-				size: (window.innerWidth * 0.2 + window.innerHeight * 0.2) / 2,
+				size: (window.innerWidth * 0.1 + window.innerHeight * 0.1) / 2,
 				position: { left: "50%", bottom: "50%" },
 				color: "#066c00",
 				fadeTime: 500,
@@ -2153,13 +2152,6 @@
 
 
 
-
-
-
-
-
-
-
 	const world = document.getElementById('world');
 	const mainPlayer = document.getElementById('mainPlayer');
 	const rocks = [];
@@ -2168,7 +2160,6 @@
 	const GRID_SIZE = 32;
 	const BLOCK_SIZE = 4;
 
-	// Updated map layout with 5 representing the starting block
 	const mapLayout = [
 		[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4],
 		[4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 4],
@@ -2207,8 +2198,9 @@
 	let worldX = 0;
 	let worldY = 0;
 	let vw = window.innerWidth / 100;
-	let normalSpeed = 0.2 * vw;
-	let slideSpeed = 0.17 * vw;
+	let vh = window.innerHeight / 100;
+	let normalSpeed = 0.2 * ((vw + vh) / 2);
+	let slideSpeed = 0.185 * ((vw + vh) / 2);
 	const control = 0.3;
 
 	let velocityX = 0;
@@ -2220,14 +2212,14 @@
 	let isDriving = false;
 
 	let playerBounds = {
-		width: 3 * vw,
-		height: 3 * vw,
+		width: 3 * ((vw + vh) / 2),
+		height: 3 * ((vw + vh) / 2),
 		x: 0,
 		y: 0
 	};
 
-	world.style.width = (GRID_SIZE * BLOCK_SIZE) + 'vw';
-	world.style.height = (GRID_SIZE * BLOCK_SIZE) + 'vw';
+	world.style.width = (GRID_SIZE * BLOCK_SIZE * ((vw + vh) / 2)) + 'px';
+	world.style.height = (GRID_SIZE * BLOCK_SIZE * ((vw + vh) / 2)) + 'px';
 
 	// Generate grid-based rocks and find starting position
 	for (let y = 0; y < GRID_SIZE; y++) {
@@ -2236,44 +2228,42 @@
 			if (rockType !== 4) {
 				const rock = document.createElement('div');
 				rock.className = `rock rock-${rockType}`;
-				rock.style.width = BLOCK_SIZE + 'vw';
-				rock.style.height = BLOCK_SIZE + 'vw';
-				rock.style.left = (x * BLOCK_SIZE) + 'vw';
-				rock.style.top = (y * BLOCK_SIZE) + 'vw';
+				rock.style.width = (BLOCK_SIZE * ((vw + vh) / 2)) + 'px';
+				rock.style.height = (BLOCK_SIZE * ((vw + vh) / 2)) + 'px';
+				rock.style.left = (x * BLOCK_SIZE * ((vw + vh) / 2)) + 'px';
+				rock.style.top = (y * BLOCK_SIZE * ((vw + vh) / 2)) + 'px';
 				world.appendChild(rock);
 
 				if (rockType === 5) {
 					startingBlock = {
-						x: x * BLOCK_SIZE * vw,
-						y: y * BLOCK_SIZE * vw
+						x: x * BLOCK_SIZE * ((vw + vh) / 2),
+						y: y * BLOCK_SIZE * ((vw + vh) / 2)
 					};
 				}
 
-				// Only add collision for rocks (not dirt/ground or starting block)
 				if (rockType !== 0 && rockType !== 5) {
 					rocks.push({
 						element: rock,
-						x: x * BLOCK_SIZE * vw,
-						y: y * BLOCK_SIZE * vw,
-						width: BLOCK_SIZE * vw,
-						height: BLOCK_SIZE * vw
+						x: x * BLOCK_SIZE * ((vw + vh) / 2),
+						y: y * BLOCK_SIZE * ((vw + vh) / 2),
+						width: BLOCK_SIZE * ((vw + vh) / 2),
+						height: BLOCK_SIZE * ((vw + vh) / 2)
 					});
 				}
 			}
 		}
 	}
 
-	// Position player at starting block
 	function positionPlayerAtStart() {
 		if (startingBlock) {
 			const centerX = window.innerWidth / 2;
 			const centerY = window.innerHeight / 2;
 
-			worldX = -(startingBlock.x - centerX + (BLOCK_SIZE * vw / 2));
-			worldY = -(startingBlock.y - centerY + (BLOCK_SIZE * vw / 2));
+			worldX = -(startingBlock.x - centerX + (BLOCK_SIZE * ((vw + vh) / 2) / 2));
+			worldY = -(startingBlock.y - centerY + (BLOCK_SIZE * ((vw + vh) / 2) / 2));
 
-			playerBounds.x = centerX - (1.5 * vw);
-			playerBounds.y = centerY - (1.5 * vw);
+			playerBounds.x = centerX - (1.5 * ((vw + vh) / 2));
+			playerBounds.y = centerY - (1.5 * ((vw + vh) / 2));
 
 			mainPlayer.style.left = centerX + 'px';
 			mainPlayer.style.top = centerY + 'px';
@@ -2282,23 +2272,24 @@
 		}
 	}
 
-	// Initialize player position
 	positionPlayerAtStart();
 
 	window.addEventListener('resize', () => {
 		const newVw = window.innerWidth / 100;
-		const scale = newVw / vw;
+		const newVh = window.innerHeight / 100;
+		const scale = ((newVw + newVh) / 2) / ((vw + vh) / 2);
 
 		vw = newVw;
-		normalSpeed = 0.3 * vw;
-		slideSpeed = 0.27 * vw;
+		vh = newVh;
+		normalSpeed = 0.3 * ((vw + vh) / 2);
+		slideSpeed = 0.27 * ((vw + vh) / 2);
 
-		playerBounds.width = 3 * vw;
-		playerBounds.height = 3 * vw;
+		playerBounds.width = 3 * ((vw + vh) / 2);
+		playerBounds.height = 3 * ((vw + vh) / 2);
 
 		rocks.forEach(rock => {
-			rock.width = BLOCK_SIZE * vw;
-			rock.height = BLOCK_SIZE * vw;
+			rock.width = BLOCK_SIZE * ((vw + vh) / 2);
+			rock.height = BLOCK_SIZE * ((vw + vh) / 2);
 			rock.x = parseInt(rock.element.style.left) * scale;
 			rock.y = parseInt(rock.element.style.top) * scale;
 		});
@@ -2353,8 +2344,8 @@
 		let currentSpeed = normalSpeed;
 
 		if (isDriving) {
-			// Convert angle to radians and calculate velocities
-			// Note: Adding 90 to angle because 0 degrees should point downward
+// Convert angle to radians and calculate velocities
+// Note: Adding 90 to angle because 0 degrees should point downward
 			const angleRad = (currentAngle + 90) * (Math.PI / 180);
 			targetVelocityX = -currentSpeed * Math.cos(angleRad);
 			targetVelocityY = -currentSpeed * Math.sin(angleRad);
@@ -2410,7 +2401,7 @@
 			currentDirection.y = 0;
 		}
 
-		// Also rotate the tank sprite
+// Also rotate the tank sprite
 		mainPlayer.style.transform = `translate(-50%, -50%) rotate(${currentAngle}deg)`;
 		world.style.transform = `translate(${worldX}px, ${worldY}px)`;
 
