@@ -56,7 +56,7 @@
 			--grey: #747579;
 			--yellow: #cddc39;
 			--orange: #d2592c;
-			--u: calc((0.12vw + 0.12vh)); /* NEEDS TO BE .3vw + .3vh */
+			--u: calc((0.24vw + 0.24vh)); /* NEEDS TO BE .3vw + .3vh */
 		}
 
 		@font-face {
@@ -745,9 +745,9 @@
 
 		#mainPlayer {
 			position: fixed;
-			width: calc((3vw + 3vh) / 2);
-			height: calc((3vw + 3vh) / 2);
-			background: red;
+			width: calc((6vw + 6vh) / 2);
+			height: calc((6vw + 6vh) / 2);
+			background: transparent;
 			transform: translate(-50%, -50%);
 			z-index: 2;
 		}
@@ -1751,6 +1751,19 @@
 </div>
 <script src="./Loader.js"></script>
 <script>
+	var elem = document.documentElement;
+
+	/* View in fullscreen */
+	function openFullscreen() {
+		if (elem.requestFullscreen) {
+			elem.requestFullscreen();
+		} else if (elem.webkitRequestFullscreen) { /* Safari */
+			elem.webkitRequestFullscreen();
+		} else if (elem.msRequestFullscreen) { /* IE11 */
+			elem.msRequestFullscreen();
+		}
+	}
+
 	function s() {
 		/* Variables */
 		let introLoaded, mobile, isRotating;
@@ -2157,6 +2170,7 @@
 	const rocks = [];
 	let startingBlock = null;
 
+	const ZOOM = 2; // Adjust this value to change the zoom level
 	const GRID_SIZE = 32;
 	const BLOCK_SIZE = 4;
 
@@ -2199,8 +2213,8 @@
 	let worldY = 0;
 	let vw = window.innerWidth / 100;
 	let vh = window.innerHeight / 100;
-	let normalSpeed = 0.2 * ((vw + vh) / 2);
-	let slideSpeed = 0.185 * ((vw + vh) / 2);
+	let normalSpeed = 0.07 * ((vw + vh) / 2) * ZOOM;
+	let slideSpeed = 0.065 * ((vw + vh) / 2) * ZOOM;
 	const control = 0.3;
 
 	let velocityX = 0;
@@ -2212,14 +2226,14 @@
 	let isDriving = false;
 
 	let playerBounds = {
-		width: 3 * ((vw + vh) / 2),
-		height: 3 * ((vw + vh) / 2),
+		width: 3 * ((vw + vh) / 2) * ZOOM,
+		height: 3 * ((vw + vh) / 2) * ZOOM,
 		x: 0,
 		y: 0
 	};
 
-	world.style.width = (GRID_SIZE * BLOCK_SIZE * ((vw + vh) / 2)) + 'px';
-	world.style.height = (GRID_SIZE * BLOCK_SIZE * ((vw + vh) / 2)) + 'px';
+	world.style.width = (GRID_SIZE * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
+	world.style.height = (GRID_SIZE * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
 
 	// Generate grid-based rocks and find starting position
 	for (let y = 0; y < GRID_SIZE; y++) {
@@ -2228,26 +2242,26 @@
 			if (rockType !== 4) {
 				const rock = document.createElement('div');
 				rock.className = `rock rock-${rockType}`;
-				rock.style.width = (BLOCK_SIZE * ((vw + vh) / 2)) + 'px';
-				rock.style.height = (BLOCK_SIZE * ((vw + vh) / 2)) + 'px';
-				rock.style.left = (x * BLOCK_SIZE * ((vw + vh) / 2)) + 'px';
-				rock.style.top = (y * BLOCK_SIZE * ((vw + vh) / 2)) + 'px';
+				rock.style.width = (BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
+				rock.style.height = (BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
+				rock.style.left = (x * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
+				rock.style.top = (y * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
 				world.appendChild(rock);
 
 				if (rockType === 5) {
 					startingBlock = {
-						x: x * BLOCK_SIZE * ((vw + vh) / 2),
-						y: y * BLOCK_SIZE * ((vw + vh) / 2)
+						x: x * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM,
+						y: y * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM
 					};
 				}
 
 				if (rockType !== 0 && rockType !== 5) {
 					rocks.push({
 						element: rock,
-						x: x * BLOCK_SIZE * ((vw + vh) / 2),
-						y: y * BLOCK_SIZE * ((vw + vh) / 2),
-						width: BLOCK_SIZE * ((vw + vh) / 2),
-						height: BLOCK_SIZE * ((vw + vh) / 2)
+						x: x * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM,
+						y: y * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM,
+						width: BLOCK_SIZE * ((vw + vh) / 2) * ZOOM,
+						height: BLOCK_SIZE * ((vw + vh) / 2) * ZOOM
 					});
 				}
 			}
@@ -2259,11 +2273,11 @@
 			const centerX = window.innerWidth / 2;
 			const centerY = window.innerHeight / 2;
 
-			worldX = -(startingBlock.x - centerX + (BLOCK_SIZE * ((vw + vh) / 2) / 2));
-			worldY = -(startingBlock.y - centerY + (BLOCK_SIZE * ((vw + vh) / 2) / 2));
+			worldX = -(startingBlock.x - centerX + (BLOCK_SIZE * ((vw + vh) / 2) * ZOOM / 2));
+			worldY = -(startingBlock.y - centerY + (BLOCK_SIZE * ((vw + vh) / 2) * ZOOM / 2));
 
-			playerBounds.x = centerX - (1.5 * ((vw + vh) / 2));
-			playerBounds.y = centerY - (1.5 * ((vw + vh) / 2));
+			playerBounds.x = centerX - (1.5 * ((vw + vh) / 2) * ZOOM);
+			playerBounds.y = centerY - (1.5 * ((vw + vh) / 2) * ZOOM);
 
 			mainPlayer.style.left = centerX + 'px';
 			mainPlayer.style.top = centerY + 'px';
@@ -2281,15 +2295,15 @@
 
 		vw = newVw;
 		vh = newVh;
-		normalSpeed = 0.3 * ((vw + vh) / 2);
-		slideSpeed = 0.27 * ((vw + vh) / 2);
+		normalSpeed = 0.3 * ((vw + vh) / 2) * ZOOM;
+		slideSpeed = 0.27 * ((vw + vh) / 2) * ZOOM;
 
-		playerBounds.width = 3 * ((vw + vh) / 2);
-		playerBounds.height = 3 * ((vw + vh) / 2);
+		playerBounds.width = 3 * ((vw + vh) / 2) * ZOOM;
+		playerBounds.height = 3 * ((vw + vh) / 2) * ZOOM;
 
 		rocks.forEach(rock => {
-			rock.width = BLOCK_SIZE * ((vw + vh) / 2);
-			rock.height = BLOCK_SIZE * ((vw + vh) / 2);
+			rock.width = BLOCK_SIZE * ((vw + vh) / 2) * ZOOM;
+			rock.height = BLOCK_SIZE * ((vw + vh) / 2) * ZOOM;
 			rock.x = parseInt(rock.element.style.left) * scale;
 			rock.y = parseInt(rock.element.style.top) * scale;
 		});
@@ -2344,8 +2358,6 @@
 		let currentSpeed = normalSpeed;
 
 		if (isDriving) {
-// Convert angle to radians and calculate velocities
-// Note: Adding 90 to angle because 0 degrees should point downward
 			const angleRad = (currentAngle + 90) * (Math.PI / 180);
 			targetVelocityX = -currentSpeed * Math.cos(angleRad);
 			targetVelocityY = -currentSpeed * Math.sin(angleRad);
@@ -2401,8 +2413,6 @@
 			currentDirection.y = 0;
 		}
 
-// Also rotate the tank sprite
-		mainPlayer.style.transform = `translate(-50%, -50%) rotate(${currentAngle}deg)`;
 		world.style.transform = `translate(${worldX}px, ${worldY}px)`;
 
 		requestAnimationFrame(update);
