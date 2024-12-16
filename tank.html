@@ -790,7 +790,7 @@
 
 		#world {
 			position: absolute;
-			transform: translate(0, 0);
+			transform-origin: 50vw 50vh; /* This sets the rotation origin to the center of the viewport */
 		}
 
 		/*------------------------------------------------------------------
@@ -2170,7 +2170,7 @@
 	const rocks = [];
 	let startingBlock = null;
 
-	const ZOOM = 2; // Adjust this value to change the zoom level
+	const ZOOM = 2;
 	const GRID_SIZE = 32;
 	const BLOCK_SIZE = 4;
 
@@ -2213,8 +2213,8 @@
 	let worldY = 0;
 	let vw = window.innerWidth / 100;
 	let vh = window.innerHeight / 100;
-	let normalSpeed = 0.07 * ((vw + vh) / 2) * ZOOM;
-	let slideSpeed = 0.065 * ((vw + vh) / 2) * ZOOM;
+	let normalSpeed = 0.1 * ((vw + vh) / 2) * ZOOM;
+	let slideSpeed = 0.085 * ((vw + vh) / 2) * ZOOM;
 	const control = 0.3;
 
 	let velocityX = 0;
@@ -2293,10 +2293,13 @@
 		const newVh = window.innerHeight / 100;
 		const scale = ((newVw + newVh) / 2) / ((vw + vh) / 2);
 
+		const tankWorldX = -worldX + window.innerWidth / 2;
+		const tankWorldY = -worldY + window.innerHeight / 2;
+
 		vw = newVw;
 		vh = newVh;
-		normalSpeed = 0.3 * ((vw + vh) / 2) * ZOOM;
-		slideSpeed = 0.27 * ((vw + vh) / 2) * ZOOM;
+		normalSpeed = 0.1 * ((vw + vh) / 2) * ZOOM;
+		slideSpeed = 0.085 * ((vw + vh) / 2) * ZOOM;
 
 		playerBounds.width = 3 * ((vw + vh) / 2) * ZOOM;
 		playerBounds.height = 3 * ((vw + vh) / 2) * ZOOM;
@@ -2304,16 +2307,28 @@
 		rocks.forEach(rock => {
 			rock.width = BLOCK_SIZE * ((vw + vh) / 2) * ZOOM;
 			rock.height = BLOCK_SIZE * ((vw + vh) / 2) * ZOOM;
-			rock.x = parseInt(rock.element.style.left) * scale;
-			rock.y = parseInt(rock.element.style.top) * scale;
+			rock.x = (rock.x / scale) * scale;
+			rock.y = (rock.y / scale) * scale;
+
+			rock.element.style.width = rock.width + 'px';
+			rock.element.style.height = rock.height + 'px';
+			rock.element.style.left = rock.x + 'px';
+			rock.element.style.top = rock.y + 'px';
 		});
 
-		if (startingBlock) {
-			startingBlock.x = parseInt(startingBlock.x * scale);
-			startingBlock.y = parseInt(startingBlock.y * scale);
-		}
+		world.style.width = (GRID_SIZE * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
+		world.style.height = (GRID_SIZE * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
 
-		positionPlayerAtStart();
+		worldX = -(tankWorldX - window.innerWidth / 2);
+		worldY = -(tankWorldY - window.innerHeight / 2);
+
+		playerBounds.x = window.innerWidth / 2 - (1.5 * ((vw + vh) / 2) * ZOOM);
+		playerBounds.y = window.innerHeight / 2 - (1.5 * ((vw + vh) / 2) * ZOOM);
+
+		mainPlayer.style.left = (window.innerWidth / 2) + 'px';
+		mainPlayer.style.top = (window.innerHeight / 2) + 'px';
+
+		world.style.transform = `rotate(${-currentAngle}deg) translate(${worldX}px, ${worldY}px)`;
 	});
 
 	function checkCollision(rect1, rect2) {
@@ -2324,7 +2339,7 @@
 	}
 
 	function setMovement(angle, driving) {
-		if (angle == false) {
+		if (angle === false) {
 			isDriving = driving;
 		} else {
 			currentAngle = angle;
