@@ -2213,9 +2213,9 @@
 		let worldY = 0;
 		let vw = window.innerWidth / 100;
 		let vh = window.innerHeight / 100;
-		let normalSpeed = 0.18 * ((vw + vh) / 2) * ZOOM;
-		let slideSpeed = 0.16 * ((vw + vh) / 2) * ZOOM;
-		const control = 0.5;
+		let normalSpeed = 0.2 * ((vw + vh) / 2) * ZOOM;
+		let slideSpeed = 0.18 * ((vw + vh) / 2) * ZOOM;
+		const control = 0.3;
 
 		let velocityX = 0;
 		let velocityY = 0;
@@ -2298,8 +2298,8 @@
 
 			vw = newVw;
 			vh = newVh;
-			normalSpeed = 0.18 * ((vw + vh) / 2) * ZOOM;
-			slideSpeed = 0.16 * ((vw + vh) / 2) * ZOOM;
+			normalSpeed = 0.2 * ((vw + vh) / 2) * ZOOM;
+			slideSpeed = 0.18 * ((vw + vh) / 2) * ZOOM;
 
 			playerBounds.width = 3 * ((vw + vh) / 2) * ZOOM;
 			playerBounds.height = 3 * ((vw + vh) / 2) * ZOOM;
