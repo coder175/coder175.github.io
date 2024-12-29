@@ -13,6 +13,7 @@
             background: linear-gradient(135deg, #1e3c72, #2a5298);
             font-family: Arial, sans-serif;
         }
+
         .slider {
             display: flex;
             justify-content: center;
@@ -25,11 +26,13 @@
             height: 100vh;
             overflow: hidden;
         }
+
         .tank-container {
             position: relative;
             width: 0;
             height: 0;
         }
+
         .tank {
             position: absolute;
             text-align: center;
@@ -47,12 +50,14 @@
             align-items: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
+
         .tank.selected.dragging {
             transform: scale(1.5);
             background: rgba(255, 255, 255, 0.3);
             border-color: white;
             box-shadow: 0 8px 20px rgba(255, 255, 255, 0.5);
         }
+
         .tank:not(.selected) {
             opacity: 0.6;
         }
@@ -60,7 +65,7 @@
 </head>
 <body>
 <div class="slider" id="sliderArea">
-    <div class="tank-container" id="tankContainer">
+    <div class="tank-container">
         <div class="tank" data-index="0">1</div>
         <div class="tank" data-index="1">2</div>
         <div class="tank" data-index="2">3</div>
@@ -68,7 +73,6 @@
 </div>
 
 <script>
-    const tankContainer = document.getElementById('tankContainer');
     const sliderArea = document.getElementById('sliderArea');
     const tanks = document.querySelectorAll('.tank');
     const tankCount = tanks.length;
