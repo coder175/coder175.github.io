@@ -317,6 +317,14 @@
         return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
     }
 
+    function to12Hour(time) {
+        let [h, m] = time.split(":").map(Number);
+        const ampm = h >= 12 ? "PM" : "AM";
+        h = h % 12;
+        if (h === 0) h = 12;
+        return `${h}:${m.toString().padStart(2, "0")} ${ampm}`;
+    }
+
     function updateScheduleTable() {
         const now = new Date();
         const nowSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
@@ -331,7 +339,7 @@
             let row = document.createElement("tr");
             if (status.type === "current") row.className = "current-class";
 
-            let timeStr = `${period.start} - ${period.end}`;
+            let timeStr = `${to12Hour(period.start)} - ${to12Hour(period.end)}`;
             let statusStr = "";
             if (status.type === "current") {
                 statusStr = `Time left: ${formatHMS(status.seconds)}`;
