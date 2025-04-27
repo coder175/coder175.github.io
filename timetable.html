@@ -1,114 +1,429 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>School Schedule Countdown</title>
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Anton+SC&display=swap');
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://media.istockphoto.com/id/1141295444/vector/clock-icon-isolated-on-white-background-vector-illustration.jpg?s=612x612&w=0&k=20&c=xODeD4gcgpVxBEEUIMqr1DuHzXbBwdNp9AgIrHhd7L8="/>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=menu"/>
+    <title>School Time</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anton+SC&display=swap');
 
-.anton-sc-regular {
-                font-family: "Anton SC", sans-serif;
-                font-weight: 400;
-                font-style: normal;
-              }
+        .bodyFont {
+            font-family: "Anton SC", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+
+        html, body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            font-size: calc(2vw + 2vh);
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-weight: bold;
+        }
+
+        #timeLeftC {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #timeLeft {
+            font-size: calc(5vw + 5vh);
+            margin-top: 0.5vw;
+            margin-bottom: -2vw;
+        }
+
+        #menu {
+            position: fixed;
+            width: 30vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.05);
+            left: -30vw;
+            top: 0;
+            transition: left 0.5s;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        #menuIcon {
+            width: 5vw;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 1vw;
+            cursor: pointer;
+        }
+
+        #menu #menuIconX {
+            display: none;
+            width: 5vw;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 1vw;
+            cursor: pointer;
+        }
+
+        #scheduleTable {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 1.2vw;
+        }
+
+        #scheduleTable th, #scheduleTable td {
+            padding: 0.5vw;
+            text-align: left;
+        }
+
+        .current-class {
+            border-radius: 1vw;
+            background-color: #2196f3;
+            color: #fff;
+        }
+    </style>
+</head>
+<body class="bodyFont">
+
+<div id="menuIcon">
+    <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#000000">
+        <path d="M99-205v-92h763v92H99Zm0-229v-91h763v91H99Zm0-229v-92h763v92H99Z"/>
+    </svg>
+</div>
+<div id="menu">
+    <div id="menuIconX">
+        <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#000000">
+            <path d="m250.67-177-73.34-73.67 229-229.33-229-228.67 73.34-74.66L480-554.67l229.33-228.66 73.34 74.66L554.33-480l228.34 229.33L709.33-177 480-405.67 250.67-177Z"/>
+        </svg>
+    </div>
+    <table id="scheduleTable" style="width:91%;margin-top:2vw;">
+        <thead>
+        <tr>
+            <th>Period</th>
+            <th>Time</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<div id="totalContainer">
+    <div id="timeLeftC"><span id="timeLeft"></span>
+        <div id="message"></div>
+    </div>
+</div>
+
+<script>
+    // === your callback stubs ===
+    function onClass(minutesLeft, secondsLeft) {
+        document.getElementById("timeLeft").innerHTML = minutesLeft + ":" + secondsLeft;
+        document.getElementById("message").innerHTML = "Until Class Ends";
+    }
+
+    function betweenClasses(minutesUntilStart, secondsLeft) {
+        document.getElementById("timeLeft").innerHTML = minutesUntilStart + ":" + secondsLeft;
+        document.getElementById("message").innerHTML = "Until Class Starts";
+    }
+
+    function beforeFirstClass(minutesUntilStart, secondsLeft) {
+        document.getElementById("timeLeft").innerHTML = minutesUntilStart + ":" + secondsLeft;
+        document.getElementById("message").innerHTML = "Until Homeroom Starts";
+    }
+
+    function afterLastClass() {
+        document.getElementById("message").innerHTML = "School is Finished!";
+    }
 
 
-            html, body {
-                font-family: Arial, sans-serif;
-                text-align: center;
-                font-size: calc(2vw + 2vh);
-                height: 100%;
-                margin: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+    // === helpers ===
+    function pad(n) {
+        return n < 10 ? '0' + n : String(n);
+    }
+
+    function secondsSinceMidnight(date) {
+        return date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
+    }
+
+    function diffToMinSec(diffSeconds) {
+        const m = Math.floor(diffSeconds / 60);
+        const s = diffSeconds % 60;
+        // return both as zero-padded strings
+        return {minutes: pad(m), seconds: pad(s)};
+    }
+
+
+    // === schedule logic ===
+    function updateStatus() {
+        const now = new Date();
+        const curr = secondsSinceMidnight(now);
+        let diffSec, ts;
+
+        // IN A CLASS
+        if (curr >= 9 * 3600 && curr < 9 * 3600 + 8 * 60) {
+            diffSec = (9 * 3600 + 8 * 60) - curr;
+            ts = diffToMinSec(diffSec);
+            return onClass(ts.minutes, ts.seconds);
+
+        } else if (curr >= 9 * 3600 + 12 * 60 && curr < 9 * 3600 + 57 * 60) {
+            diffSec = (9 * 3600 + 57 * 60) - curr;
+            ts = diffToMinSec(diffSec);
+            return onClass(ts.minutes, ts.seconds);
+
+        } else if (curr >= 10 * 3600 && curr < 10 * 3600 + 45 * 60) {
+            diffSec = (10 * 3600 + 45 * 60) - curr;
+            ts = diffToMinSec(diffSec);
+            return onClass(ts.minutes, ts.seconds);
+
+        } else if (curr >= 10 * 3600 + 49 * 60 && curr < 11 * 3600 + 47 * 60) {
+            diffSec = (11 * 3600 + 47 * 60) - curr;
+            ts = diffToMinSec(diffSec);
+            return onClass(ts.minutes, ts.seconds);
+
+        } else if (curr >= 11 * 3600 + 50 * 60 && curr < 13 * 3600 + 27 * 60) {
+            diffSec = (13 * 3600 + 27 * 60) - curr;
+            ts = diffToMinSec(diffSec);
+            return onClass(ts.minutes, ts.seconds);
+
+        } else if (curr >= 13 * 3600 + 30 * 60 && curr < 14 * 3600 + 28 * 60) {
+            diffSec = (14 * 3600 + 28 * 60) - curr;
+            ts = diffToMinSec(diffSec);
+            return onClass(ts.minutes, ts.seconds);
+
+        } else if (curr >= 14 * 3600 + 30 * 60 && curr < 15 * 3600 + 27 * 60) {
+            diffSec = (15 * 3600 + 27 * 60) - curr;
+            ts = diffToMinSec(diffSec);
+            return onClass(ts.minutes, ts.seconds);
+
+        } else if (curr >= 15 * 3600 + 30 * 60 && curr < 16 * 3600) {
+            diffSec = (16 * 3600) - curr;
+            ts = diffToMinSec(diffSec);
+            return onClass(ts.minutes, ts.seconds);
+        }
+
+
+        // BEFORE FIRST CLASS
+        if (curr < 9 * 3600) {
+            diffSec = (9 * 3600) - curr;
+            ts = diffToMinSec(diffSec);
+            return beforeFirstClass(ts.minutes, ts.seconds);
+        }
+
+
+        // BETWEEN CLASSES
+        if (curr > 9 * 3600 + 8 * 60 && curr < 9 * 3600 + 12 * 60) {
+            diffSec = (9 * 3600 + 12 * 60) - curr;
+            ts = diffToMinSec(diffSec);
+            return betweenClasses(ts.minutes, ts.seconds);
+
+        } else if (curr > 9 * 3600 + 57 * 60 && curr < 10 * 3600) {
+            diffSec = (10 * 3600) - curr;
+            ts = diffToMinSec(diffSec);
+            return betweenClasses(ts.minutes, ts.seconds);
+
+        } else if (curr > 10 * 3600 + 45 * 60 && curr < 10 * 3600 + 49 * 60) {
+            diffSec = (10 * 3600 + 49 * 60) - curr;
+            ts = diffToMinSec(diffSec);
+            return betweenClasses(ts.minutes, ts.seconds);
+
+        } else if (curr > 11 * 3600 + 47 * 60 && curr < 11 * 3600 + 50 * 60) {
+            diffSec = (11 * 3600 + 50 * 60) - curr;
+            ts = diffToMinSec(diffSec);
+            return betweenClasses(ts.minutes, ts.seconds);
+
+        } else if (curr > 13 * 3600 + 27 * 60 && curr < 13 * 3600 + 30 * 60) {
+            diffSec = (13 * 3600 + 30 * 60) - curr;
+            ts = diffToMinSec(diffSec);
+            return betweenClasses(ts.minutes, ts.seconds);
+
+        } else if (curr > 14 * 3600 + 28 * 60 && curr < 14 * 3600 + 30 * 60) {
+            diffSec = (14 * 3600 + 30 * 60) - curr;
+            ts = diffToMinSec(diffSec);
+            return betweenClasses(ts.minutes, ts.seconds);
+
+        } else if (curr > 15 * 3600 + 27 * 60 && curr < 15 * 3600 + 30 * 60) {
+            diffSec = (15 * 3600 + 30 * 60) - curr;
+            ts = diffToMinSec(diffSec);
+            return betweenClasses(ts.minutes, ts.seconds);
+        }
+
+
+        // AFTER LAST CLASS
+        afterLastClass();
+    }
+
+
+    // === tick ===
+    function tick() {
+        updateStatus();
+    }
+
+    // kick off
+    window.onload = () => {
+        tick();
+        setInterval(tick, 1);
+    };
+
+    const periods = [
+        {name: "Homeroom", start: "09:00", end: "09:08"},
+        {name: "1st Period", start: "09:12", end: "09:57"},
+        {name: "2nd Period", start: "10:00", end: "10:45"},
+        {name: "3rd Period", start: "10:49", end: "11:47"},
+        {name: "4th Period", start: "11:50", end: "13:27"},
+        {name: "Lunch", start: "12:27", end: "12:52"},
+        {name: "5th Period", start: "13:30", end: "14:28"},
+        {name: "6th Period", start: "14:30", end: "15:27"},
+        {name: "I/E", start: "15:30", end: "16:00"}
+    ];
+
+    function toSeconds(t) {
+        const [h, m] = t.split(":").map(Number);
+        return h * 3600 + m * 60;
+    }
+
+    function getStatus(nowSec, startSec, endSec) {
+        if (nowSec >= startSec && nowSec < endSec) {
+            return {type: "current", seconds: endSec - nowSec};
+        } else if (nowSec < startSec) {
+            return {type: "upcoming", seconds: startSec - nowSec};
+        } else {
+            return {type: "past", seconds: 0};
+        }
+    }
+
+    function formatHMS(totalSeconds) {
+        const h = Math.floor(totalSeconds / 3600);
+        const m = Math.floor((totalSeconds % 3600) / 60);
+        const s = totalSeconds % 60;
+        return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+    }
+
+    function updateScheduleTable() {
+        const now = new Date();
+        const nowSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+        const tbody = document.querySelector("#scheduleTable tbody");
+        tbody.innerHTML = "";
+
+        periods.forEach(period => {
+            const startSec = toSeconds(period.start);
+            const endSec = toSeconds(period.end);
+            const status = getStatus(nowSec, startSec, endSec);
+
+            let row = document.createElement("tr");
+            if (status.type === "current") row.className = "current-class";
+
+            let timeStr = `${period.start} - ${period.end}`;
+            let statusStr = "";
+            if (status.type === "current") {
+                statusStr = `Time left: ${formatHMS(status.seconds)}`;
+            } else if (status.type === "upcoming") {
+                statusStr = `In ${formatHMS(status.seconds)}`;
+            } else {
+                statusStr = "Finished";
             }
-            .timer {
-                font-size: calc(2vw + 2vh);
-                margin-top: 20px;
-            }
 
-            #noClass {
-                display: none;
-                font-size: calc(5vw + 5vh)
-            }
+            row.innerHTML = `<td>${period.name}</td><td>${timeStr}</td><td>${statusStr}</td>`;
+            tbody.appendChild(row);
+        });
+    }
 
-            #currentClassContainer {
-                text-align: center;
-                display: flex;
-                flex-direction: column;
-              }
-        </style>
-    </head>
-    <body class="anton-sc-regular">
+    setInterval(updateScheduleTable, 1000);
+    window.onload = function () {
+        tick();
+        setInterval(tick, 1000);
+        updateScheduleTable();
+        setInterval(updateScheduleTable, 1000);
+        document.getElementById('menuIcon').addEventListener('mouseover', () => {
+            document.getElementById('menuIcon').style.display = 'none';
+            document.getElementById('menuIconX').style.display = 'block';
+            document.getElementById('menu').style.left = '0';
+        });
+        document.getElementById('menu').addEventListener('mouseleave', () => {
+            document.getElementById('menuIcon').style.display = 'block';
+            document.getElementById('menuIconX').style.display = 'none';
+            document.getElementById('menu').style.left = '-30vw';
+        });
+    };
 
+</script>
 
-        <h1 id="currentClassContainer">Current Class: <span id="currentClass"></span>
-        <span id="timeLeftContainer" class="timer">
-            <span id="timeLeft"></span>
-        </span>
-        </h1>
-        <h1 id="noClass">
-            No School Right Now!
-        </h1>
-        <script>
-            // Define your schedule here
-            const schedule = [
-                { name: 'Homeroom', start: '09:00', end: '09:08' },
-                { name: 'Spanish I', start: '09:12', end: '09:57' },
-                { name: 'P.E.', start: '10:00', end: '10:45' },
-                { name: 'Social Studies', start: '10:49', end: '11:47' },
-                { name: 'Science', start: '10:50', end: '13:27' },
-                { name: 'ELA', start: '13:30', end: '14:28' },
-                { name: 'Math 2', start: '14:30', end: '15:27' },
-                { name: 'I/E', start: '15:30', end: '16:00' }
-            ];
+<!--        -->
+<!--        <script>-->
+<!--            // Define your schedule here-->
+<!--            const schedule = [-->
+<!--                { name: 'Homeroom', start: '09:00', end: '09:08' },-->
+<!--                { name: 'Spanish I', start: '09:12', end: '09:57' },-->
+<!--                { name: 'P.E.', start: '10:00', end: '10:45' },-->
+<!--                { name: 'Social Studies', start: '10:49', end: '11:47' },-->
+<!--                { name: 'Science', start: '10:50', end: '13:27' },-->
+<!--                { name: 'ELA', start: '13:30', end: '14:28' },-->
+<!--                { name: 'Math 2', start: '14:30', end: '15:27' },-->
+<!--                { name: 'I/E', start: '15:30', end: '16:00' }-->
+<!--            ];-->
 
-            function getCurrentTime() {
-                const now = new Date();
-                const hours = now.getHours().toString().padStart(2, '0');
-                const minutes = now.getMinutes().toString().padStart(2, '0');
-                return `${hours}:${minutes}`;
-            }
+<!--            function getCurrentTime() {-->
+<!--                const now = new Date();-->
+<!--                const hours = now.getHours().toString().padStart(2, '0');-->
+<!--                const minutes = now.getMinutes().toString().padStart(2, '0');-->
+<!--                return `${hours}:${minutes}`;-->
+<!--            }-->
 
-            function getTimeDifference(endTime) {
-                const now = new Date();
-                const end = new Date(now.toDateString() + ' ' + endTime);
-                const difference = end - now; // milliseconds difference
+<!--            function getTimeDifference(endTime) {-->
+<!--                const now = new Date();-->
+<!--                const end = new Date(now.toDateString() + ' ' + endTime);-->
+<!--                const difference = end - now; // milliseconds difference-->
 
-                const minutesLeft = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-                const secondsLeft = Math.floor((difference % (1000 * 60)) / 1000);
+<!--                const minutesLeft = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));-->
+<!--                const secondsLeft = Math.floor((difference % (1000 * 60)) / 1000);-->
 
-                return `${minutesLeft} minutes ${secondsLeft} seconds`;
-            }
+<!--                return `${minutesLeft} minutes ${secondsLeft} seconds`;-->
+<!--            }-->
 
-            function updateSchedule() {
-                const currentTime = getCurrentTime();
+<!--            function updateSchedule() {-->
+<!--                const currentTime = getCurrentTime();-->
 
-                let classFound = false;
+<!--                let classFound = false;-->
 
-                for (const period of schedule) {
-                    if (currentTime >= period.start && currentTime < period.end) {
-                        document.getElementById('currentClassContainer').style.display = 'block';
-                        document.getElementById('timeLeftContainer').style.display = 'block';
-                        document.getElementById('currentClass').innerText = period.name;
-                        document.getElementById('timeLeft').innerText = getTimeDifference(period.end);
-                        classFound = true;
-                        break;
-                    }
-                }
+<!--                for (const period of schedule) {-->
+<!--                    if (currentTime >= period.start && currentTime < period.end) {-->
+<!--                        document.getElementById('currentClassContainer').style.display = 'block';-->
+<!--                        document.getElementById('timeLeftContainer').style.display = 'block';-->
+<!--                        document.getElementById('currentClass').innerText = period.name;-->
+<!--                        document.getElementById('timeLeft').innerText = getTimeDifference(period.end);-->
+<!--                        classFound = true;-->
+<!--                        break;-->
+<!--                    }-->
+<!--                }-->
 
-                if (!classFound) {
-                    document.getElementById('currentClassContainer').style.display = 'none';
-                    document.getElementById('timeLeftContainer').style.display = 'none';
-                    document.getElementById('noClass').style.display = 'block';
-                }
-            }
+<!--                if (!classFound) {-->
+<!--                    document.getElementById('currentClassContainer').style.display = 'none';-->
+<!--                    document.getElementById('timeLeftContainer').style.display = 'none';-->
+<!--                    document.getElementById('noClass').style.display = 'block';-->
+<!--                }-->
+<!--            }-->
 
-            setInterval(updateSchedule, 1); // Update every second
+<!--            setInterval(updateSchedule, 1); // Update every second-->
 
-        </script>
+<!--        </script>-->
 
-    </body>
+</body>
 </html>
