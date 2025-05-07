@@ -144,7 +144,7 @@
          \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/
         ------------------------------------------------------------------*/
 
-		#NotCompatable {
+		#NotCompatible {
 			visibility: hidden;
 			opacity: 0;
 			font-size: 4.5vw;
@@ -160,6 +160,7 @@
 		}
 
 		#rotateScreen {
+			transition: none;
 			visibility: hidden;
 			opacity: 0;
 			position: absolute;
@@ -169,7 +170,7 @@
 			left: 0;
 			text-align: center;
 			padding-top: 20vh;
-			z-index: 999;
+			z-index: 60;
 			background-color: #26cd79;
 		}
 
@@ -182,15 +183,6 @@
 			margin-top: 8vh;
 			height: calc((35vw + 35vh) / 2);
 			text-align: center;
-		}
-
-		#rotateScreen .noThanks {
-			left: 37.5vw;
-			position: fixed;
-			width: 25vw;
-			height: 10vh;
-			bottom: 10vh;
-			font-size: calc((3vw + 3vh) / 2);
 		}
 
 		/*------------------------------------------------------------------
@@ -254,7 +246,7 @@
 		}
 
 		@media screen and (min-aspect-ratio: 3.8/1), (max-aspect-ratio: 0.5/1) {
-			#NotCompatable {
+			#NotCompatible {
 				visibility: visible;
 				opacity: 1;
 			}
@@ -275,7 +267,7 @@
 			align-items: center;
 			justify-content: center;
 			flex-direction: column;
-			z-index: 99999;
+			z-index: 50;
 			animation: loadTitle 2s, shake 0.5s ease-in-out;
 		}
 
@@ -1299,23 +1291,34 @@
 
 		#tank #joystickContainer #onlineJoystick {
 			position: absolute;
-			bottom: 0;
-			width: calc((42vw + 42vh) / 2);
-			height: calc((35vw + 35vh) / 2);
+			bottom: 10vh;
+			left: 10vw;
+			width: calc((23vw + 23vh) / 2);
+			height: calc((23vw + 23vh) / 2);
 			display: none;
 			z-index: 10;
+			background-color: rgba(76, 175, 80, 0.5);
+			border-radius: 50%;
 		}
 
 		#tank #joystickContainer #shootingOnlineJoystick {
 			position: absolute;
-			width: 100vw;
-			height: 100vh;
+			width: calc((23vw + 23vh) / 2);
+			height: calc((23vw + 23vh) / 2);
+			right: 10vw;
+			bottom: 10vh;
 			z-index: 5;
+			background-color: rgba(229, 57, 53, 0.5);
+			border-radius: 50%;
 		}
 
 		#tank #joystickContainer {
 			width: 100vw;
 			height: 100vh;
+		}
+
+		div.back {
+			opacity: 0 !important;
 		}
 	</style>
 </head>
@@ -1330,12 +1333,11 @@
 </div>
 <div id="restOfContent">
 	<div class="alerts">
-		<div id="NotCompatable">
-			SORRY, YOUR SCREEN SIZE IS NOT COMPATABLE WITH THIS GAME. <br />
-			TIP: TRY ROTATING YOUR SCREEN FOR A BETTER VIEW.
+		<div id="NotCompatible">
+			SORRY, YOUR SCREEN SIZE IS NOT COMPATIBLE WITH THIS GAME. <br />
 		</div>
 		<div id="rotateScreen">
-			<div class="label">FOR A BETTER EXPERIENCE, ROTATE YOUR SCREEN</div>
+			<div class="label">ROTATE YOUR SCREEN TO PLAY</div>
 			<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" viewBox="302.05 440.29 479.95 837.51">
 				<g transform="translate(0.000000,1920.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
 					<path
@@ -1347,7 +1349,6 @@
 					<path d="M7713 8272 l-43 -37 15 -74 c22 -101 20 -274 -4 -386 -73 -351 -321 -633 -660 -751 -177 -62 -412 -71 -580 -22 l-44 13 179 150 c98 83 186 157 196 165 16 14 15 18 -21 58 l-38 43 -259 -216 c-142 -119 -267 -225 -277 -234 -17 -17 -8 -29 208 -287 124 -148 230 -270 234 -272 5 -1 27 13 49 31 l41 35 -170 202 c-93 112 -168 204 -167 206 2 1 27 -4 57 -12 318 -82 694 -1 957 207 279 221 434 540 434 897 0 122 -36 323 -58 322 -4 -1 -26 -18 -49 -38z"></path>
 				</g>
 			</svg>
-			<button onclick="this.parentElement.style.visibility = 'hidden'" class="noThanks">NO THANKS</button>
 		</div>
 	</div>
 
@@ -1899,6 +1900,7 @@
 			game.style.setProperty("visibility", "visible");
 			game.style.setProperty("opacity", "1");
 			startTouchScreenMovement();
+			startPlayingGame();
 		});
 
 		/* Setting tankBody Dimentions when Screen Resizes */
@@ -2060,9 +2062,9 @@
 				zone: onlineJoystick,
 				shape: "circle",
 				mode: "static",
-				size: (window.innerWidth * 0.1 + window.innerHeight * 0.1) / 2,
+				size: (window.innerWidth * 0.18 + window.innerHeight * 0.18) / 2,
 				position: { left: "50%", bottom: "50%" },
-				color: "#066c00",
+				color: "#1B5E20",
 				fadeTime: 500,
 			});
 
@@ -2080,12 +2082,12 @@
 			});
 
 			const shootingjoystick = nipplejs.create({
-				mode: "dynamic",
+				mode: "static",
 				zone: shootingOnlineJoystick,
-				size:
-						(window.innerWidth * 0.12 + window.innerHeight * 0.12) / 2,
+				size: (window.innerWidth * 0.18 + window.innerHeight * 0.18) / 2,
+				position: { right: "50%", bottom: "50%" },
 				catchDistance: window.innerHeight * 0.2,
-				color: "#066c00",
+				color: "#7F0000",
 				fadeTime: 500,
 			});
 
@@ -2162,278 +2164,277 @@
 
 
 
+	function startPlayingGame() {
+		const world = document.getElementById('world');
+		const mainPlayer = document.getElementById('mainPlayer');
+		const rocks = [];
+		let startingBlock = null;
 
+		const ZOOM = 2;
+		const GRID_SIZE = 32;
+		const BLOCK_SIZE = 4;
 
+		const mapLayout = [
+			[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4],
+			[4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 4],
+			[4, 4, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 3, 0, 3, 0, 3, 3, 3, 0, 0, 0, 0, 0, 3, 4],
+			[4, 4, 3, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 3, 0, 3, 4, 3, 0, 3, 3, 3, 0, 3, 4],
+			[4, 4, 3, 0, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 3, 0, 3, 0, 3, 3, 3, 0, 3, 6, 3, 0, 3, 4],
+			[4, 4, 3, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 3, 0, 3, 0, 0, 0, 0, 0, 3, 4, 3, 0, 3, 4],
+			[4, 4, 3, 1, 1, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 3, 3, 3, 0, 3, 0, 0, 3, 3, 3, 3, 4, 3, 0, 3, 4],
+			[4, 4, 3, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 3, 4, 4, 4, 4, 3, 0, 3, 4],
+			[4, 4, 3, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 3, 0, 3, 4],
+			[4, 4, 3, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3],
+			[4, 4, 3, 3, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
+			[4, 4, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 3],
+			[4, 4, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 2, 0, 3],
+			[4, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 0, 0, 0, 0, 0, 2, 2, 0, 1, 1, 1, 2, 0, 3],
+			[4, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 0, 1, 1, 1, 0, 2, 2, 0, 2, 2, 2, 2, 0, 3],
+			[4, 4, 3, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 1, 1, 1, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3],
+			[4, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 2, 0, 0, 1, 1, 1, 1, 0, 3],
+			[4, 4, 3, 0, 0, 2, 2, 2, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 1, 0, 0, 1, 0, 3],
+			[4, 4, 3, 0, 0, 2, 2, 2, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 1, 0, 0, 1, 0, 3],
+			[4, 4, 3, 0, 0, 2, 2, 2, 0, 1, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 3, 3, 3],
+			[4, 4, 3, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 2, 0, 0, 2, 2, 2, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3, 4, 4],
+			[4, 4, 3, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 0, 0, 3, 4, 4],
+			[4, 4, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 4, 4, 3, 0, 0, 3, 4, 4],
+			[4, 4, 4, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 4, 4, 3, 3, 3, 3, 4, 4],
+			[4, 4, 4, 4, 3, 0, 0, 0, 3, 3, 3, 3, 0, 0, 1, 1, 1, 0, 3, 3, 3, 0, 0, 3, 3, 4, 4, 4, 4, 4, 4, 4],
+			[4, 4, 4, 4, 3, 0, 0, 0, 3, 4, 4, 3, 0, 0, 1, 0, 0, 0, 3, 4, 3, 0, 0, 0, 3, 3, 4, 4, 4, 4, 4, 4],
+			[4, 4, 4, 4, 3, 0, 0, 0, 3, 4, 4, 3, 0, 0, 1, 0, 0, 0, 3, 4, 3, 0, 0, 0, 0, 3, 4, 4, 4, 4, 4, 4],
+			[4, 4, 4, 4, 3, 3, 3, 3, 3, 4, 4, 3, 3, 0, 1, 0, 0, 0, 3, 4, 3, 0, 0, 0, 0, 3, 4, 4, 4, 4, 4, 4],
+			[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4],
+			[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+			[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+			[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+		];
 
-	const world = document.getElementById('world');
-	const mainPlayer = document.getElementById('mainPlayer');
-	const rocks = [];
-	let startingBlock = null;
+		let worldX = 0;
+		let worldY = 0;
+		let vw = window.innerWidth / 100;
+		let vh = window.innerHeight / 100;
+		let normalSpeed = 0.2 * ((vw + vh) / 2) * ZOOM;
+		let slideSpeed = 0.18 * ((vw + vh) / 2) * ZOOM;
+		const control = 0.3;
 
-	const ZOOM = 2;
-	const GRID_SIZE = 32;
-	const BLOCK_SIZE = 4;
+		let velocityX = 0;
+		let velocityY = 0;
+		let currentDirection = {x: 0, y: 0};
+		const friction = 1;
 
-	const mapLayout = [
-		[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4],
-		[4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 4],
-		[4, 4, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 3, 0, 3, 0, 3, 3, 3, 0, 0, 0, 0, 0, 3, 4],
-		[4, 4, 3, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 3, 0, 3, 4, 3, 0, 3, 3, 3, 0, 3, 4],
-		[4, 4, 3, 0, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 3, 0, 3, 0, 3, 3, 3, 0, 3, 6, 3, 0, 3, 4],
-		[4, 4, 3, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 3, 0, 3, 0, 0, 0, 0, 0, 3, 4, 3, 0, 3, 4],
-		[4, 4, 3, 1, 1, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 3, 3, 3, 0, 3, 0, 0, 3, 3, 3, 3, 4, 3, 0, 3, 4],
-		[4, 4, 3, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 3, 4, 4, 4, 4, 3, 0, 3, 4],
-		[4, 4, 3, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 3, 0, 3, 4],
-		[4, 4, 3, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3],
-		[4, 4, 3, 3, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
-		[4, 4, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 3],
-		[4, 4, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 2, 0, 3],
-		[4, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 0, 0, 0, 0, 0, 2, 2, 0, 1, 1, 1, 2, 0, 3],
-		[4, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 0, 1, 1, 1, 0, 2, 2, 0, 2, 2, 2, 2, 0, 3],
-		[4, 4, 3, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 1, 1, 1, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3],
-		[4, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 2, 0, 0, 1, 1, 1, 1, 0, 3],
-		[4, 4, 3, 0, 0, 2, 2, 2, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 1, 0, 0, 1, 0, 3],
-		[4, 4, 3, 0, 0, 2, 2, 2, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 1, 0, 0, 1, 0, 3],
-		[4, 4, 3, 0, 0, 2, 2, 2, 0, 1, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 3, 3, 3],
-		[4, 4, 3, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 2, 0, 0, 2, 2, 2, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3, 4, 4],
-		[4, 4, 3, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 0, 0, 3, 4, 4],
-		[4, 4, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 4, 4, 3, 0, 0, 3, 4, 4],
-		[4, 4, 4, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 4, 4, 3, 3, 3, 3, 4, 4],
-		[4, 4, 4, 4, 3, 0, 0, 0, 3, 3, 3, 3, 0, 0, 1, 1, 1, 0, 3, 3, 3, 0, 0, 3, 3, 4, 4, 4, 4, 4, 4, 4],
-		[4, 4, 4, 4, 3, 0, 0, 0, 3, 4, 4, 3, 0, 0, 1, 0, 0, 0, 3, 4, 3, 0, 0, 0, 3, 3, 4, 4, 4, 4, 4, 4],
-		[4, 4, 4, 4, 3, 0, 0, 0, 3, 4, 4, 3, 0, 0, 1, 0, 0, 0, 3, 4, 3, 0, 0, 0, 0, 3, 4, 4, 4, 4, 4, 4],
-		[4, 4, 4, 4, 3, 3, 3, 3, 3, 4, 4, 3, 3, 0, 1, 0, 0, 0, 3, 4, 3, 0, 0, 0, 0, 3, 4, 4, 4, 4, 4, 4],
-		[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4],
-		[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
-		[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
-		[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
-	];
+		let currentAngle = 0;
+		let isDriving = false;
 
-	let worldX = 0;
-	let worldY = 0;
-	let vw = window.innerWidth / 100;
-	let vh = window.innerHeight / 100;
-	let normalSpeed = 0.1 * ((vw + vh) / 2) * ZOOM;
-	let slideSpeed = 0.085 * ((vw + vh) / 2) * ZOOM;
-	const control = 0.3;
-
-	let velocityX = 0;
-	let velocityY = 0;
-	let currentDirection = {x: 0, y: 0};
-	const friction = 1;
-
-	let currentAngle = 0;
-	let isDriving = false;
-
-	let playerBounds = {
-		width: 3 * ((vw + vh) / 2) * ZOOM,
-		height: 3 * ((vw + vh) / 2) * ZOOM,
-		x: 0,
-		y: 0
-	};
-
-	world.style.width = (GRID_SIZE * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
-	world.style.height = (GRID_SIZE * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
-
-	// Generate grid-based rocks and find starting position
-	for (let y = 0; y < GRID_SIZE; y++) {
-		for (let x = 0; x < GRID_SIZE; x++) {
-			const rockType = mapLayout[y][x];
-			if (rockType !== 4) {
-				const rock = document.createElement('div');
-				rock.className = `rock rock-${rockType}`;
-				rock.style.width = (BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
-				rock.style.height = (BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
-				rock.style.left = (x * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
-				rock.style.top = (y * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
-				world.appendChild(rock);
-
-				if (rockType === 5) {
-					startingBlock = {
-						x: x * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM,
-						y: y * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM
-					};
-				}
-
-				if (rockType !== 0 && rockType !== 5) {
-					rocks.push({
-						element: rock,
-						x: x * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM,
-						y: y * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM,
-						width: BLOCK_SIZE * ((vw + vh) / 2) * ZOOM,
-						height: BLOCK_SIZE * ((vw + vh) / 2) * ZOOM
-					});
-				}
-			}
-		}
-	}
-
-	function positionPlayerAtStart() {
-		if (startingBlock) {
-			const centerX = window.innerWidth / 2;
-			const centerY = window.innerHeight / 2;
-
-			worldX = -(startingBlock.x - centerX + (BLOCK_SIZE * ((vw + vh) / 2) * ZOOM / 2));
-			worldY = -(startingBlock.y - centerY + (BLOCK_SIZE * ((vw + vh) / 2) * ZOOM / 2));
-
-			playerBounds.x = centerX - (1.5 * ((vw + vh) / 2) * ZOOM);
-			playerBounds.y = centerY - (1.5 * ((vw + vh) / 2) * ZOOM);
-
-			mainPlayer.style.left = centerX + 'px';
-			mainPlayer.style.top = centerY + 'px';
-
-			world.style.transform = `translate(${worldX}px, ${worldY}px)`;
-		}
-	}
-
-	positionPlayerAtStart();
-
-	window.addEventListener('resize', () => {
-		const newVw = window.innerWidth / 100;
-		const newVh = window.innerHeight / 100;
-		const scale = ((newVw + newVh) / 2) / ((vw + vh) / 2);
-
-		const tankWorldX = -worldX + window.innerWidth / 2;
-		const tankWorldY = -worldY + window.innerHeight / 2;
-
-		vw = newVw;
-		vh = newVh;
-		normalSpeed = 0.1 * ((vw + vh) / 2) * ZOOM;
-		slideSpeed = 0.085 * ((vw + vh) / 2) * ZOOM;
-
-		playerBounds.width = 3 * ((vw + vh) / 2) * ZOOM;
-		playerBounds.height = 3 * ((vw + vh) / 2) * ZOOM;
-
-		rocks.forEach(rock => {
-			rock.width = BLOCK_SIZE * ((vw + vh) / 2) * ZOOM;
-			rock.height = BLOCK_SIZE * ((vw + vh) / 2) * ZOOM;
-			rock.x = (rock.x / scale) * scale;
-			rock.y = (rock.y / scale) * scale;
-
-			rock.element.style.width = rock.width + 'px';
-			rock.element.style.height = rock.height + 'px';
-			rock.element.style.left = rock.x + 'px';
-			rock.element.style.top = rock.y + 'px';
-		});
+		let playerBounds = {
+			width: 3 * ((vw + vh) / 2) * ZOOM,
+			height: 3 * ((vw + vh) / 2) * ZOOM,
+			x: 0,
+			y: 0
+		};
 
 		world.style.width = (GRID_SIZE * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
 		world.style.height = (GRID_SIZE * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
 
-		worldX = -(tankWorldX - window.innerWidth / 2);
-		worldY = -(tankWorldY - window.innerHeight / 2);
+		// Generate grid-based rocks and find starting position
+		for (let y = 0; y < GRID_SIZE; y++) {
+			for (let x = 0; x < GRID_SIZE; x++) {
+				const rockType = mapLayout[y][x];
+				if (rockType !== 4) {
+					const rock = document.createElement('div');
+					rock.className = `rock rock-${rockType}`;
+					rock.style.width = (BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
+					rock.style.height = (BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
+					rock.style.left = (x * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
+					rock.style.top = (y * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
+					world.appendChild(rock);
 
-		playerBounds.x = window.innerWidth / 2 - (1.5 * ((vw + vh) / 2) * ZOOM);
-		playerBounds.y = window.innerHeight / 2 - (1.5 * ((vw + vh) / 2) * ZOOM);
+					if (rockType === 5) {
+						startingBlock = {
+							x: x * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM,
+							y: y * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM
+						};
+					}
 
-		mainPlayer.style.left = (window.innerWidth / 2) + 'px';
-		mainPlayer.style.top = (window.innerHeight / 2) + 'px';
-
-		world.style.transform = `rotate(${-currentAngle}deg) translate(${worldX}px, ${worldY}px)`;
-	});
-
-	function checkCollision(rect1, rect2) {
-		return (rect1.x < rect2.x + rect2.width &&
-				rect1.x + rect1.width > rect2.x &&
-				rect1.y < rect2.y + rect2.height &&
-				rect1.y + rect1.height > rect2.y);
-	}
-
-	function setMovement(angle, driving) {
-		if (angle === false) {
-			isDriving = driving;
-		} else {
-			currentAngle = angle;
-			isDriving = driving;
-		}
-	}
-
-	function tryMove(dx, dy) {
-		const newPlayerWorldPos = {
-			x: playerBounds.x - (worldX + dx),
-			y: playerBounds.y - (worldY + dy),
-			width: playerBounds.width,
-			height: playerBounds.height
-		};
-
-		for (const rock of rocks) {
-			if (checkCollision(newPlayerWorldPos, rock)) {
-				return false;
+					if (rockType !== 0 && rockType !== 5) {
+						rocks.push({
+							element: rock,
+							x: x * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM,
+							y: y * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM,
+							width: BLOCK_SIZE * ((vw + vh) / 2) * ZOOM,
+							height: BLOCK_SIZE * ((vw + vh) / 2) * ZOOM
+						});
+					}
+				}
 			}
 		}
-		return true;
+
+		function positionPlayerAtStart() {
+			if (startingBlock) {
+				const centerX = window.innerWidth / 2;
+				const centerY = window.innerHeight / 2;
+
+				worldX = -(startingBlock.x - centerX + (BLOCK_SIZE * ((vw + vh) / 2) * ZOOM / 2));
+				worldY = -(startingBlock.y - centerY + (BLOCK_SIZE * ((vw + vh) / 2) * ZOOM / 2));
+
+				playerBounds.x = centerX - (1.5 * ((vw + vh) / 2) * ZOOM);
+				playerBounds.y = centerY - (1.5 * ((vw + vh) / 2) * ZOOM);
+
+				mainPlayer.style.left = centerX + 'px';
+				mainPlayer.style.top = centerY + 'px';
+
+				world.style.transform = `translate(${worldX}px, ${worldY}px)`;
+			}
+		}
+
+		positionPlayerAtStart();
+
+		window.addEventListener('resize', () => {
+			const newVw = window.innerWidth / 100;
+			const newVh = window.innerHeight / 100;
+			const scale = ((newVw + newVh) / 2) / ((vw + vh) / 2);
+
+			const tankWorldX = -worldX + window.innerWidth / 2;
+			const tankWorldY = -worldY + window.innerHeight / 2;
+
+			vw = newVw;
+			vh = newVh;
+			normalSpeed = 0.2 * ((vw + vh) / 2) * ZOOM;
+			slideSpeed = 0.18 * ((vw + vh) / 2) * ZOOM;
+
+			playerBounds.width = 3 * ((vw + vh) / 2) * ZOOM;
+			playerBounds.height = 3 * ((vw + vh) / 2) * ZOOM;
+
+			rocks.forEach(rock => {
+				rock.width = BLOCK_SIZE * ((vw + vh) / 2) * ZOOM;
+				rock.height = BLOCK_SIZE * ((vw + vh) / 2) * ZOOM;
+				rock.x = (rock.x / scale) * scale;
+				rock.y = (rock.y / scale) * scale;
+
+				rock.element.style.width = rock.width + 'px';
+				rock.element.style.height = rock.height + 'px';
+				rock.element.style.left = rock.x + 'px';
+				rock.element.style.top = rock.y + 'px';
+			});
+
+			world.style.width = (GRID_SIZE * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
+			world.style.height = (GRID_SIZE * BLOCK_SIZE * ((vw + vh) / 2) * ZOOM) + 'px';
+
+			worldX = -(tankWorldX - window.innerWidth / 2);
+			worldY = -(tankWorldY - window.innerHeight / 2);
+
+			playerBounds.x = window.innerWidth / 2 - (1.5 * ((vw + vh) / 2) * ZOOM);
+			playerBounds.y = window.innerHeight / 2 - (1.5 * ((vw + vh) / 2) * ZOOM);
+
+			mainPlayer.style.left = (window.innerWidth / 2) + 'px';
+			mainPlayer.style.top = (window.innerHeight / 2) + 'px';
+
+			world.style.transform = `rotate(${-currentAngle}deg) translate(${worldX}px, ${worldY}px)`;
+		});
+
+		function checkCollision(rect1, rect2) {
+			return (rect1.x < rect2.x + rect2.width &&
+					rect1.x + rect1.width > rect2.x &&
+					rect1.y < rect2.y + rect2.height &&
+					rect1.y + rect1.height > rect2.y);
+		}
+
+		window.setMovement = function(angle, driving) {
+			if (angle === false) {
+				isDriving = driving;
+			} else {
+				currentAngle = angle;
+				isDriving = driving;
+			}
+		};
+
+		function tryMove(dx, dy) {
+			const newPlayerWorldPos = {
+				x: playerBounds.x - (worldX + dx),
+				y: playerBounds.y - (worldY + dy),
+				width: playerBounds.width,
+				height: playerBounds.height
+			};
+
+			for (const rock of rocks) {
+				if (checkCollision(newPlayerWorldPos, rock)) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		function getSign(number) {
+			return number > 0 ? 1 : number < 0 ? -1 : 0;
+		}
+
+		function update() {
+			let targetVelocityX = 0;
+			let targetVelocityY = 0;
+			let currentSpeed = normalSpeed;
+
+			if (isDriving) {
+				const angleRad = (currentAngle + 90) * (Math.PI / 180);
+				targetVelocityX = -currentSpeed * Math.cos(angleRad);
+				targetVelocityY = -currentSpeed * Math.sin(angleRad);
+			}
+
+			let newDirectionX = getSign(targetVelocityX);
+			let newDirectionY = getSign(targetVelocityY);
+
+			if (Math.abs(velocityX) > 0.1 && currentDirection.x !== 0 &&
+					newDirectionX !== 0 && newDirectionX !== currentDirection.x) {
+				targetVelocityX = 0;
+			} else {
+				currentDirection.x = newDirectionX;
+			}
+
+			if (Math.abs(velocityY) > 0.1 && currentDirection.y !== 0 &&
+					newDirectionY !== 0 && newDirectionY !== currentDirection.y) {
+				targetVelocityY = 0;
+			} else {
+				currentDirection.y = newDirectionY;
+			}
+
+			velocityX = velocityX * (1 - control) + targetVelocityX * control;
+			velocityY = velocityY * (1 - control) + targetVelocityY * control;
+
+			if (!isDriving) {
+				velocityX *= friction;
+				velocityY *= friction;
+			}
+
+			if (Math.abs(velocityX) < 0.01) velocityX = 0;
+			if (Math.abs(velocityY) < 0.01) velocityY = 0;
+
+			let canMoveX = tryMove(velocityX, 0);
+			let canMoveY = tryMove(0, velocityY);
+
+			if ((canMoveX && !canMoveY) || (!canMoveX && canMoveY)) {
+				velocityX *= (slideSpeed / normalSpeed);
+				velocityY *= (slideSpeed / normalSpeed);
+			}
+
+			if (canMoveX) {
+				worldX += velocityX;
+			} else {
+				velocityX = 0;
+				currentDirection.x = 0;
+			}
+
+			if (canMoveY) {
+				worldY += velocityY;
+			} else {
+				velocityY = 0;
+				currentDirection.y = 0;
+			}
+
+			world.style.transform = `translate(${worldX}px, ${worldY}px)`;
+
+			requestAnimationFrame(update);
+		}
+
+		update();
 	}
-
-	function getSign(number) {
-		return number > 0 ? 1 : number < 0 ? -1 : 0;
-	}
-
-	function update() {
-		let targetVelocityX = 0;
-		let targetVelocityY = 0;
-		let currentSpeed = normalSpeed;
-
-		if (isDriving) {
-			const angleRad = (currentAngle + 90) * (Math.PI / 180);
-			targetVelocityX = -currentSpeed * Math.cos(angleRad);
-			targetVelocityY = -currentSpeed * Math.sin(angleRad);
-		}
-
-		let newDirectionX = getSign(targetVelocityX);
-		let newDirectionY = getSign(targetVelocityY);
-
-		if (Math.abs(velocityX) > 0.1 && currentDirection.x !== 0 &&
-				newDirectionX !== 0 && newDirectionX !== currentDirection.x) {
-			targetVelocityX = 0;
-		} else {
-			currentDirection.x = newDirectionX;
-		}
-
-		if (Math.abs(velocityY) > 0.1 && currentDirection.y !== 0 &&
-				newDirectionY !== 0 && newDirectionY !== currentDirection.y) {
-			targetVelocityY = 0;
-		} else {
-			currentDirection.y = newDirectionY;
-		}
-
-		velocityX = velocityX * (1 - control) + targetVelocityX * control;
-		velocityY = velocityY * (1 - control) + targetVelocityY * control;
-
-		if (!isDriving) {
-			velocityX *= friction;
-			velocityY *= friction;
-		}
-
-		if (Math.abs(velocityX) < 0.01) velocityX = 0;
-		if (Math.abs(velocityY) < 0.01) velocityY = 0;
-
-		let canMoveX = tryMove(velocityX, 0);
-		let canMoveY = tryMove(0, velocityY);
-
-		if ((canMoveX && !canMoveY) || (!canMoveX && canMoveY)) {
-			velocityX *= (slideSpeed / normalSpeed);
-			velocityY *= (slideSpeed / normalSpeed);
-		}
-
-		if (canMoveX) {
-			worldX += velocityX;
-		} else {
-			velocityX = 0;
-			currentDirection.x = 0;
-		}
-
-		if (canMoveY) {
-			worldY += velocityY;
-		} else {
-			velocityY = 0;
-			currentDirection.y = 0;
-		}
-
-		world.style.transform = `translate(${worldX}px, ${worldY}px)`;
-
-		requestAnimationFrame(update);
-	}
-
-	update();
 </script>
 </body>
 </html>

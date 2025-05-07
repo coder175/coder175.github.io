@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tank Selector</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .slider {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .tank-container {
+            position: relative;
+            width: 0;
+            height: 0;
+        }
+
+        .tank {
+            position: absolute;
+            text-align: center;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            font-size: 24px;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .tank.selected.dragging {
+            transform: scale(1.5);
+            background: rgba(255, 255, 255, 0.3);
+            border-color: white;
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .tank:not(.selected) {
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+<div class="slider" id="sliderArea">
+    <div class="tank-container">
+        <div class="tank" data-index="0">1</div>
+        <div class="tank" data-index="1">2</div>
+        <div class="tank" data-index="2">3</div>
+    </div>
+</div>
+
+<script>
+    const sliderArea = document.getElementById('sliderArea');
+    const tanks = document.querySelectorAll('.tank');
+    const tankCount = tanks.length;
+    let selectedIndex = 0;
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+    let rotationAngle = 0;
+    const anglePerTank = 360 / tankCount;
+    let radius = 100; // Distance from the center
+    let maxRotation = anglePerTank;
+    const swipeSensitivity = 0.1; // Adjust this to control swipe amount
+
+    function updateSlider() {
+        tanks.forEach((tank, index) => {
+            const angle = ((index - selectedIndex + tankCount) % tankCount) * anglePerTank + rotationAngle;
+            const radian = (angle * Math.PI) / 180;
+            const x = Math.sin(radian) * radius;
+            const y = Math.cos(radian) * -radius; // Adjust to position above
+            const scale = isDragging && angle % 360 === 0 ? 1.5 : 1;
+            tank.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+            tank.classList.toggle('selected', scale > 1);
+        });
+    }
+
+    sliderArea.addEventListener('touchstart', (e) => {
+        radius = 150; // Distance from the center
+        if (e.touches.length > 1) return; // Ignore multiple touches
+        startX = e.touches[0].clientX;
+        currentX = startX;
+        isDragging = true;
+        updateSlider();
+    });
+
+    sliderArea.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        currentX = e.touches[0].clientX;
+        const deltaX = currentX - startX;
+        let newRotation = (deltaX / sliderArea.clientWidth) * 360 / swipeSensitivity;
+        if (Math.abs(newRotation) > maxRotation) {
+            newRotation = maxRotation * Math.sign(newRotation);
+        }
+        rotationAngle = newRotation;
+        updateSlider();
+    });
+
+    sliderArea.addEventListener('touchend', () => {
+        radius = 100; // Distance from the center
+        if (!isDragging) return;
+        isDragging = false;
+        const direction = rotationAngle > 0 ? -1 : 1;
+        selectedIndex = (selectedIndex + direction + tankCount) % tankCount;
+        rotationAngle = 0;
+        updateSlider();
+    });
+
+    // Initialize slider
+    updateSlider();
+</script>
+</body>
+</html>
