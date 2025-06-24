@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Key Simulator</title>
+    <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&display=swap');
+
+        h1 {
+            font-size: 5vw;
+            margin: 0;
+        }
+
+        * {
+            font-family: "Jaro", sans-serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+        }
+
+        body {
+            text-align: center;
+            margin-top: 8vw;
+        }
+
+        .bar {
+            width: 25vw;
+            height: 2vw;
+            background: #ddd;
+            margin: 1.5vw auto;
+        }
+
+        .fill {
+            height: 100%;
+            background: #4CAF50;
+            width: 0;
+        }
+
+        button {
+            padding: 0.75vw 1.5vw;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 0.3vw;
+            font-size: 1.5vw;
+            cursor: pointer;
+        }
+        button:hover {}
+    </style>
+</head>
+<body>
+<h1>Key Simulator</h1>
+<div class="bar">
+    <div class="fill" id="bar"></div>
+</div>
+<button onclick="start()">Start</button>
+
+<script>
+    const duration = 10000;
+
+    function press() {
+        document.dispatchEvent(new KeyboardEvent('keydown', {key: 'Shift'}));
+        let w = 0, bar = document.getElementById('bar');
+        let t = setInterval(() => {
+            w += 100 * 10 / duration;
+            bar.style.width = w + '%';
+            if (w >= 100) clearInterval(t);
+        }, 10);
+    }
+
+    function start() {
+        press();
+        setInterval(press, duration);
+    }
+</script>
+</body>
+</html>
