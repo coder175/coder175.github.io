@@ -7,8 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=ABeeZee' rel='stylesheet'>
-    <link rel="icon" type="image/png"
-        href="https://st.depositphotos.com/1001311/3411/i/950/depositphotos_34119681-stock-photo-letter-a-from-gold-solid.jpg" />
+    <link rel="icon" type="image/png" href="https://st.depositphotos.com/1001311/3411/i/950/depositphotos_34119681-stock-photo-letter-a-from-gold-solid.jpg" />
     <title>My Creations - By Adhi.V</title>
     <style>
         * {
@@ -20,115 +19,81 @@
 
 
         .header {
-            font-size: 10vw;
+            margin-top: 5vw;
+            font-size: 4vw;
             text-align: center;
-        }
-
-
-        .header4 {
-            font-size: 3vw;
-            margin: 20px;
-        }
-
-
-        .Grid {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-
-        .Grid-item {
-            text-align: center;
-            width: 100%;
-            box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            border: 2px solid;
-            margin-top: 2%;
-        }
-
-
-        @media (min-width: 48rem) {
-            .Grid-item {
-                width: 49%;
-            }
-
-
-            .Grid-item:nth-child(odd) {
-                margin-right: 2%;
-            }
-        }
-
-
-        @media (min-width: 62rem) {
-            .Grid-item {
-                width: 23.5%;
-            }
-
-
-            .Grid-item:not(:nth-child(4n)) {
-                margin-right: 2%;
-            }
-        }
-
-
-        .Grid-item:before {
-            content: "";
-            float: left;
-            padding-top: 100%;
-        }
-
-
-        a {
-            text-decoration: none;
-            color: black;
-        }
-
-        img {
-            height: 18vw;
+            font-weight: bold;
         }
 
         footer {
+            position: fixed;
             width: 97vw;
             height: 8vh;
             text-align: center;
             font-size: 2.5vw;
             padding-top: 2vh;
             padding-bottom: 2vh;
+            bottom: 0px;
+        }
+
+        .box {
+            border-radius: 0.1vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5vw;
+            text-decoration: none;
+            color: black;
+            height: 20vh;
+            width: 20vw;
+            border: 0.2vw solid black;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .Grid {
+            display: flex;
+            gap: 3vw;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            margin-top: 5vh;
+            margin-bottom: 5vh;
+            padding: 5vh;
         }
     </style>
 </head>
 
 
 <body>
-    <div class="header">Projects</div>
+    <div class="header">Websites</div>
     <div class="Grid">
         <div class="Grid-item">
-            <a href="./tan k.h stml">
-                <div class="header4">Tank Game!</div>
-                <img src="https://img.freepik.com/free-vector/tank-vehicle-cartoon-vector-icon-illustration-military-transportation-icon-concept-isolated-vector-flat-cartoon-style_138676-2512.jpg"
-                    alt="Multiplication table">
+            <a target="_blank" rel="noopener noreferrer" href="./tank.html">
+                <div class="box">Tank</div>
             </a>
         </div>
         <div class="Grid-item">
-            <a href="./tables.html">
-                <div class="header4">Multiplication Facts</div>
-                <img src="https://cdn2.iconfinder.com/data/icons/preschool-education-2/100/Preschool_Education_770-19-512.png"
-                    alt="Multiplication table">
+            <a target="_blank" rel="noopener noreferrer" href="./tables.html">
+                <div class="box">Multiplication Facts</div>
             </a>
         </div>
         <div class="Grid-item">
-            <a href="./stopwatch.html">
-                <div class="header4">Rubik's Cube Timer</div>
-                <img src="https://m.media-amazon.com/images/I/619udMHrCxL.jpg"
-                    alt="Rubik's Cube Picture">
+            <a target="_blank" rel="noopener noreferrer" href="./stopwatch.html">
+                <div class="box">Stopwatch</div>
             </a>
         </div>
         <div class="Grid-item">
-            <a href="./calculator.html">
-                <div class="header4">Basic Calculator</div>
-                <img src="https://cdn2.iconfinder.com/data/icons/ios7-inspired-mac-icon-set/512/Calculator_512.png"
-                    alt="Rubik's Cube Picture">
+            <a target="_blank" rel="noopener noreferrer" href="./calculator.html">
+                <div class="box">Calculator</div>
+            </a>
+        </div>
+
+        <div class="Grid-item">
+            <a target="_blank" rel="noopener noreferrer" href="./timetable.html">
+                <div class="box">School Time</div>
             </a>
         </div>
     </div>
